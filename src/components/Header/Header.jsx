@@ -1,78 +1,61 @@
 import { useState } from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
+import { styled } from "@mui/material/styles";
+import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import Switch from "@mui/material/Switch";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
+import { Box } from "@mui/material";
+import { AccountCircle } from "@mui/icons-material";
 
-export function Header() {
-	const [anchorEl, setAnchorEl] = useState(null);
-
-	const handleChange = (event) => {
-		setAuth(event.target.checked);
-	};
-
-	const handleMenu = (event) => {
-		setAnchorEl(event.currentTarget);
-	};
-
-	const handleClose = () => {
-		setAnchorEl(null);
-	};
+export function Header({ handleDrawerOpen, open, drawerWidth }) {
+	const AppBar = styled(MuiAppBar, {
+		shouldForwardProp: (prop) => prop !== "open",
+	})(({ theme, open }) => ({
+		transition: theme.transitions.create(["margin", "width"], {
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.leavingScreen,
+		}),
+		...(open && {
+			width: `calc(100% - ${drawerWidth})`,
+			marginLeft: `${drawerWidth}`,
+			transition: theme.transitions.create(["margin", "width"], {
+				easing: theme.transitions.easing.easeOut,
+				duration: theme.transitions.duration.enteringScreen,
+			}),
+		}),
+	}));
 
 	return (
-		<AppBar position="fixed" color="primary">
-			<Toolbar>
-				<IconButton
-					size="large"
-					edge="start"
-					color="inherit"
-					aria-label="menu"
-					sx={{ mr: 2 }}
-				>
-					<MenuIcon />
-				</IconButton>
-				<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-					Фильтры
-				</Typography>
+		<AppBar position="fixed">
+			<Toolbar open={open} sx={{ dispay: "flex", justifyContent: "space-between" }}>
+				<Box sx={{ display: "flex", alignItems: "center" }}>
+					<IconButton
+						color="inherit"
+						aria-label="open drawer"
+						onClick={handleDrawerOpen}
+						edge="start"
+						sx={{ mr: 2, ...(open && { display: "none" }) }}
+					>
+						<MenuIcon />
+					</IconButton>
+					<Typography variant="h6" noWrap component="div">
+						Фильтры
+					</Typography>
+				</Box>
 
-				<div>
+				<Box>
 					<IconButton
 						size="large"
 						aria-label="account of current user"
 						aria-controls="menu-appbar"
 						aria-haspopup="true"
-						onClick={handleMenu}
 						color="inherit"
+						onClick={() => console.log("auth click")}
 					>
 						<AccountCircle />
 					</IconButton>
-					<Menu
-						id="menu-appbar"
-						anchorEl={anchorEl}
-						anchorOrigin={{
-							vertical: "top",
-							horizontal: "right",
-						}}
-						keepMounted
-						transformOrigin={{
-							vertical: "top",
-							horizontal: "right",
-						}}
-						open={Boolean(anchorEl)}
-						onClose={handleClose}
-					>
-						<MenuItem onClick={handleClose}>Login</MenuItem>
-						<MenuItem onClick={handleClose}>Registration</MenuItem>
-					</Menu>
-				</div>
+				</Box>
 			</Toolbar>
 		</AppBar>
 	);
