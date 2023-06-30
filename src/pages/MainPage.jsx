@@ -9,7 +9,7 @@ import { Header } from "../components/Header/Header";
 export function MainPage() {
 	const theme = useTheme();
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-	const drawerWidth = isSmallScreen ? "100vw" : "540px";
+	const drawerWidth = isSmallScreen ? "100vw" : "25vw";
 	const [open, setOpen] = useState(false);
 
 	const handleDrawerOpen = () => {

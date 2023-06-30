@@ -40,7 +40,7 @@ export function Header({ handleDrawerOpen, open, drawerWidth }) {
 						<MenuIcon />
 					</IconButton>
 					<Typography variant="h6" noWrap component="div">
-						Фильтры
+						Фильмы
 					</Typography>
 				</Box>
 

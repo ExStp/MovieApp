@@ -4,9 +4,9 @@ import Drawer from "@mui/material/Drawer";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import { Box, Typography } from "@mui/material";
 
 export function Filters({ open, handleDrawerClose, drawerWidth }) {
-
 	const DrawerHeader = styled("div")(({ theme }) => ({
 		display: "flex",
 		alignItems: "center",
@@ -19,9 +19,11 @@ export function Filters({ open, handleDrawerClose, drawerWidth }) {
 	return (
 		<Drawer
 			sx={{
+				minWidth: "360px",
 				width: drawerWidth,
 				flexShrink: 0,
 				"& .MuiDrawer-paper": {
+					minWidth: "360px",
 					width: drawerWidth,
 					boxSizing: "border-box",
 				},
@@ -30,9 +32,10 @@ export function Filters({ open, handleDrawerClose, drawerWidth }) {
 			anchor="left"
 			open={open}
 		>
-			<DrawerHeader>
-				<IconButton onClick={handleDrawerClose}>
-					<ChevronLeftIcon />
+			<DrawerHeader sx={{justifyContent: 'space-between'}}>
+				<Typography variant="h5" color={'primary'}>Фильтры</Typography>
+				<IconButton onClick={handleDrawerClose} >
+					<ChevronLeftIcon/>
 				</IconButton>
 			</DrawerHeader>
 			<Divider />
