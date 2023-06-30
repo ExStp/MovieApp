@@ -3,13 +3,13 @@ import { useTheme, useMediaQuery } from "@mui/material";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { MovieList } from "../components/MovieList/MovieList";
-import { Filters } from "../components/Filters/Filters";
+import { Navbar } from "../components/Navbar/Navbar";
 import { Header } from "../components/Header/Header";
 
 export function MainPage() {
 	const theme = useTheme();
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-	const drawerWidth = isSmallScreen ? "100vw" : "25vw";
+	const drawerWidth = isSmallScreen ? "100vw" : "360px";
 	const [open, setOpen] = useState(false);
 
 	const handleDrawerOpen = () => {
@@ -28,7 +28,7 @@ export function MainPage() {
 				open={open}
 				drawerWidth={drawerWidth}
 			></Header>
-			<Filters drawerWidth={drawerWidth} handleDrawerClose={handleDrawerClose} open={open} />
+			<Navbar drawerWidth={drawerWidth} handleDrawerClose={handleDrawerClose} open={open} />
 			<MovieList open={open} drawerWidth={drawerWidth} isSmallScreen={isSmallScreen}/>
 		</Box>
 	);
