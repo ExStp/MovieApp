@@ -3,8 +3,10 @@ import { useTheme, useMediaQuery } from "@mui/material";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { MovieList } from "../components/MovieList/MovieList";
-import { Navbar } from "../components/Navbar/Navbar";
-import { Header } from "../components/Header/Header";
+import { Navbar } from "../layout/Navbar";
+import { Header } from "../layout/Header";
+import { Main } from "../layout/Main";
+import { Filters } from "../components/Filters/Filters";
 
 export function MainPage() {
 	const theme = useTheme();
@@ -28,8 +30,12 @@ export function MainPage() {
 				open={open}
 				drawerWidth={drawerWidth}
 			></Header>
-			<Navbar drawerWidth={drawerWidth} handleDrawerClose={handleDrawerClose} open={open} />
-			<MovieList open={open} drawerWidth={drawerWidth} isSmallScreen={isSmallScreen}/>
+			<Navbar drawerWidth={drawerWidth} handleDrawerClose={handleDrawerClose} open={open}>
+				<Filters />
+			</Navbar>
+			<Main open={open} drawerWidth={drawerWidth} isSmallScreen={isSmallScreen}>
+				<MovieList key={"MoviesList"} />
+			</Main>
 		</Box>
 	);
 }

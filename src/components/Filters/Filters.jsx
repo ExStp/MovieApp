@@ -12,8 +12,6 @@ export function Filters() {
 	const filterValues = useFilters();
 	const filterDispatch = useFiltersDispatch();
 
-	
-
 	useEffect(() => {
 		API.fetchGenres().then((genres) => setGenreOptions(genres));
 	}, []);
