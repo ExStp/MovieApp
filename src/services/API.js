@@ -31,7 +31,7 @@ export default class API {
 		try {
 			const response = await axios.get(API.URL.topRatedList + String(page), API.options);
 			if (!response.data) throw Error("Ошибка при получении данных");
-			return response;
+			return response.data;
 		} catch (error) {
 			console.log(error.message);
 		}

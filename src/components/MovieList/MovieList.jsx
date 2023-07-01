@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import API from "../../services/API";
 import { useTheme, useMediaQuery } from "@mui/material";
 import { usePaginator } from "../../context/PaginatorProvider";
+import { useFilters } from "../../context/FiltersProvider";
 
 export function MovieList() {
 	const [moviesData, setMoviesData] = useState(null);
@@ -12,20 +13,34 @@ export function MovieList() {
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 	const paginatorSize = isSmallScreen ? "medium" : "large";
 	const [currentPage, setCurrentPage] = usePaginator();
+	const filters = useFilters();
 
 	const handlePageChange = (event, page) => {
 		setCurrentPage(page);
 	};
 
 	useEffect(() => {
-		API.fetchPopularList(currentPage).then((response) => {
-			setMoviesData(response);
-			if (containerRef.current) {
-				containerRef.current.scrollIntoView();
-			}
-		});
+		if (filters.sortRating === "popular_list") {
+			API.fetchPopularList(currentPage).then((response) => {
+				setMoviesData(response);
+				scrollUp();
+			});
+		}
+		if (filters.sortRating === "top_rated_list") {
+			API.fetchTopRatedList(currentPage).then((response) => {
+				setMoviesData(response);
+				scrollUp();
+			});
+		}
+
 		console.log("useEffect");
-	}, [currentPage]);
+	}, [currentPage, filters.sortRating]);
+
+	function scrollUp() {
+		if (containerRef.current) {
+			containerRef.current.scrollIntoView();
+		}
+	}
 
 	return (
 		<Container>

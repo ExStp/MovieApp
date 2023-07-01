@@ -3,7 +3,7 @@ import { createContext, useContext, useReducer } from "react";
 const FiltersContext = createContext(null);
 const FiltersDispatchContext = createContext(null);
 
-export function FilterProvider({ children }) {
+export function FiltersProvider({ children }) {
 	const [filters, dispatch] = useReducer(filterReducer, initFilters);
 
 	return (
