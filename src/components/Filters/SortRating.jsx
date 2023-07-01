@@ -1,18 +1,23 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-export function SortRating() {
+export function SortRating({ filterDispatch, selectValue }) {
+	function handleChangeSort(event) {
+		const newValue = event.target.value;
+		filterDispatch({ type: "sortRating_changed", newValue });
+	}
+
 	return (
 		<FormControl fullWidth>
 			<InputLabel id="demo-simple-select-label">Сортировать по</InputLabel>
 			<Select
 				labelId="demo-simple-select-label"
 				id="demo-simple-select"
-				value={""}
+				value={selectValue}
 				label="Сортировать по"
-				onChange={(e) => console.log(e)}
+				onChange={handleChangeSort}
 			>
-				<MenuItem value={"popularity"}>Популярности</MenuItem>
-				<MenuItem value={"rating"}>Рейтингу</MenuItem>
+				<MenuItem value={"popular_list"}>Популярности</MenuItem>
+				<MenuItem value={"top_rated_list"}>Рейтингу</MenuItem>
 			</Select>
 		</FormControl>
 	);
