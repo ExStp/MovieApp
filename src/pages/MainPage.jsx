@@ -7,6 +7,7 @@ import { Navbar } from "../layout/Navbar";
 import { Header } from "../layout/Header";
 import { Main } from "../layout/Main";
 import { Filters } from "../components/Filters/Filters";
+import { PaginatorProvider } from "../context/PaginatorProvider";
 
 export function MainPage() {
 	const theme = useTheme();
@@ -33,9 +34,11 @@ export function MainPage() {
 			<Navbar drawerWidth={drawerWidth} handleDrawerClose={handleDrawerClose} open={open}>
 				<Filters />
 			</Navbar>
-			<Main open={open} drawerWidth={drawerWidth} isSmallScreen={isSmallScreen}>
-				<MovieList key={"MoviesList"} />
-			</Main>
+			<PaginatorProvider>
+				<Main open={open} drawerWidth={drawerWidth} isSmallScreen={isSmallScreen}>
+					<MovieList key={"MoviesList"} />
+				</Main>
+			</PaginatorProvider>
 		</Box>
 	);
 }

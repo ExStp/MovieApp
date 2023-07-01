@@ -3,7 +3,7 @@ import axios from "axios";
 export default class API {
 	static URL = {
 		genres: "https://api.themoviedb.org/3/genre/movie/list?language=ru",
-		// topRatedList: "https://api.themoviedb.org/3/movie/popular?language=ru&page=",
+		topRatedList: "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=",
 		popularList: "https://api.themoviedb.org/3/movie/popular?language=ru&page=",
 	};
 
@@ -27,15 +27,15 @@ export default class API {
 		}
 	}
 
-	// static async fetchTopRatedList() {
-	// 	try {
-	// 		const response = await axios.get(API.URL.topRatedList);
-	// 		if (!response.data) throw Error("Ошибка при получении данных");
-	// 		return response;
-	// 	} catch (error) {
-	// 		console.log(error.message);
-	// 	}
-	// }
+	static async fetchTopRatedList(page) {
+		try {
+			const response = await axios.get(API.URL.topRatedList + String(page), API.options);
+			if (!response.data) throw Error("Ошибка при получении данных");
+			return response;
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
 
 	static async fetchPopularList(page) {
 		try {
