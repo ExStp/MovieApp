@@ -1,6 +1,6 @@
 import axios from "axios";
 
-class API {
+export default class API {
 	static URL = {
 		genres: "https://api.themoviedb.org/3/genre/movie/list?language=ru",
 	};
@@ -19,7 +19,7 @@ class API {
 		try {
 			const response = await axios.get(API.URL.genres, API.options);
 			if (!response.data) throw Error("Ошибка при получении данных");
-			return response.data.genres.map((genre) => ({ ...genre, checked: false }));
+			return response.data.genres;
 		} catch (error) {
 			console.log(error.message);
 		}
