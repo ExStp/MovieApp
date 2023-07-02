@@ -1,21 +1,15 @@
 import { Box, CircularProgress, Container, Pagination } from "@mui/material";
 import { MovieCard } from "../MovieCard/MovieCard";
-import { useEffect, useRef, useState } from "react";
-import API from "../../services/API";
+import { forwardRef } from "react";
 // Удалил useTheme
-import { usePaginator } from "../../context/PaginatorProvider";
-import { useFilters } from "../../context/FiltersProvider";
 import { useSmallerBreakpoint } from "../../utils/func/useSmallerBreakpoint";
 
-export function MovieList({ moviesData, currentPage, setCurrentPage }) {
+export const MovieList = forwardRef(({ moviesData, currentPage, setCurrentPage }, ref) => {
 	const paginatorSize = useSmallerBreakpoint("sm") ? "medium" : "large";
 
-
-
 	return (
-		<Container>
+		<Container ref={ref}>
 			<Box
-				// ref={containerRef}
 				sx={{
 					display: "flex",
 					flexWrap: "wrap",
@@ -44,4 +38,4 @@ export function MovieList({ moviesData, currentPage, setCurrentPage }) {
 			</Box>
 		</Container>
 	);
-}
+});

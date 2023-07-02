@@ -27,7 +27,14 @@ export function Header({ handleDrawerOpen, open, drawerWidth }) {
 	}));
 
 	return (
-		<AppBar position="fixed">
+		<AppBar
+			position="fixed"
+			elevation={8}
+			sx={{
+				background: "rgba(0, 0, 0, 0.85)", // Semi-transparent blue color
+				backdropFilter: "blur(12px)",
+			}}
+		>
 			<Toolbar open={open} sx={{ dispay: "flex", justifyContent: "space-between" }}>
 				<Box sx={{ display: "flex", alignItems: "center" }}>
 					<IconButton

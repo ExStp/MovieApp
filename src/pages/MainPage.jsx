@@ -46,12 +46,9 @@ export function MainPage() {
 			<Navbar drawerWidth={drawerWidth} handleDrawerClose={() => setOpen(false)} open={open}>
 				<Filters />
 			</Navbar>
-			<Main
-				open={open}
-				drawerWidth={drawerWidth}
-				isSmallScreen={isSmallScreen}
-			>
+			<Main open={open} drawerWidth={drawerWidth} isSmallScreen={isSmallScreen}>
 				<MovieList
+					ref={containerRef}
 					currentPage={currentPage}
 					moviesData={moviesData}
 					setCurrentPage={setCurrentPage}

@@ -8,7 +8,7 @@ export const defaultTheme = createTheme({
 			main: deepPurple[500],
 		},
 		secondary: {
-			main: indigo[500], 
+			main: indigo[500],
 		},
 	},
 	props: {
