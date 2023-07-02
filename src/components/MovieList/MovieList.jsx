@@ -7,31 +7,15 @@ import { usePaginator } from "../../context/PaginatorProvider";
 import { useFilters } from "../../context/FiltersProvider";
 import { useSmallerBreakpoint } from "../../utils/func/useSmallerBreakpoint";
 
-export function MovieList() {
-	const [moviesData, setMoviesData] = useState(null);
-	const containerRef = useRef(null);
+export function MovieList({ moviesData, currentPage, setCurrentPage }) {
 	const paginatorSize = useSmallerBreakpoint("sm") ? "medium" : "large";
-	const [currentPage, setCurrentPage] = usePaginator();
-	const [filters] = useFilters();
 
-	useEffect(() => {
-		API.fetchMovies(filters.sortRating, currentPage).then((response) => {
-			setMoviesData(response);
-			scrollUp();
-		});
 
-		console.log("useEffect");
-	}, [currentPage, filters.sortRating]);
-
-	function scrollUp() {
-		if (!containerRef.current) return;
-		containerRef.current.scrollIntoView();
-	}
 
 	return (
 		<Container>
 			<Box
-				ref={containerRef}
+				// ref={containerRef}
 				sx={{
 					display: "flex",
 					flexWrap: "wrap",

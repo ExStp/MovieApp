@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -7,13 +7,33 @@ import { Navbar } from "../layout/Navbar";
 import { Header } from "../layout/Header";
 import { Main } from "../layout/Main";
 import { Filters } from "../components/Filters/Filters";
-import { PaginatorProvider } from "../context/PaginatorProvider";
 import { useSmallerBreakpoint } from "../utils/func/useSmallerBreakpoint";
+import { useFilters } from "../context/FiltersProvider";
+import { usePaginator } from "../context/PaginatorProvider";
+import API from "../services/API";
 
 export function MainPage() {
 	const isSmallScreen = useSmallerBreakpoint("sm");
 	const drawerWidth = isSmallScreen ? "100vw" : "360px";
 	const [open, setOpen] = useState(false);
+	const containerRef = useRef(null);
+	const [currentPage, setCurrentPage] = usePaginator();
+	const [moviesData, setMoviesData] = useState(null);
+	const [filters] = useFilters();
+
+	useEffect(() => {
+		API.fetchMovies(filters.sortRating, currentPage).then((response) => {
+			setMoviesData(response);
+			scrollUp();
+		});
+
+		console.log("useEffect");
+	}, [currentPage, filters.sortRating]);
+
+	function scrollUp() {
+		if (!containerRef.current) return;
+		containerRef.current.scrollIntoView({ behavior: "smooth" });
+	}
 
 	return (
 		<Box sx={{ display: "flex" }}>
@@ -26,11 +46,17 @@ export function MainPage() {
 			<Navbar drawerWidth={drawerWidth} handleDrawerClose={() => setOpen(false)} open={open}>
 				<Filters />
 			</Navbar>
-			<PaginatorProvider>
-				<Main open={open} drawerWidth={drawerWidth} isSmallScreen={isSmallScreen}>
-					<MovieList />
-				</Main>
-			</PaginatorProvider>
+			<Main
+				open={open}
+				drawerWidth={drawerWidth}
+				isSmallScreen={isSmallScreen}
+			>
+				<MovieList
+					currentPage={currentPage}
+					moviesData={moviesData}
+					setCurrentPage={setCurrentPage}
+				/>
+			</Main>
 		</Box>
 	);
 }
