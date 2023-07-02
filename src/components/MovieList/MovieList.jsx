@@ -2,22 +2,17 @@ import { Box, CircularProgress, Container, Pagination } from "@mui/material";
 import { MovieCard } from "../MovieCard/MovieCard";
 import { useEffect, useRef, useState } from "react";
 import API from "../../services/API";
-import { useTheme, useMediaQuery } from "@mui/material";
+// Удалил useTheme
 import { usePaginator } from "../../context/PaginatorProvider";
 import { useFilters } from "../../context/FiltersProvider";
+import { useSmallerBreakpoint } from "../../utils/func/useSmallerBreakpoint";
 
 export function MovieList() {
 	const [moviesData, setMoviesData] = useState(null);
 	const containerRef = useRef(null);
-	const theme = useTheme();
-	const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-	const paginatorSize = isSmallScreen ? "medium" : "large";
+	const paginatorSize = useSmallerBreakpoint('sm') ? "medium" : "large";
 	const [currentPage, setCurrentPage] = usePaginator();
-	const filters = useFilters();
-
-	const handlePageChange = (event, page) => {
-		setCurrentPage(page);
-	};
+	const [filters] = useFilters();
 
 	useEffect(() => {
 		if (filters.sortRating === "popular_list") {
@@ -37,9 +32,8 @@ export function MovieList() {
 	}, [currentPage, filters.sortRating]);
 
 	function scrollUp() {
-		if (containerRef.current) {
+		if (!containerRef.current) return
 			containerRef.current.scrollIntoView();
-		}
 	}
 
 	return (
@@ -67,7 +61,7 @@ export function MovieList() {
 					<Pagination
 						count={50}
 						page={currentPage}
-						onChange={handlePageChange}
+						onChange={(event, page) => setCurrentPage(page)}
 						size={paginatorSize}
 					/>
 				) : null}

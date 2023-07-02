@@ -4,13 +4,12 @@ import { SortRating } from "./SortRating";
 import { SortGenres } from "./SortGenres";
 import API from "../../services/API";
 import { SortYear } from "./SortYear";
-import { useFilters, useFiltersDispatch } from "../../context/FiltersProvider";
+import { useFilters } from "../../context/FiltersProvider";
 
 export function Filters() {
 	const [genreOptions, setGenreOptions] = useState(null);
 
-	const filterValues = useFilters();
-	const filterDispatch = useFiltersDispatch();
+	const [filters, filtersDispatch] = useFilters();
 
 	useEffect(() => {
 		API.fetchGenres().then((genres) => setGenreOptions(genres));
@@ -18,7 +17,7 @@ export function Filters() {
 
 	return (
 		<Container>
-			<SortRating filterDispatch={filterDispatch} selectValue={filterValues.sortRating} />
+			<SortRating filtersDispatch={filtersDispatch} selectValue={filters.sortRating} />
 			<SortGenres genreOptions={genreOptions} />
 			<SortYear />
 		</Container>

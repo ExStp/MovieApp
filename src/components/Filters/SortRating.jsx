@@ -1,9 +1,9 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-export function SortRating({ filterDispatch, selectValue }) {
+export function SortRating({ filtersDispatch, selectValue }) {
 	function handleChangeSort(event) {
 		const newValue = event.target.value;
-		filterDispatch({ type: "sortRating_changed", newValue });
+		filtersDispatch({ type: "sortRating_changed", newValue });
 	}
 
 	return (

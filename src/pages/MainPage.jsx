@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useTheme, useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { MovieList } from "../components/MovieList/MovieList";
@@ -8,35 +8,27 @@ import { Header } from "../layout/Header";
 import { Main } from "../layout/Main";
 import { Filters } from "../components/Filters/Filters";
 import { PaginatorProvider } from "../context/PaginatorProvider";
+import { useSmallerBreakpoint } from "../utils/func/useSmallerBreakpoint";
 
 export function MainPage() {
-	const theme = useTheme();
-	const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+	const isSmallScreen = useSmallerBreakpoint("sm");
 	const drawerWidth = isSmallScreen ? "100vw" : "360px";
 	const [open, setOpen] = useState(false);
-
-	const handleDrawerOpen = () => {
-		setOpen(true);
-	};
-
-	const handleDrawerClose = () => {
-		setOpen(false);
-	};
 
 	return (
 		<Box sx={{ display: "flex" }}>
 			<CssBaseline />
 			<Header
-				handleDrawerOpen={handleDrawerOpen}
+				handleDrawerOpen={() => setOpen(true)}
 				open={open}
 				drawerWidth={drawerWidth}
 			></Header>
-			<Navbar drawerWidth={drawerWidth} handleDrawerClose={handleDrawerClose} open={open}>
+			<Navbar drawerWidth={drawerWidth} handleDrawerClose={() => setOpen(false)} open={open}>
 				<Filters />
 			</Navbar>
 			<PaginatorProvider>
 				<Main open={open} drawerWidth={drawerWidth} isSmallScreen={isSmallScreen}>
-					<MovieList key={"MoviesList"} />
+					<MovieList />
 				</Main>
 			</PaginatorProvider>
 		</Box>

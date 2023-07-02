@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import { Box, Button, CardActionArea, CardActions } from "@mui/material";
 
 export function MovieCard({ movieInfo }) {
-	const imgURL = `https://image.tmdb.org/t/p/w500${
+	const imgURL = `https://image.tmdb.org/t/p/w400${
 		movieInfo?.poster_path || movieInfo?.backdrop_path
 	}`;
 

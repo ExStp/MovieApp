@@ -1,26 +1,17 @@
 import { createContext, useContext, useReducer } from "react";
 
 const FiltersContext = createContext(null);
-const FiltersDispatchContext = createContext(null);
 
 export function FiltersProvider({ children }) {
-	const [filters, dispatch] = useReducer(filterReducer, initFilters);
+	const [filters, filtersDispatch] = useReducer(filterReducer, initFilters);
 
 	return (
-		<FiltersContext.Provider value={filters}>
-			<FiltersDispatchContext.Provider value={dispatch}>
-				{children}
-			</FiltersDispatchContext.Provider>
-		</FiltersContext.Provider>
+		<FiltersContext.Provider value={[filters, filtersDispatch]}>{children}</FiltersContext.Provider>
 	);
 }
 
 export function useFilters() {
 	return useContext(FiltersContext);
-}
-
-export function useFiltersDispatch() {
-	return useContext(FiltersDispatchContext);
 }
 
 function filterReducer(filters, action) {
