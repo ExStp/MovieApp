@@ -27,19 +27,20 @@ export default class API {
 		}
 	}
 
-	static async fetchTopRatedList(page) {
-		try {
-			const response = await axios.get(API.URL.topRatedList + String(page), API.options);
-			if (!response.data) throw Error("Ошибка при получении данных");
-			return response.data;
-		} catch (error) {
-			console.log(error.message);
+	static async fetchMovies(type, page) {
+		let moviesUrl = null;
+		switch (type) {
+			case "popular_list":
+				moviesUrl = API.URL.popularList;
+				break;
+			case "top_rated_list":
+				moviesUrl = API.URL.topRatedList;
+				break;
+			default:
+				break;
 		}
-	}
-
-	static async fetchPopularList(page) {
 		try {
-			const response = await axios.get(API.URL.popularList + String(page), API.options);
+			const response = await axios.get(moviesUrl + String(page), API.options);
 			if (!response.data) throw Error("Ошибка при получении данных");
 			return response.data;
 		} catch (error) {

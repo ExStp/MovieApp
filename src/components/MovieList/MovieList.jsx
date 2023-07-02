@@ -10,30 +10,22 @@ import { useSmallerBreakpoint } from "../../utils/func/useSmallerBreakpoint";
 export function MovieList() {
 	const [moviesData, setMoviesData] = useState(null);
 	const containerRef = useRef(null);
-	const paginatorSize = useSmallerBreakpoint('sm') ? "medium" : "large";
+	const paginatorSize = useSmallerBreakpoint("sm") ? "medium" : "large";
 	const [currentPage, setCurrentPage] = usePaginator();
 	const [filters] = useFilters();
 
 	useEffect(() => {
-		if (filters.sortRating === "popular_list") {
-			API.fetchPopularList(currentPage).then((response) => {
-				setMoviesData(response);
-				scrollUp();
-			});
-		}
-		if (filters.sortRating === "top_rated_list") {
-			API.fetchTopRatedList(currentPage).then((response) => {
-				setMoviesData(response);
-				scrollUp();
-			});
-		}
+		API.fetchMovies(filters.sortRating, currentPage).then((response) => {
+			setMoviesData(response);
+			scrollUp();
+		});
 
 		console.log("useEffect");
 	}, [currentPage, filters.sortRating]);
 
 	function scrollUp() {
-		if (!containerRef.current) return
-			containerRef.current.scrollIntoView();
+		if (!containerRef.current) return;
+		containerRef.current.scrollIntoView();
 	}
 
 	return (
