@@ -23,19 +23,19 @@ export const MovieList = forwardRef(({ moviesData, currentPage, setCurrentPage }
 						<MovieCard key={movie.id} movieInfo={movie} />
 					))
 				) : (
-					<CircularProgress />
+					<CircularProgress sx={{ mt: "40vh" }} />
 				)}
 			</Box>
-			<Box sx={{ margin: "64px 0px", display: "flex", justifyContent: "center" }}>
-				{moviesData ? (
+			{moviesData ? (
+				<Box sx={{ margin: "74px 0px", display: "flex", justifyContent: "center" }}>
 					<Pagination
 						count={50}
 						page={currentPage}
 						onChange={(event, page) => setCurrentPage(page)}
 						size={paginatorSize}
 					/>
-				) : null}
-			</Box>
+				</Box>
+			) : null}
 		</Container>
 	);
 });
