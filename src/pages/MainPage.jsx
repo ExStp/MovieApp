@@ -10,7 +10,7 @@ import { Filters } from "../components/Filters/Filters";
 import { useSmallerBreakpoint } from "../utils/func/useSmallerBreakpoint";
 import { useFilters } from "../context/FiltersProvider";
 import { usePaginator } from "../context/PaginatorProvider";
-import API from "../services/API";
+import API from "../services/TMDB/API";
 
 export function MainPage() {
 	const isSmallScreen = useSmallerBreakpoint("sm");

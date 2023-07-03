@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Container } from "@mui/material";
 import { SortRating } from "./SortRating";
 import { SortGenres } from "./SortGenres";
-import API from "../../services/API";
+import API from "../../services/TMDB/API";
 import { SortYear } from "./SortYear";
 import { useFilters } from "../../context/FiltersProvider";
 

@@ -1,17 +1,17 @@
-import * as React from "react";
+import { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Box, Button, CardActionArea, CardActions } from "@mui/material";
+import API from "../../services/TMDB/API";
 
 export function MovieCard({ movieInfo }) {
-	const imgURL = `https://image.tmdb.org/t/p/w400${
-		movieInfo?.poster_path || movieInfo?.backdrop_path
-	}`;
+	const imgURL = API.URL.IMG.W400 + movieInfo?.poster_path || movieInfo?.backdrop_path;
 
 	return (
 		<Card
+			elevation={3}
 			sx={{
 				width: 345,
 				height: 545,
@@ -22,7 +22,7 @@ export function MovieCard({ movieInfo }) {
 		>
 			<CardActionArea sx={{ overflow: "hidden" }}>
 				<CardMedia
-					sx={{ width: "345px", height: "auto" }}
+					sx={{ width: '100%', height: "auto" }}
 					component="img"
 					src={imgURL}
 					alt="green iguana"
