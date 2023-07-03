@@ -29,9 +29,9 @@ export function Header({ handleDrawerOpen, open, drawerWidth }) {
 	return (
 		<AppBar
 			position="fixed"
-			elevation={8}
+			elevation={5}
 			sx={{
-				background: "rgba(0, 0, 0, 0.85)", // Semi-transparent blue color
+				background: "rgba(0, 0, 0, 0.85)",
 				backdropFilter: "blur(12px)",
 			}}
 		>

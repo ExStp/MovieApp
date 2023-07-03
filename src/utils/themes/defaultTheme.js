@@ -1,4 +1,4 @@
-import { deepPurple, indigo } from "@mui/material/colors";
+import { deepPurple, grey, indigo } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
 
 export const defaultTheme = createTheme({
@@ -10,6 +10,12 @@ export const defaultTheme = createTheme({
 		secondary: {
 			main: indigo[500],
 		},
+		dark: {
+			main: grey[600],
+		},
+		light: {
+			main: grey[100]
+		}
 	},
 	props: {
 		MuiAppBar: {

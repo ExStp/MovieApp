@@ -15,6 +15,7 @@ export function SortYear() {
 	return (
 		<Box sx={{ width: '100%', pt: '32px' }}>
 			<Slider
+				color='dark'
 				getAriaLabel={() => "Год фильма"}
 				value={value}
 				onChange={handleChange}

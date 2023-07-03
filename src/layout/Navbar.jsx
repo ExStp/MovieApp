@@ -18,10 +18,14 @@ export function Navbar({ open, handleDrawerClose, drawerWidth, children }) {
 	return (
 		<Drawer
 			sx={{
+				boxShadow: open
+					? "5px 0px 8px 0px rgba(0,0,0,0.14), 1px 0px 14px 0px rgba(0,0,0,0.12)"
+					: "none",
 				minWidth: "240px",
 				width: drawerWidth,
 				flexShrink: 0,
 				"& .MuiDrawer-paper": {
+					borderRight: "none",
 					minWidth: "240px",
 					width: drawerWidth,
 					boxSizing: "border-box",
@@ -31,12 +35,19 @@ export function Navbar({ open, handleDrawerClose, drawerWidth, children }) {
 			anchor="left"
 			open={open}
 		>
-			<DrawerHeader sx={{ justifyContent: "space-between" }}>
-				<Typography variant="h5" color={"primary"}>
+			<DrawerHeader
+				sx={{
+					mb: "32px",
+					justifyContent: "space-between",
+					background: "rgba(0, 0, 0, 0.85)",
+					backdropFilter: "blur(12px)",
+				}}
+			>
+				<Typography variant="h5" color={"white"}>
 					Фильтры
 				</Typography>
 				<IconButton onClick={handleDrawerClose}>
-					<ChevronLeftIcon />
+					<ChevronLeftIcon color="light" fontSize="medim" />
 				</IconButton>
 			</DrawerHeader>
 			{children}
