@@ -1,6 +1,7 @@
 import { styled } from "@mui/material/styles";
+import { forwardRef } from "react";
 
-export function Main({ open, drawerWidth, isSmallScreen, children }) {
+export const Main = forwardRef(({ open, drawerWidth, isSmallScreen, children }, ref) => {
 	const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 		({ theme, open }) => ({
 			flexGrow: 1,
@@ -32,9 +33,9 @@ export function Main({ open, drawerWidth, isSmallScreen, children }) {
 	if (open && isSmallScreen) return null;
 
 	return (
-		<Main open={open} sx={{padding: '20px 0px'}}>
+		<Main open={open} sx={{ padding: "20px 0px" }} ref={ref}>
 			<DrawerHeader />
-            {children}
+			{children}
 		</Main>
 	);
-}
+});

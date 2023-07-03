@@ -11,6 +11,7 @@ import { useSmallerBreakpoint } from "../utils/func/useSmallerBreakpoint";
 import { useFilters } from "../context/FiltersProvider";
 import { usePaginator } from "../context/PaginatorProvider";
 import API from "../services/TMDB/API";
+import { scrollUp } from "../utils/func/scrollUp";
 
 export function MainPage() {
 	const isSmallScreen = useSmallerBreakpoint("sm");
@@ -24,16 +25,11 @@ export function MainPage() {
 	useEffect(() => {
 		API.fetchMovies(filters.sortRating, currentPage).then((response) => {
 			setMoviesData(response);
-			scrollUp();
+			scrollUp(containerRef);
 		});
 
 		console.log("useEffect");
 	}, [currentPage, filters.sortRating]);
-
-	function scrollUp() {
-		if (!containerRef.current) return;
-		containerRef.current.scrollIntoView({ behavior: "smooth" });
-	}
 
 	return (
 		<Box sx={{ display: "flex" }}>
@@ -46,9 +42,13 @@ export function MainPage() {
 			<Navbar drawerWidth={drawerWidth} handleDrawerClose={() => setOpen(false)} open={open}>
 				<Filters />
 			</Navbar>
-			<Main open={open} drawerWidth={drawerWidth} isSmallScreen={isSmallScreen}>
+			<Main
+				open={open}
+				drawerWidth={drawerWidth}
+				isSmallScreen={isSmallScreen}
+				ref={containerRef}
+			>
 				<MovieList
-					ref={containerRef}
 					currentPage={currentPage}
 					moviesData={moviesData}
 					setCurrentPage={setCurrentPage}

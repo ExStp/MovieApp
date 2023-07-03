@@ -43,8 +43,8 @@ export function MovieCard({ movieInfo }) {
 					<Typography variant="body2" color="text.secondary">
 						{"Рейтинг: " + movieInfo.vote_average}
 					</Typography>
-					<Button size="small" color="primary">
-						Share
+					<Button size="small" color="primary" variant="outlined">
+						Подробнее
 					</Button>
 				</Box>
 			</CardContent>
