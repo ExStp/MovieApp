@@ -1,18 +1,15 @@
 /* eslint-disable react/prop-types */
 import { ThemeProvider } from "@emotion/react";
-import { MainPage } from "./pages/MainPage";
+import { MainPage } from "./pages/MainPage/MainPage";
 import { defaultTheme } from "./utils/themes/defaultTheme";
-import { FiltersProvider } from "./context/FiltersProvider";
-import { PaginatorProvider } from "./context/PaginatorProvider";
+import { MainPageProvider } from "./pages/MainPage/MainPageProvider";
 
 function App() {
 	return (
 		<ThemeProvider theme={defaultTheme}>
-			<FiltersProvider>
-				<PaginatorProvider>
-					<MainPage />
-				</PaginatorProvider>
-			</FiltersProvider>
+			<MainPageProvider>
+				<MainPage />
+			</MainPageProvider>
 		</ThemeProvider>
 	);
 }
