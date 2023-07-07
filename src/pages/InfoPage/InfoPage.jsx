@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { SimpleHeader } from "./../../components/SimpleHeader/SimpleHeader";
 import API from "../../services/TMDB/API";
-import Typography from "@mui/material/Typography";
-import { Box, CircularProgress, Container, Pagination } from "@mui/material";
+import { Box, CircularProgress, Container } from "@mui/material";
+import { MovieInfo } from "../../layout/MovieInfo";
 
 export function InfoPage() {
 	const { film_id } = useParams();
@@ -18,7 +18,7 @@ export function InfoPage() {
 		});
 		API.fetchCredits(film_id).then((data) => setFilmCredits(data));
 	}, []);
-	
+
 	if (!filmDetails || !filmCredits) {
 		return (
 			<Container>
@@ -30,11 +30,9 @@ export function InfoPage() {
 		);
 	}
 	return (
-		<Container>
+		<Container sx={{ background: "", height: "100vh" }}>
 			<SimpleHeader />
-			<Box sx={{ mt: 12 }}>
-				<Typography variant="h4">{filmDetails.title}</Typography>
-			</Box>
+			<MovieInfo filmCredits={filmCredits} filmDetails={filmDetails} />
 		</Container>
 	);
 }

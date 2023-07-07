@@ -7,6 +7,8 @@ import { Box, Button, CardActionArea, CardActions } from "@mui/material";
 import API from "../../services/TMDB/API";
 import { Link } from "react-router-dom";
 
+
+// TODO: сделать деструктуризацию movieInfo
 export function MovieCard({ movieInfo }) {
 	const imgURL = API.URL.IMG.W400 + movieInfo?.poster_path || movieInfo?.backdrop_path;
 
