@@ -17,9 +17,4 @@ export const defaultTheme = createTheme({
 			main: grey[100]
 		}
 	},
-	props: {
-		MuiAppBar: {
-			color: "transparent",
-		},
-	},
 });

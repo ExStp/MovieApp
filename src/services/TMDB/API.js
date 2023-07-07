@@ -2,14 +2,14 @@ import axios from "axios";
 
 export default class API {
 	static URL = {
-		movies: "https://api.themoviedb.org/3/movie/",
+		general: "https://api.themoviedb.org/3/movie/",
 		genres: "https://api.themoviedb.org/3/genre/movie/list?language=ru",
 		topRatedList: "https://api.themoviedb.org/3/movie/top_rated?language=ru&page=",
 		popularList: "https://api.themoviedb.org/3/movie/popular?language=ru&page=",
 		IMG: {
 			W400: `https://image.tmdb.org/t/p/w400`,
-			W300: `https://image.tmdb.org/t/p/w300`
-		}
+			W300: `https://image.tmdb.org/t/p/w300`,
+		},
 	};
 
 	static bearerToken =
@@ -46,6 +46,30 @@ export default class API {
 		}
 		try {
 			const response = await axios.get(moviesUrl + String(page), API.options);
+			if (!response.data) throw Error("Ошибка при получении данных");
+			return response.data;
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
+
+	static async fetchDetails(film_id) {
+		let detailsURL = `${API.URL.general}${film_id}?language=ru`;
+
+		try {
+			const response = await axios.get(detailsURL, API.options);
+			if (!response.data) throw Error("Ошибка при получении данных");
+			return response.data;
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
+
+	static async fetchCredits(film_id) {
+		let detailsURL = `${API.URL.general}${film_id}/credits?language=ru`;
+
+		try {
+			const response = await axios.get(detailsURL, API.options);
 			if (!response.data) throw Error("Ошибка при получении данных");
 			return response.data;
 		} catch (error) {
