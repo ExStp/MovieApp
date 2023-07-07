@@ -5,6 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Box, Button, CardActionArea, CardActions } from "@mui/material";
 import API from "../../services/TMDB/API";
+import { Link } from "react-router-dom";
 
 export function MovieCard({ movieInfo }) {
 	const imgURL = API.URL.IMG.W400 + movieInfo?.poster_path || movieInfo?.backdrop_path;
@@ -22,7 +23,7 @@ export function MovieCard({ movieInfo }) {
 		>
 			<CardActionArea sx={{ overflow: "hidden" }}>
 				<CardMedia
-					sx={{ width: '100%', height: "auto" }}
+					sx={{ width: "100%", height: "auto" }}
 					component="img"
 					src={imgURL}
 					alt="green iguana"
@@ -43,9 +44,11 @@ export function MovieCard({ movieInfo }) {
 					<Typography variant="body2" color="text.secondary">
 						{"Рейтинг: " + movieInfo.vote_average}
 					</Typography>
-					<Button size="small" color="primary" variant="outlined">
-						Подробнее
-					</Button>
+					<Link to={`infoPage/${movieInfo.id}`}>
+						<Button size="small" color="primary" variant="outlined">
+							Подробнее
+						</Button>
+					</Link>
 				</Box>
 			</CardContent>
 			{/* <CardActions></CardActions> */}

@@ -2,6 +2,7 @@ import axios from "axios";
 
 export default class API {
 	static URL = {
+		movies: "https://api.themoviedb.org/3/movie/",
 		genres: "https://api.themoviedb.org/3/genre/movie/list?language=ru",
 		topRatedList: "https://api.themoviedb.org/3/movie/top_rated?language=ru&page=",
 		popularList: "https://api.themoviedb.org/3/movie/popular?language=ru&page=",
