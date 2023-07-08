@@ -22,6 +22,9 @@ function App() {
 			path: "infoPage/:film_id",
 			element: <InfoPage />,
 		},
+		{
+			path: 'authorization',
+		}
 	]);
 
 	return (
