@@ -13,7 +13,7 @@ import {
 
 export function FilmDetailsTable({ filmData }) {
 	return (
-		<Box sx={{ maxWidth: 800, minWidth: 220 }}>
+		<Box sx={{ maxWidth: 480, minWidth: 220 }}>
 			<TableContainer sx={{ backgroundColor: "transparent" }}>
 				<Table>
 					<TableBody>

@@ -5,6 +5,7 @@ import { defaultTheme } from "./utils/themes/defaultTheme";
 import { MainPageProvider } from "./pages/MainPage/MainPageProvider";
 import { InfoPage } from "./pages/InfoPage/InfoPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import FormDialog from "./components/Modal/Modal";
 
 function App() {
 
@@ -16,9 +17,6 @@ function App() {
 		{
 			path: "infoPage/:film_id",
 			element: <InfoPage />,
-		},
-		{
-			path: "authorization",
 		},
 	]);
 
