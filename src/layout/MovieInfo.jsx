@@ -41,6 +41,7 @@ export function MovieInfo({ filmDetails, filmCredits }) {
 						height: "auto",
 						maxHeight: "100%",
 						maxWidth: "100%",
+						borderRadius: '6px',
 					}}
 				/>
 			</Box>

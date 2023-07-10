@@ -13,31 +13,31 @@ import {
 
 export function FilmDetailsTable({ filmData }) {
 	return (
-		<Box sx={{ maxWidth: 600, minWidth: 300 }}>
+		<Box sx={{ maxWidth: 800, minWidth: 220 }}>
 			<TableContainer sx={{ backgroundColor: "transparent" }}>
 				<Table>
 					<TableBody>
 						<TableRow>
 							<TableCell component="th" scope="row">
-								Adult
+								Для взрослых
 							</TableCell>
 							<TableCell>{filmData.adult ? "Yes" : "No"}</TableCell>
 						</TableRow>
 						<TableRow>
 							<TableCell component="th" scope="row">
-								Release Date
+								Дата релиза
 							</TableCell>
 							<TableCell>{filmData.release_date}</TableCell>
 						</TableRow>
 						<TableRow>
 							<TableCell component="th" scope="row">
-								Runtime
+								Длительность
 							</TableCell>
-							<TableCell>{filmData.runtime} minutes</TableCell>
+							<TableCell>{filmData.runtime} минут</TableCell>
 						</TableRow>
 						<TableRow>
 							<TableCell component="th" scope="row">
-								Genres
+								Жанры
 							</TableCell>
 							<TableCell>
 								{filmData.genres.map((genre) => genre.name).join(", ")}
@@ -45,7 +45,7 @@ export function FilmDetailsTable({ filmData }) {
 						</TableRow>
 						<TableRow>
 							<TableCell component="th" scope="row">
-								Production Companies
+								Производство компаний
 							</TableCell>
 							<TableCell>
 								{filmData.production_companies
@@ -55,7 +55,7 @@ export function FilmDetailsTable({ filmData }) {
 						</TableRow>
 						<TableRow>
 							<TableCell component="th" scope="row">
-								Production Countries
+								Страны
 							</TableCell>
 							<TableCell>
 								{filmData.production_countries
@@ -65,19 +65,19 @@ export function FilmDetailsTable({ filmData }) {
 						</TableRow>
 						<TableRow>
 							<TableCell component="th" scope="row">
-								Popularity
+								Популярность
 							</TableCell>
 							<TableCell>{filmData.popularity}</TableCell>
 						</TableRow>
 						<TableRow>
 							<TableCell component="th" scope="row">
-								Vote Average
+								Результат голосований
 							</TableCell>
 							<TableCell>{filmData.vote_average}</TableCell>
 						</TableRow>
 						<TableRow>
 							<TableCell component="th" scope="row">
-								Vote Count
+								Количество голосов
 							</TableCell>
 							<TableCell>{filmData.vote_count}</TableCell>
 						</TableRow>
