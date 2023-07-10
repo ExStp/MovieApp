@@ -9,6 +9,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import { AuthAvatarButton } from "../AuthAvatarButton/AuthAvatarButton";
 
 export function SimpleHeader() {
 	const [auth, setAuth] = React.useState(true);
@@ -41,38 +42,7 @@ export function SimpleHeader() {
                         <Typography component='div' variant="h6">Фильмы</Typography>
 					</Button>
 				</Link>
-				{auth && (
-					<div>
-						<IconButton
-							size="large"
-							aria-label="account of current user"
-							aria-controls="menu-appbar"
-							aria-haspopup="true"
-							onClick={handleMenu}
-							color="inherit"
-						>
-							<AccountCircle />
-						</IconButton>
-						<Menu
-							id="menu-appbar"
-							anchorEl={anchorEl}
-							anchorOrigin={{
-								vertical: "top",
-								horizontal: "right",
-							}}
-							keepMounted
-							transformOrigin={{
-								vertical: "top",
-								horizontal: "right",
-							}}
-							open={Boolean(anchorEl)}
-							onClose={handleClose}
-						>
-							<MenuItem onClick={handleClose}>Profile</MenuItem>
-							<MenuItem onClick={handleClose}>My account</MenuItem>
-						</Menu>
-					</div>
-				)}
+				<AuthAvatarButton />
 			</Toolbar>
 		</AppBar>
 	);

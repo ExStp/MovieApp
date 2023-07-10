@@ -8,13 +8,14 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Box } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import { useDialogs } from "../context/DialogsProvider";
+import { AuthAvatarButton } from "../components/AuthAvatarButton/AuthAvatarButton";
 
 export function Header({ handleDrawerOpen, open, drawerWidth }) {
 	const [isOpen, setIsOpen] = useDialogs();
 
 	function openDialog() {
-		setIsOpen('RegistrationDialog')
-		console.log('openDialog');
+		setIsOpen("RegistrationDialog");
+		console.log("openDialog");
 	}
 
 	const AppBar = styled(MuiAppBar, {
@@ -58,19 +59,7 @@ export function Header({ handleDrawerOpen, open, drawerWidth }) {
 						Фильмы
 					</Typography>
 				</Box>
-
-				<Box>
-					<IconButton
-						size="large"
-						aria-label="account of current user"
-						aria-controls="menu-appbar"
-						aria-haspopup="true"
-						color="inherit"
-						onClick={openDialog}
-					>
-						<AccountCircle />
-					</IconButton>
-				</Box>
+				<AuthAvatarButton />
 			</Toolbar>
 		</AppBar>
 	);
