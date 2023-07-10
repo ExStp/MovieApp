@@ -7,29 +7,26 @@ import { InfoPage } from "./pages/InfoPage/InfoPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 function App() {
-	const MainPageRouter = (
-		<MainPageProvider>
-			<MainPage />
-		</MainPageProvider>
-	);
 
 	const router = createBrowserRouter([
 		{
 			path: "/",
-			element: MainPageRouter,
+			element: <MainPage />,
 		},
 		{
 			path: "infoPage/:film_id",
 			element: <InfoPage />,
 		},
 		{
-			path: 'authorization',
-		}
+			path: "authorization",
+		},
 	]);
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
-			<RouterProvider router={router} />
+			<MainPageProvider>
+				<RouterProvider router={router} />
+			</MainPageProvider>
 		</ThemeProvider>
 	);
 }
