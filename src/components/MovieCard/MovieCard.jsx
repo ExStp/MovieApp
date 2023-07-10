@@ -5,6 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Box, Button, CardActionArea, CardActions } from "@mui/material";
 import API from "../../services/TMDB/API";
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import { Link } from "react-router-dom";
 
 // TODO: сделать деструктуризацию movieInfo
@@ -46,8 +47,13 @@ export function MovieCard({ movieInfo }) {
 						alignContent: "center",
 					}}
 				>
-					<Typography variant="body2" color="text.secondary">
-						{"Рейтинг: " + movieInfo.vote_average}
+					<Typography
+						variant="body2"
+						color="text.secondary"
+						sx={{ display: "flex", alignItems: "center", gap: '10px' }}
+					>
+						<StarOutlineIcon />
+						{movieInfo.vote_average}
 					</Typography>
 					<Link to={`infoPage/${movieInfo.id}`}>
 						<Button size="small" color="primary" variant="outlined">
