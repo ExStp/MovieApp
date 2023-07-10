@@ -7,7 +7,6 @@ import { Box, Button, CardActionArea, CardActions } from "@mui/material";
 import API from "../../services/TMDB/API";
 import { Link } from "react-router-dom";
 
-
 // TODO: сделать деструктуризацию movieInfo
 export function MovieCard({ movieInfo }) {
 	const imgURL = API.URL.IMG.W400 + movieInfo?.poster_path || movieInfo?.backdrop_path;
@@ -21,6 +20,10 @@ export function MovieCard({ movieInfo }) {
 				display: "flex",
 				flexDirection: "column",
 				justifyContent: "space-between",
+				"@media (max-width: 380px)": {
+					width: 280,
+					height: 445,
+				},
 			}}
 		>
 			<CardActionArea sx={{ overflow: "hidden" }}>

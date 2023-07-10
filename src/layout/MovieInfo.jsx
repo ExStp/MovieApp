@@ -47,3 +47,5 @@ export function MovieInfo({ filmDetails, filmCredits }) {
 		</Box>
 	);
 }
+
+//TODO: сделать слайдер из актеров
