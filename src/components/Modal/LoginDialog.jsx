@@ -7,41 +7,39 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-export default function FormDialog() {
-	const [open, setOpen] = useState(true);
+export default function LoginDialog({ isOpen, setIsOpen }) {
+	function handleClose() {
+		setIsOpen(null);
+	}
 
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
+	function openRegistrationDialog() {
+		setIsOpen("RegistrationDialog");
+	}
 
 	return (
 		<Dialog
-			open={open}
+			open={isOpen}
 			onClose={handleClose}
 			sx={{
 				backdropFilter: "blur(8px)",
 				backgroundColor: "rgba(0, 0, 0, 0.4)",
 			}}
 		>
-			<DialogTitle>Регистрация</DialogTitle>
+			<DialogTitle>Аутентификация</DialogTitle>
 			<DialogContent>
-				<DialogContentText>Введите свою почту, чтобы получить токен</DialogContentText>
+				<DialogContentText>Введите токен</DialogContentText>
 				<TextField
 					autoFocus
 					margin="dense"
 					id="name"
-					label="Email Address"
-					type="email"
+					label="Токен"
+					type="text"
 					fullWidth
-					variant="standard"
+					variant="outlined"
 				/>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose}>Отмена</Button>
+				<Button onClick={openRegistrationDialog}>Назад</Button>
 				<Button onClick={handleClose}>Отправить</Button>
 			</DialogActions>
 		</Dialog>

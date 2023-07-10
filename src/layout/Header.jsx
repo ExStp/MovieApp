@@ -7,8 +7,16 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Box } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
+import { useDialogs } from "../context/DialogsProvider";
 
 export function Header({ handleDrawerOpen, open, drawerWidth }) {
+	const [isOpen, setIsOpen] = useDialogs();
+
+	function openDialog() {
+		setIsOpen('RegistrationDialog')
+		console.log('openDialog');
+	}
+
 	const AppBar = styled(MuiAppBar, {
 		shouldForwardProp: (prop) => prop !== "open",
 	})(({ theme, open }) => ({
@@ -58,7 +66,7 @@ export function Header({ handleDrawerOpen, open, drawerWidth }) {
 						aria-controls="menu-appbar"
 						aria-haspopup="true"
 						color="inherit"
-						onClick={() => console.log("auth click")}
+						onClick={openDialog}
 					>
 						<AccountCircle />
 					</IconButton>
