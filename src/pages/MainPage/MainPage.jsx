@@ -63,7 +63,7 @@ export function MainPage() {
 			>
 				{auth.isLogin ? (
 					<MovieList
-						favoriteMoviesData={favoriteMoviesData}
+						favoriteMoviesArr={favoriteMoviesData}
 						moviesData={moviesData}
 						currentPage={currentPage}
 						setCurrentPage={setCurrentPage}

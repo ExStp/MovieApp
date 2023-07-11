@@ -4,7 +4,8 @@ import { forwardRef } from "react";
 // Удалил useTheme
 import { useSmallerBreakpoint } from "../../utils/func/useSmallerBreakpoint";
 
-export const MovieList = forwardRef(({ moviesData, currentPage, setCurrentPage }, ref) => {
+export const MovieList = forwardRef((props, ref) => {
+	const { favoriteMoviesArr, moviesData, currentPage, setCurrentPage } = props;
 	const paginatorSize = useSmallerBreakpoint("sm") ? "medium" : "large";
 
 	return (
