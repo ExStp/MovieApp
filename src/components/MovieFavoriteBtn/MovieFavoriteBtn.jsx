@@ -9,6 +9,7 @@ export function MovieFavoriteBtn({ movieId, isChecked }) {
 
 	const handleChange = (event) => {
 		const isFavorite = event.target.checked;
+		setChecked(isFavorite);
 
 		const options = {
 			method: "POST",

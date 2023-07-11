@@ -3,9 +3,10 @@ import { MovieCard } from "../MovieCard/MovieCard";
 import { forwardRef } from "react";
 // Удалил useTheme
 import { useSmallerBreakpoint } from "../../utils/func/useSmallerBreakpoint";
+import { ModeNight } from "@mui/icons-material";
 
 export const MovieList = forwardRef((props, ref) => {
-	const { favoriteMoviesArr, moviesData, currentPage, setCurrentPage } = props;
+	const { moviesData, currentPage, setCurrentPage } = props;
 	const paginatorSize = useSmallerBreakpoint("sm") ? "medium" : "large";
 
 	return (
@@ -20,12 +21,9 @@ export const MovieList = forwardRef((props, ref) => {
 				}}
 			>
 				{moviesData ? (
-					moviesData.results.map((movie) => {
-						const isFavorite = favoriteMoviesArr.includes(movie.id);
-						return (
-							<MovieCard key={movie.id} movieInfo={movie} isFavorite={isFavorite} />
-						);
-					})
+					moviesData.map((movie) => (
+						<MovieCard key={movie.id} movieInfo={movie} isFavorite={movie.isFavorite} />
+					))
 				) : (
 					<CircularProgress sx={{ mt: "40vh" }} />
 				)}

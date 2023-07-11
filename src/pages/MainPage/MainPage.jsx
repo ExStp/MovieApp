@@ -21,7 +21,6 @@ export function MainPage() {
 	const drawerWidth = isSmallScreen ? "100vw" : "360px";
 	const containerRef = useRef(null);
 	const [moviesData, setMoviesData] = useState(null);
-	const [favoriteMoviesData, setFavoriteMoviesData] = useState(null);
 	const [currentPage, setCurrentPage] = usePaginator();
 	const [open, setOpen] = useNavbar();
 	const [filters] = useFilters();
@@ -32,25 +31,16 @@ export function MainPage() {
 			API.fetchGetMovies(filters.sortRating, currentPage),
 			getFavoriteMovies(),
 		]).then(([movies, favoriteMovies]) => {
-			console.log(favoriteMovies);
 			const mappedMovies = movies.results.map((movie) => {
 				if (favoriteMovies.includes(movie.id)) {
-					console.log('includes');
-					// return { ...movie, isFavorite: true };
+					return { ...movie, isFavorite: true };
 				} else {
-					// return { ...movie, isFavorite: false };
+					return { ...movie, isFavorite: false };
 				}
 			});
-			console.log(mappedMovies);
-			setMoviesData(movies);
+			setMoviesData(mappedMovies);
 			scrollUp(containerRef);
-			setFavoriteMoviesData(favoriteMovies);
 		});
-		// API.fetchGetMovies(filters.sortRating, currentPage).then((response) => {
-		// 	setMoviesData(response);
-		// 	scrollUp(containerRef);
-		// });
-		// getFavoriteMovies().then((favoritesArr) => setFavoriteMoviesData(favoritesArr));
 	}, [currentPage, filters.sortRating]);
 
 	function handleNavbarOpen() {
@@ -81,7 +71,6 @@ export function MainPage() {
 			>
 				{auth.isLogin ? (
 					<MovieList
-						favoriteMoviesArr={favoriteMoviesData}
 						moviesData={moviesData}
 						currentPage={currentPage}
 						setCurrentPage={setCurrentPage}
