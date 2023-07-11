@@ -91,6 +91,10 @@ export default class API {
 			console.log(error.message);
 		}
 	}
+
+	static async fetchGetFavoriteMovies() {
+		
+	}
 }
 
 export { API };

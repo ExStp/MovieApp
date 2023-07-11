@@ -16,6 +16,7 @@ export function InfoPage() {
 	useEffect(() => {
 		API.fetchGetDetails(film_id).then((data) => {
 			setFilmDetails(data);
+			console.log(data);
 		});
 		API.fetchGetCredits(film_id).then((data) => setFilmCredits(data));
 	}, []);

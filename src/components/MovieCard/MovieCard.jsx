@@ -3,14 +3,16 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Box, Button, CardActionArea, CardActions } from "@mui/material";
+import { Box, Button, CardActionArea, CardActions, Checkbox } from "@mui/material";
 import API from "../../services/TMDB/API";
-import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import { Link } from "react-router-dom";
+import { MovieFavoriteBtn } from "../MovieFavoriteBtn/MovieFavoriteBtn";
 
 // TODO: сделать деструктуризацию movieInfo
 export function MovieCard({ movieInfo }) {
-	const imgURL = API.URL.IMG.W400 + movieInfo?.poster_path || movieInfo?.backdrop_path;
+	const { poster_path, backdrop_path, title, vote_average, id } = movieInfo;
+
+	const imgURL = API.URL.IMG.W400 + poster_path || backdrop_path;
 
 	return (
 		<Card
@@ -38,7 +40,7 @@ export function MovieCard({ movieInfo }) {
 
 			<CardContent>
 				<Typography gutterBottom variant="h5" component="div">
-					{movieInfo.title}
+					{title}
 				</Typography>
 				<Box
 					sx={{
@@ -50,12 +52,12 @@ export function MovieCard({ movieInfo }) {
 					<Typography
 						variant="body2"
 						color="text.secondary"
-						sx={{ display: "flex", alignItems: "center", gap: '10px' }}
+						sx={{ display: "flex", alignItems: "center", gap: "10px" }}
 					>
-						<StarOutlineIcon />
-						{movieInfo.vote_average}
+						<MovieFavoriteBtn key={id} movieId={id}/>
+						{vote_average}
 					</Typography>
-					<Link to={`infoPage/${movieInfo.id}`}>
+					<Link to={`infoPage/${id}`}>
 						<Button size="small" color="primary" variant="outlined">
 							Подробнее
 						</Button>
