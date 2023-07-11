@@ -20,13 +20,12 @@ export const MovieList = forwardRef((props, ref) => {
 				}}
 			>
 				{moviesData ? (
-					moviesData.results.map((movie) =>
-						favoriteMoviesArr.includes(movie.id) ? (
-							<MovieCard key={movie.id} movieInfo={movie} isFavorite={true} />
-						) : (
-							<MovieCard key={movie.id} movieInfo={movie} isFavorite={false} />
-						)
-					)
+					moviesData.results.map((movie) => {
+						const isFavorite = favoriteMoviesArr.includes(movie.id);
+						return (
+							<MovieCard key={movie.id} movieInfo={movie} isFavorite={isFavorite} />
+						);
+					})
 				) : (
 					<CircularProgress sx={{ mt: "40vh" }} />
 				)}

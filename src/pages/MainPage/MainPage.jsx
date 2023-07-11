@@ -28,11 +28,29 @@ export function MainPage() {
 	const [auth, authDispatch] = useAuth();
 
 	useEffect(() => {
-		API.fetchGetMovies(filters.sortRating, currentPage).then((response) => {
-			setMoviesData(response);
+		Promise.all([
+			API.fetchGetMovies(filters.sortRating, currentPage),
+			getFavoriteMovies(),
+		]).then(([movies, favoriteMovies]) => {
+			console.log(favoriteMovies);
+			const mappedMovies = movies.results.map((movie) => {
+				if (favoriteMovies.includes(movie.id)) {
+					console.log('includes');
+					// return { ...movie, isFavorite: true };
+				} else {
+					// return { ...movie, isFavorite: false };
+				}
+			});
+			console.log(mappedMovies);
+			setMoviesData(movies);
 			scrollUp(containerRef);
+			setFavoriteMoviesData(favoriteMovies);
 		});
-		getFavoriteMovies().then((favoritesArr) => setFavoriteMoviesData(favoritesArr));
+		// API.fetchGetMovies(filters.sortRating, currentPage).then((response) => {
+		// 	setMoviesData(response);
+		// 	scrollUp(containerRef);
+		// });
+		// getFavoriteMovies().then((favoritesArr) => setFavoriteMoviesData(favoritesArr));
 	}, [currentPage, filters.sortRating]);
 
 	function handleNavbarOpen() {
