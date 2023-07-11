@@ -7,6 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useAuth } from "../../context/AuthProvider";
+import API from "../../services/TMDB/API";
 
 export default function LoginDialog({ isOpen, setIsOpen }) {
 	const [auth, authDispatch] = useAuth();
@@ -15,8 +16,9 @@ export default function LoginDialog({ isOpen, setIsOpen }) {
 		setIsOpen(null);
 	}
 
-	function handleLoginAuth() {
-		authDispatch({ type: "user_login" });
+	async function handleLoginAuth() {
+		const accountDetails = await API.fetchGetAccountDetails();
+		authDispatch({ type: "user_login", accountId: accountDetails.id });
 		setIsOpen(null);
 	}
 

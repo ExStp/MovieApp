@@ -2,7 +2,8 @@ import axios from "axios";
 
 export default class API {
 	static URL = {
-		general: "https://api.themoviedb.org/3/movie/",
+		account: "https://api.themoviedb.org/3/account/",
+		movie: "https://api.themoviedb.org/3/movie/",
 		genres: "https://api.themoviedb.org/3/genre/movie/list?language=ru",
 		topRatedList: "https://api.themoviedb.org/3/movie/top_rated?language=ru&page=",
 		popularList: "https://api.themoviedb.org/3/movie/popular?language=ru&page=",
@@ -11,6 +12,8 @@ export default class API {
 			W300: `https://image.tmdb.org/t/p/w300`,
 		},
 	};
+
+	static accountId = 20036970;
 
 	static bearerToken =
 		"Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjZTZlODNjMTNjNmViMDQ0OTc3ZTk1NzFhY2U0M2U0MSIsInN1YiI6IjY0OTE3NTRjNDJiZjAxMDBlNGEwNTQ2MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.5cNOMjLZ0tL54dy8U0BiGOEIZjON-YsTtNrXy6A5OLQ";
@@ -54,7 +57,7 @@ export default class API {
 	}
 
 	static async fetchGetDetails(film_id) {
-		let detailsURL = `${API.URL.general}${film_id}?language=ru`;
+		let detailsURL = `${API.URL.movie}${film_id}?language=ru`;
 
 		try {
 			const response = await axios.get(detailsURL, API.options);
@@ -66,10 +69,22 @@ export default class API {
 	}
 
 	static async fetchGetCredits(film_id) {
-		let detailsURL = `${API.URL.general}${film_id}/credits?language=ru`;
+		let detailsURL = `${API.URL.movie}${film_id}/credits?language=ru`;
 
 		try {
 			const response = await axios.get(detailsURL, API.options);
+			if (!response.data) throw Error("Ошибка при получении данных");
+			return response.data;
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
+
+	static async fetchGetAccountDetails() {
+		let accountDetailsUrl = API.URL.account + API.accountId;
+
+		try {
+			const response = await axios.get(accountDetailsUrl, API.options);
 			if (!response.data) throw Error("Ошибка при получении данных");
 			return response.data;
 		} catch (error) {

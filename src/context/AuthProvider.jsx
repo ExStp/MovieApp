@@ -23,8 +23,6 @@ export function getCookieAuth() {
 	return JSON.parse(Cookies.get("MoviesAppAuth"));
 }
 
-const initAuth = { isLogin: false };
-
 export function useAuth() {
 	return useContext(AuthContext);
 }
@@ -32,15 +30,14 @@ export function useAuth() {
 function authReducer(auth, action) {
 	switch (action.type) {
 		case "user_login": {
-			const nextAuth = { ...auth, isLogin: true };
+			const nextAuth = { ...auth, accountId: action.accountId, isLogin: true };
 			saveCookieAuth(nextAuth);
 			return nextAuth;
 		}
 
 		case "user_logout": {
-			const nextAuth = { ...auth, isLogin: false };
-			saveCookieAuth(nextAuth);
-			return nextAuth;
+			saveCookieAuth(initAuth);
+			return initAuth;
 		}
 
 		default: {
@@ -48,3 +45,5 @@ function authReducer(auth, action) {
 		}
 	}
 }
+
+const initAuth = { isLogin: false, accountId: null };
