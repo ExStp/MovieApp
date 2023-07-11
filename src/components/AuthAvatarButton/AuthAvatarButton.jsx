@@ -26,6 +26,7 @@ export function AuthAvatarButton() {
 
 	function openRegistrationDialog() {
 		setIsOpen("RegistrationDialog");
+		setOpen(false);
 	}
 
 	return (

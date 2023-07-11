@@ -2,7 +2,7 @@
 import { ThemeProvider } from "@emotion/react";
 import { MainPage } from "./pages/MainPage/MainPage";
 import { defaultTheme } from "./utils/themes/defaultTheme";
-import { MainPageProvider } from "./pages/MainPage/MainPageProvider";
+import { AppProvider } from "./context/AppProvider";
 import { InfoPage } from "./pages/InfoPage/InfoPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { DialogsRouter } from "./layout/DialogsRouter";
@@ -21,10 +21,10 @@ function App() {
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
-			<MainPageProvider>
+			<AppProvider>
 				<RouterProvider router={router} />
 				<DialogsRouter />
-			</MainPageProvider>
+			</AppProvider>
 		</ThemeProvider>
 	);
 }

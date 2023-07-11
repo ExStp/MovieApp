@@ -15,7 +15,6 @@ export function Header({ handleDrawerOpen, open, drawerWidth }) {
 
 	function openDialog() {
 		setIsOpen("RegistrationDialog");
-		console.log("openDialog");
 	}
 
 	const AppBar = styled(MuiAppBar, {

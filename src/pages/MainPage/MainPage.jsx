@@ -28,8 +28,6 @@ export function MainPage() {
 			setMoviesData(response);
 			scrollUp(containerRef);
 		});
-
-		console.log("useEffect");
 	}, [currentPage, filters.sortRating]);
 
 	return (
