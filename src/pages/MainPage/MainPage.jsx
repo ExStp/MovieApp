@@ -14,14 +14,16 @@ import API from "../../services/TMDB/API";
 import { scrollUp } from "../../utils/func/scrollUp";
 import { useNavbar } from "../../context/NavbarProvider";
 import { getCookieAuth, useAuth } from "../../context/AuthProvider";
+import { getFavoriteMovies } from "../../utils/func/getFavoriteMovies";
 
 export function MainPage() {
 	const isSmallScreen = useSmallerBreakpoint("sm");
 	const drawerWidth = isSmallScreen ? "100vw" : "360px";
-	const [open, setOpen] = useNavbar();
 	const containerRef = useRef(null);
-	const [currentPage, setCurrentPage] = usePaginator();
 	const [moviesData, setMoviesData] = useState(null);
+	const [favoriteMoviesData, setFavoriteMoviesData] = useState(null);
+	const [currentPage, setCurrentPage] = usePaginator();
+	const [open, setOpen] = useNavbar();
 	const [filters] = useFilters();
 	const [auth, authDispatch] = useAuth();
 
@@ -30,6 +32,7 @@ export function MainPage() {
 			setMoviesData(response);
 			scrollUp(containerRef);
 		});
+		getFavoriteMovies().then((favoritesArr) => setFavoriteMoviesData(favoritesArr));
 	}, [currentPage, filters.sortRating]);
 
 	function handleNavbarOpen() {
@@ -60,8 +63,9 @@ export function MainPage() {
 			>
 				{auth.isLogin ? (
 					<MovieList
-						currentPage={currentPage}
+						favoriteMoviesData={favoriteMoviesData}
 						moviesData={moviesData}
+						currentPage={currentPage}
 						setCurrentPage={setCurrentPage}
 					/>
 				) : (

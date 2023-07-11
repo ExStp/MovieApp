@@ -3,7 +3,10 @@ import { API } from "../../services/TMDB/API";
 export async function getFavoriteMovies() {
 	let arrFavoriteMovies = [];
 
-	const moviesData = await API.fetchGetFavoriteMovies();
-	moviesData.results.map((movie) => arrFavoriteMovies.push(movie.id));
-	return arrFavoriteMovies;
+	API.fetchGetFavoriteMovies().then((moviesData) => {
+		moviesData?.results.forEach((item) => {
+			arrFavoriteMovies.push(item.id);
+		});
+	});
+	return arrFavoriteMovies
 }
