@@ -6,9 +6,17 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useAuth } from "../../context/AuthProvider";
 
 export default function LoginDialog({ isOpen, setIsOpen }) {
+	const [auth, authDispatch] = useAuth();
+
 	function handleClose() {
+		setIsOpen(null);
+	}
+
+	function handleLoginAuth() {
+		authDispatch({ type: "user_login" });
 		setIsOpen(null);
 	}
 
@@ -40,7 +48,7 @@ export default function LoginDialog({ isOpen, setIsOpen }) {
 			</DialogContent>
 			<DialogActions>
 				<Button onClick={openRegistrationDialog}>Назад</Button>
-				<Button onClick={handleClose}>Отправить</Button>
+				<Button onClick={handleLoginAuth}>Отправить</Button>
 			</DialogActions>
 		</Dialog>
 	);

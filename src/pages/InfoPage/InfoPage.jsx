@@ -3,13 +3,15 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { SimpleHeader } from "./../../components/SimpleHeader/SimpleHeader";
 import API from "../../services/TMDB/API";
-import { Box, CircularProgress, Container } from "@mui/material";
+import { Alert, Box, CircularProgress, Container, Typography } from "@mui/material";
 import { MovieInfo } from "../../layout/MovieInfo";
+import { useAuth } from "../../context/AuthProvider";
 
 export function InfoPage() {
 	const { film_id } = useParams();
 	const [filmDetails, setFilmDetails] = useState(null);
 	const [filmCredits, setFilmCredits] = useState(null);
+	const [auth, authDispatch] = useAuth();
 
 	useEffect(() => {
 		API.fetchDetails(film_id).then((data) => {
@@ -31,7 +33,20 @@ export function InfoPage() {
 	return (
 		<Container sx={{ background: "", height: "100vh" }}>
 			<SimpleHeader />
-			<MovieInfo filmCredits={filmCredits} filmDetails={filmDetails} />
+			{auth.isLogin ? (
+				<MovieInfo filmCredits={filmCredits} filmDetails={filmDetails} />
+			) : (
+				<Box
+					sx={{
+						position: "fixed",
+						top: "50%",
+						left: "50%",
+						transform: "translate(-50%, -50%)",
+					}}
+				>
+					<Alert severity="warning">Необходима авторизация</Alert>
+				</Box>
+			)}
 		</Container>
 	);
 }

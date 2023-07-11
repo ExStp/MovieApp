@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useTheme } from "@mui/material";
+import { Alert, Typography, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { MovieList } from "../../components/MovieList/MovieList";
@@ -13,6 +13,7 @@ import { usePaginator } from "../../context/PaginatorProvider";
 import API from "../../services/TMDB/API";
 import { scrollUp } from "../../utils/func/scrollUp";
 import { useNavbar } from "../../context/NavbarProvider";
+import { getCookieAuth, useAuth } from "../../context/AuthProvider";
 
 export function MainPage() {
 	const isSmallScreen = useSmallerBreakpoint("sm");
@@ -22,6 +23,7 @@ export function MainPage() {
 	const [currentPage, setCurrentPage] = usePaginator();
 	const [moviesData, setMoviesData] = useState(null);
 	const [filters] = useFilters();
+	const [auth, authDispatch] = useAuth();
 
 	useEffect(() => {
 		API.fetchMovies(filters.sortRating, currentPage).then((response) => {
@@ -30,15 +32,24 @@ export function MainPage() {
 		});
 	}, [currentPage, filters.sortRating]);
 
+	function handleNavbarOpen() {
+		if (!auth.isLogin) return;
+		setOpen(true);
+	}
+
+	function handleNavbarClose() {
+		setOpen(false);
+	}
+
 	return (
 		<Box sx={{ display: "flex" }}>
 			<CssBaseline />
 			<Header
-				handleDrawerOpen={() => setOpen(true)}
+				handleDrawerOpen={handleNavbarOpen}
 				open={open}
 				drawerWidth={drawerWidth}
 			></Header>
-			<Navbar drawerWidth={drawerWidth} handleDrawerClose={() => setOpen(false)} open={open}>
+			<Navbar drawerWidth={drawerWidth} handleDrawerClose={handleNavbarClose} open={open}>
 				<Filters />
 			</Navbar>
 			<Main
@@ -47,11 +58,24 @@ export function MainPage() {
 				isSmallScreen={isSmallScreen}
 				ref={containerRef}
 			>
-				<MovieList
-					currentPage={currentPage}
-					moviesData={moviesData}
-					setCurrentPage={setCurrentPage}
-				/>
+				{auth.isLogin ? (
+					<MovieList
+						currentPage={currentPage}
+						moviesData={moviesData}
+						setCurrentPage={setCurrentPage}
+					/>
+				) : (
+					<Box
+						sx={{
+							position: "fixed",
+							top: "50%",
+							left: "50%",
+							transform: "translate(-50%, -50%)",
+						}}
+					>
+						<Alert severity="warning">Необходима авторизация</Alert>
+					</Box>
+				)}
 			</Main>
 		</Box>
 	);

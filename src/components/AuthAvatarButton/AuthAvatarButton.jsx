@@ -7,26 +7,36 @@ import ClickAwayListener from "@mui/material/ClickAwayListener";
 import IconButton from "@mui/material/IconButton";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { useDialogs } from "../../context/DialogsProvider";
+import { useAuth } from "../../context/AuthProvider";
+import { useNavbar } from "../../context/NavbarProvider";
 
 export function AuthAvatarButton() {
-	const [open, setOpen] = useState(false);
-	const [isOpen, setIsOpen] = useDialogs();
+	const closedMenuState = false
+	const [isMenuActive, setIsMenuActive] = useState(closedMenuState);
+	const [isDialogOpen, setIsDialogOpen] = useDialogs();
+	const [isNavbarActive, setIsNavbarActive] = useNavbar();
+	const [auth, authDispatch] = useAuth();
 	const anchorRef = useRef(null);
 
 	const handleToggle = () => {
-		setOpen(!open);
+		setIsMenuActive(!isMenuActive);
 	};
 
 	const handleClose = (event) => {
 		if (anchorRef.current && anchorRef.current.contains(event.target)) {
 			return;
 		}
-		setOpen(false);
+		setIsMenuActive(closedMenuState);
 	};
 
 	function openRegistrationDialog() {
-		setIsOpen("RegistrationDialog");
-		setOpen(false);
+		setIsDialogOpen("RegistrationDialog");
+		setIsMenuActive(closedMenuState);
+	}
+
+	function handleLogoutAuth() {
+		authDispatch({ type: "user_logout" });
+		setIsNavbarActive(false);
 	}
 
 	return (
@@ -35,7 +45,7 @@ export function AuthAvatarButton() {
 				<AccountCircle />
 			</IconButton>
 			<Popper
-				open={open}
+				open={isMenuActive}
 				anchorEl={anchorRef.current}
 				placement="bottom"
 				style={{ zIndex: 9999 }}
@@ -50,7 +60,11 @@ export function AuthAvatarButton() {
 								width: "100px",
 							}}
 						>
-							<Button onClick={openRegistrationDialog}>Войти</Button>
+							{auth.isLogin ? (
+								<Button onClick={handleLogoutAuth}>Выйти</Button>
+							) : (
+								<Button onClick={openRegistrationDialog}>Войти</Button>
+							)}
 						</Box>
 					</ClickAwayListener>
 				</Paper>
