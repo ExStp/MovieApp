@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { MovieFavoriteBtn } from "../MovieFavoriteBtn/MovieFavoriteBtn";
 
 // TODO: сделать деструктуризацию movieInfo
-export function MovieCard({ movieInfo }) {
+export function MovieCard({ movieInfo, isFavorite }) {
 	const { poster_path, backdrop_path, title, vote_average, id } = movieInfo;
 
 	const imgURL = API.URL.IMG.W400 + poster_path || backdrop_path;

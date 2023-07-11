@@ -3,7 +3,7 @@ import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import { useState } from "react";
 
-export function MovieFavoriteBtn({ movieId }) {
+export function MovieFavoriteBtn({ movieId, isChecked }) {
 	const [checked, setChecked] = useState(false);
 
 	const handleChange = (event) => {
