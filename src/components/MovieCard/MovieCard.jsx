@@ -54,7 +54,7 @@ export function MovieCard({ movieInfo, isFavorite }) {
 						color="text.secondary"
 						sx={{ display: "flex", alignItems: "center", gap: "10px" }}
 					>
-						<MovieFavoriteBtn key={id} movieId={id}/>
+						<MovieFavoriteBtn key={id} movieId={id} isChecked={isFavorite} />
 						{vote_average}
 					</Typography>
 					<Link to={`infoPage/${id}`}>

@@ -103,6 +103,23 @@ export default class API {
 			console.log(error.message);
 		}
 	}
+
+	static async fetchPostFavoriteMovie(movieId, isFavorite) {
+		let URL = `https://api.themoviedb.org/3/account/${API.accountId}/favorite`;
+		let options = {
+			...API.options,
+			body: JSON.stringify({ media_type: "movie", media_id: Number(movieId), favorite: isFavorite }),
+		};
+
+		try {
+			const response = await axios.post(URL, options);
+			console.log(response);
+			if (!response.data) throw Error("Ошибка при получении данных");
+			return response.data;
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
 }
 
 export { API };
