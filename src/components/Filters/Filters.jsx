@@ -12,7 +12,7 @@ export function Filters() {
 	const [filters, filtersDispatch] = useFilters();
 
 	useEffect(() => {
-		API.fetchGenres().then((genres) => setGenreOptions(genres));
+		API.fetchGetGenres().then((genres) => setGenreOptions(genres));
 	}, []);
 
 	return (

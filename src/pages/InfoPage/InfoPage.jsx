@@ -14,10 +14,10 @@ export function InfoPage() {
 	const [auth, authDispatch] = useAuth();
 
 	useEffect(() => {
-		API.fetchDetails(film_id).then((data) => {
+		API.fetchGetDetails(film_id).then((data) => {
 			setFilmDetails(data);
 		});
-		API.fetchCredits(film_id).then((data) => setFilmCredits(data));
+		API.fetchGetCredits(film_id).then((data) => setFilmCredits(data));
 	}, []);
 
 	if (!filmDetails || !filmCredits) {

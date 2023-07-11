@@ -26,7 +26,7 @@ export function MainPage() {
 	const [auth, authDispatch] = useAuth();
 
 	useEffect(() => {
-		API.fetchMovies(filters.sortRating, currentPage).then((response) => {
+		API.fetchGetMovies(filters.sortRating, currentPage).then((response) => {
 			setMoviesData(response);
 			scrollUp(containerRef);
 		});

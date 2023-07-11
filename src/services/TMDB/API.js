@@ -22,7 +22,7 @@ export default class API {
 		},
 	};
 
-	static async fetchGenres(page) {
+	static async fetchGetGenres(page) {
 		try {
 			const response = await axios.get(`${API.URL.genres}${page}`, API.options);
 			if (!response.data) throw Error("Ошибка при получении данных");
@@ -32,7 +32,7 @@ export default class API {
 		}
 	}
 
-	static async fetchMovies(type, page) {
+	static async fetchGetMovies(type, page) {
 		let moviesUrl = null;
 		switch (type) {
 			case "popular_list":
@@ -53,7 +53,7 @@ export default class API {
 		}
 	}
 
-	static async fetchDetails(film_id) {
+	static async fetchGetDetails(film_id) {
 		let detailsURL = `${API.URL.general}${film_id}?language=ru`;
 
 		try {
@@ -65,7 +65,7 @@ export default class API {
 		}
 	}
 
-	static async fetchCredits(film_id) {
+	static async fetchGetCredits(film_id) {
 		let detailsURL = `${API.URL.general}${film_id}/credits?language=ru`;
 
 		try {
