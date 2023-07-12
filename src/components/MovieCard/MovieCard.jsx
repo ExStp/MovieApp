@@ -8,7 +8,6 @@ import API from "../../services/TMDB/API";
 import { Link } from "react-router-dom";
 import { MovieFavoriteBtn } from "../MovieFavoriteBtn/MovieFavoriteBtn";
 
-// TODO: сделать деструктуризацию movieInfo
 export function MovieCard({ movieInfo, isFavorite }) {
 	const { poster_path, backdrop_path, title, vote_average, id } = movieInfo;
 
@@ -34,7 +33,7 @@ export function MovieCard({ movieInfo, isFavorite }) {
 					sx={{ width: "100%", height: "auto" }}
 					component="img"
 					src={imgURL}
-					alt="green iguana"
+					alt="Карточка фильма"
 				/>
 			</CardActionArea>
 
