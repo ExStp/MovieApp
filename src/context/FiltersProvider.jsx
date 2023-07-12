@@ -6,7 +6,9 @@ export function FiltersProvider({ children }) {
 	const [filters, filtersDispatch] = useReducer(filterReducer, initFilters);
 
 	return (
-		<FiltersContext.Provider value={[filters, filtersDispatch]}>{children}</FiltersContext.Provider>
+		<FiltersContext.Provider value={[filters, filtersDispatch]}>
+			{children}
+		</FiltersContext.Provider>
 	);
 }
 
@@ -16,24 +18,35 @@ export function useFilters() {
 
 function filterReducer(filters, action) {
 	switch (action.type) {
-		case "sortRating_changed":
+		case "searchQuery_changed": {
+			return {
+				...filters,
+				searchQuery: action.newValue,
+			};
+		}
+		case "sortRating_changed": {
 			return {
 				...filters,
 				sortRating: action.newValue,
 			};
-		case "sortGenres_changed":
+		}
+		case "sortGenres_changed": {
 			console.log("sortGenres_changed");
 			return filters;
-		case "sortYear_changed":
+		}
+		case "sortYear_changed": {
 			console.log("sortYear_changed");
 			return filters;
-		default:
+		}
+		default: {
 			console.warn("FiltersProvider: Unknown action : " + action.type);
 			return filters;
+		}
 	}
 }
 
 export const initFilters = {
+	searchQuery: "",
 	sortRating: "popular_list",
 	sortGenres: [],
 	sortYear: [10, 90],

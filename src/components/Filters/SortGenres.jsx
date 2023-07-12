@@ -1,6 +1,6 @@
 import { Autocomplete, Box, CircularProgress, TextField } from "@mui/material";
 
-export function SortGenres({ genreOptions }) {
+export function SortGenres({ genreOptions, ...props }) {
 	const handleOptionChange = (event, newValue) => {
 		console.log(newValue);
 	};
@@ -13,6 +13,7 @@ export function SortGenres({ genreOptions }) {
 	}
 	return (
 		<Autocomplete
+			{...props}
 			sx={{ width: "100%", paddingTop: "32px" }}
 			onChange={handleOptionChange}
 			multiple

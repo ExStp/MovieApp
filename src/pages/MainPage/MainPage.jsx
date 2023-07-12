@@ -17,17 +17,17 @@ import { getCookieAuth, useAuth } from "../../context/AuthProvider";
 import { getFavoriteMovies } from "../../utils/func/getFavoriteMovies";
 
 export function MainPage() {
-	const initState = null;
 	const isSmallScreen = useSmallerBreakpoint("sm");
 	const drawerWidth = isSmallScreen ? "100vw" : "360px";
-	const containerRef = useRef(initState);
-	const [moviesData, setMoviesData] = useState(initState);
+	const containerRef = useRef(null);
+	const [moviesData, setMoviesData] = useState(null);
 	const [currentPage, setCurrentPage] = usePaginator();
 	const [open, setOpen] = useNavbar();
-	const [filters] = useFilters();
+	const [filters, filtersDispatch] = useFilters();
 	const [auth, authDispatch] = useAuth();
-	const [favoriteMovies, setFavoriteMovies] = useState(initState);
+	const [favoriteMovies, setFavoriteMovies] = useState(null);
 	const [isFirstEffectComplete, setIsFirstEffectComplete] = useState(false);
+	const sortRating = filters.sortRating;
 
 	useEffect(() => {
 		getFavoriteMovies().then((moviesData) => {
@@ -38,7 +38,7 @@ export function MainPage() {
 
 	useEffect(() => {
 		if (!isFirstEffectComplete || !favoriteMovies) return;
-		API.fetchGetMovies(filters.sortRating, currentPage).then((movies) => {
+		API.fetchGetMovies(sortRating, currentPage).then((movies) => {
 			const mappedMovies = movies.results.map((movie) => {
 				const isFavorite = favoriteMovies.includes(movie.id);
 				return { ...movie, isFavorite };
@@ -46,7 +46,7 @@ export function MainPage() {
 			setMoviesData(mappedMovies);
 			scrollUp(containerRef);
 		});
-	}, [currentPage, filters.sortRating, favoriteMovies, isFirstEffectComplete]);
+	}, [currentPage, sortRating, favoriteMovies, isFirstEffectComplete]);
 
 	function handleNavbarOpen() {
 		if (!auth.isLogin) return;
@@ -66,7 +66,7 @@ export function MainPage() {
 				drawerWidth={drawerWidth}
 			></Header>
 			<Navbar drawerWidth={drawerWidth} handleDrawerClose={handleNavbarClose} open={open}>
-				<Filters />
+				<Filters filters={filters} filtersDispatch={filtersDispatch} />
 			</Navbar>
 			<Main
 				open={open}
@@ -98,3 +98,5 @@ export function MainPage() {
 		</Box>
 	);
 }
+
+const initInputValue = "";
