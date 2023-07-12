@@ -120,6 +120,19 @@ export default class API {
 			console.log(error.message);
 		}
 	}
+
+	static async fetchGetSearchMovie(query, page) {
+		const encodedQuery = encodeURI(query);
+		const URL = `https://api.themoviedb.org/3/search/movie?query=${encodedQuery}&include_adult=false&language=ru&page=${page}`;
+
+		try {
+			const response = await axios.get(URL, API.options);
+			if (!response.data) throw Error("Ошибка при получении данных");
+			return response.data
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
 }
 
 export { API };

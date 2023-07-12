@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { TextField, IconButton, InputAdornment } from "@mui/material";
 import { Search } from "@mui/icons-material";
+import API from "../../services/TMDB/API";
 
 export function SearchQuery({ searchValue, filtersDispatch }) {
 	const [value, setValue] = useState(searchValue);
@@ -11,6 +12,7 @@ export function SearchQuery({ searchValue, filtersDispatch }) {
 
 	function handleSubmitSearch() {
 		filtersDispatch({ type: "searchQuery_changed", newValue: value });
+		API.fetchGetSearchMovie(value, 1);
 	}
 
 	function handleKeyPress(event) {
