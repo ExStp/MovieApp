@@ -32,6 +32,7 @@ export function MainPage() {
 			getFavoriteMovies(),
 		]).then(([movies, favoriteMovies]) => {
 			const mappedMovies = movies.results.map((movie) => {
+				//TODO: отрефакторить
 				if (favoriteMovies.includes(movie.id)) {
 					return { ...movie, isFavorite: true };
 				} else {

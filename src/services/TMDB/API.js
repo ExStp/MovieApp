@@ -92,8 +92,8 @@ export default class API {
 		}
 	}
 
-	static async fetchGetFavoriteMovies() {
-		let favoriteMoviesUrl = `https://api.themoviedb.org/3/account/${API.accountId}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`;
+	static async fetchGetFavoriteMovies(page) {
+		let favoriteMoviesUrl = `https://api.themoviedb.org/3/account/${API.accountId}/favorite/movies?language=en-US&page=${page}&sort_by=created_at.asc`;
 
 		try {
 			const response = await axios.get(favoriteMoviesUrl, API.options);
