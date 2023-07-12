@@ -27,8 +27,10 @@ export function MainPage() {
 	const [auth, authDispatch] = useAuth();
 	const [favoriteMovies, setFavoriteMovies] = useState(null);
 	const [isFirstEffectComplete, setIsFirstEffectComplete] = useState(false);
+	const [totalPages, setTotalPages] = useState(null);
 	const sortRating = filters.sortRating;
 	const searchQuery = filters.searchQuery;
+	//TODO: передалать totalPages - вынести в контекст
 
 	useEffect(() => {
 		getFavoriteMovies().then((moviesData) => {
@@ -45,6 +47,7 @@ export function MainPage() {
 		if (searchQuery.trim() === "") return;
 		if (!isFirstEffectComplete || !favoriteMovies) return;
 		API.fetchGetSearchMovie(searchQuery, currentPage).then((movies) => {
+			setTotalPages(movies.total_pages);
 			const mappedMovies = movies.results.map((movie) => {
 				const isFavorite = favoriteMovies.includes(movie.id);
 				return { ...movie, isFavorite };
@@ -58,6 +61,7 @@ export function MainPage() {
 		if (searchQuery.trim() !== "") return;
 		if (!isFirstEffectComplete || !favoriteMovies) return;
 		API.fetchGetMovies(sortRating, currentPage).then((movies) => {
+			setTotalPages(50);
 			const mappedMovies = movies.results.map((movie) => {
 				const isFavorite = favoriteMovies.includes(movie.id);
 				return { ...movie, isFavorite };
@@ -96,6 +100,7 @@ export function MainPage() {
 				{auth.isLogin ? (
 					<MovieList
 						favoriteMovies={favoriteMovies}
+						totalPages={totalPages}
 						setFavoriteMovies={setFavoriteMovies}
 						moviesData={moviesData}
 						currentPage={currentPage}
