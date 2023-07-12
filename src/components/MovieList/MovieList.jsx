@@ -6,7 +6,7 @@ import { useSmallerBreakpoint } from "../../utils/func/useSmallerBreakpoint";
 import { ModeNight } from "@mui/icons-material";
 
 export const MovieList = forwardRef((props, ref) => {
-	const { moviesData, currentPage, setCurrentPage } = props;
+	const { moviesData, currentPage, setCurrentPage, favoriteMovies, setFavoriteMovies } = props;
 	const paginatorSize = useSmallerBreakpoint("sm") ? "medium" : "large";
 
 	return (
@@ -22,7 +22,13 @@ export const MovieList = forwardRef((props, ref) => {
 			>
 				{moviesData ? (
 					moviesData.map((movie) => (
-						<MovieCard key={movie.id} movieInfo={movie} isFavorite={movie.isFavorite} />
+						<MovieCard
+							key={movie.id}
+							movieInfo={movie}
+							isFavorite={movie.isFavorite}
+							favoriteMovies={favoriteMovies}
+							setFavoriteMovies={setFavoriteMovies}
+						/>
 					))
 				) : (
 					<CircularProgress sx={{ mt: "40vh" }} />

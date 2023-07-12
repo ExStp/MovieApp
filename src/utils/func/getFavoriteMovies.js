@@ -14,6 +14,5 @@ export async function getFavoriteMovies() {
 		const iterationArr = iterationRequest?.results.map((movie) => movie.id) || [];
 		moviesArr = [...moviesArr, ...iterationArr];
 	}
-	console.log(moviesArr);
-	return [...moviesArr, firstIterationArr];
+	return [...moviesArr, ...firstIterationArr];
 }

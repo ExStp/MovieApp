@@ -8,7 +8,7 @@ import API from "../../services/TMDB/API";
 import { Link } from "react-router-dom";
 import { MovieFavoriteBtn } from "../MovieFavoriteBtn/MovieFavoriteBtn";
 
-export function MovieCard({ movieInfo, isFavorite }) {
+export function MovieCard({ movieInfo, isFavorite, favoriteMovies, setFavoriteMovies }) {
 	const { poster_path, backdrop_path, title, vote_average, id } = movieInfo;
 
 	const imgURL = API.URL.IMG.W400 + poster_path || backdrop_path;
@@ -53,7 +53,13 @@ export function MovieCard({ movieInfo, isFavorite }) {
 						color="text.secondary"
 						sx={{ display: "flex", alignItems: "center", gap: "10px" }}
 					>
-						<MovieFavoriteBtn key={id} movieId={id} isChecked={isFavorite} />
+						<MovieFavoriteBtn
+							key={id}
+							movieId={id}
+							isChecked={isFavorite}
+							favoriteMovies={favoriteMovies}
+							setFavoriteMovies={setFavoriteMovies}
+						/>
 						{vote_average}
 					</Typography>
 					<Link to={`infoPage/${id}`}>

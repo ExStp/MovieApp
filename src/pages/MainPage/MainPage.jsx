@@ -17,20 +17,28 @@ import { getCookieAuth, useAuth } from "../../context/AuthProvider";
 import { getFavoriteMovies } from "../../utils/func/getFavoriteMovies";
 
 export function MainPage() {
+	const initState = null;
 	const isSmallScreen = useSmallerBreakpoint("sm");
 	const drawerWidth = isSmallScreen ? "100vw" : "360px";
-	const containerRef = useRef(null);
-	const [moviesData, setMoviesData] = useState(null);
+	const containerRef = useRef(initState);
+	const [moviesData, setMoviesData] = useState(initState);
 	const [currentPage, setCurrentPage] = usePaginator();
 	const [open, setOpen] = useNavbar();
 	const [filters] = useFilters();
 	const [auth, authDispatch] = useAuth();
+	const [favoriteMovies, setFavoriteMovies] = useState(initState);
+	const [isFirstEffectComplete, setIsFirstEffectComplete] = useState(false);
 
 	useEffect(() => {
-		Promise.all([
-			API.fetchGetMovies(filters.sortRating, currentPage),
-			getFavoriteMovies(),
-		]).then(([movies, favoriteMovies]) => {
+		getFavoriteMovies().then((moviesData) => {
+			setFavoriteMovies(moviesData);
+			setIsFirstEffectComplete(true);
+		});
+	}, []);
+
+	useEffect(() => {
+		if (!isFirstEffectComplete || !favoriteMovies) return;
+		API.fetchGetMovies(filters.sortRating, currentPage).then((movies) => {
 			const mappedMovies = movies.results.map((movie) => {
 				const isFavorite = favoriteMovies.includes(movie.id);
 				return { ...movie, isFavorite };
@@ -38,7 +46,7 @@ export function MainPage() {
 			setMoviesData(mappedMovies);
 			scrollUp(containerRef);
 		});
-	}, [currentPage, filters.sortRating]);
+	}, [currentPage, filters.sortRating, favoriteMovies, isFirstEffectComplete]);
 
 	function handleNavbarOpen() {
 		if (!auth.isLogin) return;
@@ -68,6 +76,8 @@ export function MainPage() {
 			>
 				{auth.isLogin ? (
 					<MovieList
+						favoriteMovies={favoriteMovies}
+						setFavoriteMovies={setFavoriteMovies}
 						moviesData={moviesData}
 						currentPage={currentPage}
 						setCurrentPage={setCurrentPage}
