@@ -105,14 +105,15 @@ export default class API {
 	}
 
 	static async fetchPostFavoriteMovie(movieId, isFavorite) {
-		let URL = `https://api.themoviedb.org/3/account/${API.accountId}/favorite`;
-		let options = {
-			...API.options,
-			body: JSON.stringify({ media_type: "movie", media_id: Number(movieId), favorite: isFavorite }),
+		const URL = "https://api.themoviedb.org/3/account/20036970/favorite";
+		const body = {
+			media_type: "movie",
+			media_id: movieId,
+			favorite: isFavorite,
 		};
 
 		try {
-			const response = await axios.post(URL, options);
+			const response = await axios.post(URL, body, API.options);
 			if (!response.data) throw Error("Ошибка при получении данных");
 			return response.data;
 		} catch (error) {
