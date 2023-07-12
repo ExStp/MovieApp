@@ -28,6 +28,7 @@ export function MainPage() {
 	const [favoriteMovies, setFavoriteMovies] = useState(null);
 	const [isFirstEffectComplete, setIsFirstEffectComplete] = useState(false);
 	const sortRating = filters.sortRating;
+	const searchQuery = filters.searchQuery;
 
 	useEffect(() => {
 		getFavoriteMovies().then((moviesData) => {
@@ -37,6 +38,24 @@ export function MainPage() {
 	}, []);
 
 	useEffect(() => {
+		setCurrentPage(1);
+	}, [searchQuery]);
+
+	useEffect(() => {
+		if (searchQuery.trim() === "") return;
+		if (!isFirstEffectComplete || !favoriteMovies) return;
+		API.fetchGetSearchMovie(searchQuery, currentPage).then((movies) => {
+			const mappedMovies = movies.results.map((movie) => {
+				const isFavorite = favoriteMovies.includes(movie.id);
+				return { ...movie, isFavorite };
+			});
+			setMoviesData(mappedMovies);
+			scrollUp(containerRef);
+		});
+	}, [currentPage, favoriteMovies, searchQuery, isFirstEffectComplete]);
+
+	useEffect(() => {
+		if (searchQuery.trim() !== "") return;
 		if (!isFirstEffectComplete || !favoriteMovies) return;
 		API.fetchGetMovies(sortRating, currentPage).then((movies) => {
 			const mappedMovies = movies.results.map((movie) => {
@@ -46,7 +65,7 @@ export function MainPage() {
 			setMoviesData(mappedMovies);
 			scrollUp(containerRef);
 		});
-	}, [currentPage, sortRating, favoriteMovies, isFirstEffectComplete]);
+	}, [currentPage, searchQuery, sortRating, favoriteMovies, isFirstEffectComplete]);
 
 	function handleNavbarOpen() {
 		if (!auth.isLogin) return;
