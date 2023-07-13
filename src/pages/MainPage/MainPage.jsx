@@ -15,7 +15,7 @@ import { scrollUp } from "../../utils/func/scrollUp";
 import { useNavbar } from "../../context/NavbarProvider";
 import { getCookieAuth, useAuth } from "../../context/AuthProvider";
 import { getFavoriteMovies } from "../../utils/func/getFavoriteMovies";
-import { EMPTY_STRING } from "../../utils/constants/CONST";
+import { EMPTY_ARR, EMPTY_STRING } from "../../utils/constants/CONST";
 import { SimpleAlert } from "../../components/Alerts/SimpleAlert";
 
 export function MainPage() {
@@ -27,15 +27,16 @@ export function MainPage() {
 	const [open, setOpen] = useNavbar();
 	const [filters, filtersDispatch] = useFilters();
 	const [auth, authDispatch] = useAuth();
-	const [favoriteMovies, setFavoriteMovies] = useState(null);
-	const [isFirstEffectComplete, setIsFirstEffectComplete] = useState(false);
+	const [favoriteMovies, setFavoriteMovies] = useState(EMPTY_ARR);
+	const [isFavoritesLoaded, setIsFavoritesLoaded] = useState(false);
+	const [totalPages, setTotalPages] = useState(null);
 	const sortRating = filters.sortRating;
 	const searchQuery = filters.searchQuery;
 
 	useEffect(() => {
 		getFavoriteMovies().then((moviesData) => {
 			setFavoriteMovies(moviesData);
-			setIsFirstEffectComplete(true);
+			setIsFavoritesLoaded(true);
 		});
 	}, []);
 
@@ -45,29 +46,25 @@ export function MainPage() {
 
 	useEffect(() => {
 		if (searchQuery.trim() === EMPTY_STRING) return;
-		if (!isFirstEffectComplete || !favoriteMovies) return;
+		if (!isFavoritesLoaded || !favoriteMovies) return;
 		API.fetchGetSearchMovie(searchQuery, currentPage).then((movies) => {
-			const mappedMovies = movies.results.map((movie) => {
-				const isFavorite = favoriteMovies.includes(movie.id);
-				return { ...movie, isFavorite };
-			});
+			const mappedMovies = getMappedFavoriteMovies(movies.results, favoriteMovies);
+			setTotalPages(movies.total_pages);
 			setMoviesData(mappedMovies);
 			scrollUp(containerRef);
 		});
-	}, [currentPage, favoriteMovies, searchQuery, isFirstEffectComplete]);
+	}, [currentPage, favoriteMovies, searchQuery, isFavoritesLoaded, sortRating]);
 
 	useEffect(() => {
 		if (searchQuery.trim() !== EMPTY_STRING) return;
-		if (!isFirstEffectComplete || !favoriteMovies) return;
+		if (!isFavoritesLoaded || !favoriteMovies) return;
 		API.fetchGetMovies(sortRating, currentPage).then((movies) => {
-			const mappedMovies = movies.results.map((movie) => {
-				const isFavorite = favoriteMovies.includes(movie.id);
-				return { ...movie, isFavorite };
-			});
+			const mappedMovies = getMappedFavoriteMovies(movies.results, favoriteMovies);
+			setTotalPages(50);
 			setMoviesData(mappedMovies);
 			scrollUp(containerRef);
 		});
-	}, [currentPage, searchQuery, sortRating, favoriteMovies, isFirstEffectComplete]);
+	}, [currentPage, favoriteMovies, searchQuery, isFavoritesLoaded, sortRating]);
 
 	function handleNavbarOpen() {
 		if (!auth.isLogin) return;
@@ -97,6 +94,7 @@ export function MainPage() {
 			>
 				{auth.isLogin ? (
 					<MovieList
+						totalPages={totalPages}
 						favoriteMovies={favoriteMovies}
 						setFavoriteMovies={setFavoriteMovies}
 						moviesData={moviesData}
@@ -109,4 +107,11 @@ export function MainPage() {
 			</Main>
 		</Box>
 	);
+}
+
+function getMappedFavoriteMovies(movies, favoriteMovies) {
+	return movies.map((movie) => ({
+		...movie,
+		isFavorite: favoriteMovies.includes(movie.id),
+	}));
 }
