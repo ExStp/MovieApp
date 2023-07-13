@@ -3,7 +3,14 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Box, Button, CardActionArea, CardActions, Checkbox } from "@mui/material";
+import {
+	Box,
+	Button,
+	CardActionArea,
+	CardActions,
+	Checkbox,
+	FormControlLabel,
+} from "@mui/material";
 import API from "../../services/TMDB/API";
 import { Link } from "react-router-dom";
 import { MovieFavoriteBtn } from "../MovieFavoriteBtn/MovieFavoriteBtn";
@@ -17,12 +24,12 @@ export function MovieCard({ movieInfo, isFavorite, favoriteMovies, setFavoriteMo
 		<Card
 			elevation={3}
 			sx={{
-				width: 345,
+				width: 320,
 				height: 545,
 				display: "flex",
 				flexDirection: "column",
 				justifyContent: "space-between",
-				"@media (max-width: 380px)": {
+				"@media (max-width: 360px)": {
 					width: 280,
 					height: 445,
 				},
@@ -45,7 +52,7 @@ export function MovieCard({ movieInfo, isFavorite, favoriteMovies, setFavoriteMo
 					sx={{
 						display: "flex",
 						justifyContent: "space-between",
-						alignContent: "center",
+						alignItems: "center",
 					}}
 				>
 					<Typography
@@ -53,16 +60,21 @@ export function MovieCard({ movieInfo, isFavorite, favoriteMovies, setFavoriteMo
 						color="text.secondary"
 						sx={{ display: "flex", alignItems: "center", gap: "10px" }}
 					>
-						<MovieFavoriteBtn
-							key={id}
-							movieId={id}
-							isChecked={isFavorite}
-							favoriteMovies={favoriteMovies}
-							setFavoriteMovies={setFavoriteMovies}
+						<FormControlLabel
+							control={
+								<MovieFavoriteBtn
+									key={id}
+									movieId={id}
+									isChecked={isFavorite}
+									favoriteMovies={favoriteMovies}
+									setFavoriteMovies={setFavoriteMovies}
+								/>
+							}
+							label={vote_average}
+							labelPlacement="end"
 						/>
-						{vote_average}
 					</Typography>
-					<Link to={`infoPage/${id}`}>
+					<Link to={`infoPage/${id}`} style={{ height: "fit-content" }}>
 						<Button size="small" color="primary" variant="outlined">
 							Подробнее
 						</Button>
