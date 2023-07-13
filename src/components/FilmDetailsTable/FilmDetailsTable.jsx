@@ -12,10 +12,9 @@ import {
 } from "@mui/material";
 import { EMPTY_ARR } from "../../utils/constants/CONST";
 
-export function FilmDetailsTable({ filmData }) {
-	
-	if (filmData === EMPTY_ARR) return;
-	
+export function FilmDetailsTable({ details }) {
+	if (details === EMPTY_ARR) return;
+
 	return (
 		<Box sx={{ maxWidth: 480, minWidth: 220 }}>
 			<TableContainer sx={{ backgroundColor: "transparent" }}>
@@ -25,26 +24,26 @@ export function FilmDetailsTable({ filmData }) {
 							<TableCell component="th" scope="row">
 								Для взрослых
 							</TableCell>
-							<TableCell>{filmData.adult ? "Yes" : "No"}</TableCell>
+							<TableCell>{details.adult ? "Yes" : "No"}</TableCell>
 						</TableRow>
 						<TableRow>
 							<TableCell component="th" scope="row">
 								Дата релиза
 							</TableCell>
-							<TableCell>{filmData.release_date}</TableCell>
+							<TableCell>{details.release_date}</TableCell>
 						</TableRow>
 						<TableRow>
 							<TableCell component="th" scope="row">
 								Длительность
 							</TableCell>
-							<TableCell>{filmData.runtime} минут</TableCell>
+							<TableCell>{details.runtime} минут</TableCell>
 						</TableRow>
 						<TableRow>
 							<TableCell component="th" scope="row">
 								Жанры
 							</TableCell>
 							<TableCell>
-								{filmData.genres.map((genre) => genre.name).join(", ")}
+								{details.genres.map((genre) => genre.name).join(", ")}
 							</TableCell>
 						</TableRow>
 						<TableRow>
@@ -52,7 +51,7 @@ export function FilmDetailsTable({ filmData }) {
 								Производство компаний
 							</TableCell>
 							<TableCell>
-								{filmData.production_companies
+								{details.production_companies
 									.map((company) => company.name)
 									.join(", ")}
 							</TableCell>
@@ -62,7 +61,7 @@ export function FilmDetailsTable({ filmData }) {
 								Страны
 							</TableCell>
 							<TableCell>
-								{filmData.production_countries
+								{details.production_countries
 									.map((country) => country.name)
 									.join(", ")}
 							</TableCell>
@@ -71,19 +70,19 @@ export function FilmDetailsTable({ filmData }) {
 							<TableCell component="th" scope="row">
 								Популярность
 							</TableCell>
-							<TableCell>{filmData.popularity}</TableCell>
+							<TableCell>{details.popularity}</TableCell>
 						</TableRow>
 						<TableRow>
 							<TableCell component="th" scope="row">
 								Результат голосований
 							</TableCell>
-							<TableCell>{filmData.vote_average}</TableCell>
+							<TableCell>{details.vote_average}</TableCell>
 						</TableRow>
 						<TableRow>
 							<TableCell component="th" scope="row">
 								Количество голосов
 							</TableCell>
-							<TableCell>{filmData.vote_count}</TableCell>
+							<TableCell>{details.vote_count}</TableCell>
 						</TableRow>
 					</TableBody>
 				</Table>

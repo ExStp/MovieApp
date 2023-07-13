@@ -1,48 +1,47 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { Box, CircularProgress, Container } from "@mui/material";
 import { SimpleHeader } from "./../../components/SimpleHeader/SimpleHeader";
 import API from "../../services/TMDB/API";
-import { Alert, Box, CircularProgress, Container, Typography } from "@mui/material";
 import { MovieInfo } from "../../layout/MovieInfo";
 import { useAuth } from "../../context/AuthProvider";
 import { SimpleAlert } from "../../components/Alerts/SimpleAlert";
-import { EMPTY_ARR } from "../../utils/constants/CONST";
+import { EMPTY_OBJ } from "../../utils/constants/CONST";
 
 export function InfoPage() {
 	const { film_id } = useParams();
-	const [filmDetails, setFilmDetails] = useState(EMPTY_ARR);
-	const [filmCredits, setFilmCredits] = useState(EMPTY_ARR);
+
+	const [movieInfo, setMovieInfo] = useState(EMPTY_OBJ);
 	const [auth, authDispatch] = useAuth();
 
 	useEffect(() => {
 		if (!auth.isLogin) return;
 		const infoRequest = [API.fetchGetDetails(film_id), API.fetchGetCredits(film_id)];
-		
+
 		Promise.all(infoRequest).then(([details, credits]) => {
-			setFilmDetails(details);
-			setFilmCredits(credits);
+			setMovieInfo({ details, credits });
 		});
 	}, [auth]);
 
-	if (!filmDetails || !filmCredits) {
+	if (!auth.isLogin) {
 		return (
 			<Container>
 				<SimpleHeader />
-				<Box sx={{ display: "flex", justifyContent: "center" }}>
-					<CircularProgress sx={{ mt: "40vh" }} />
-				</Box>
+				<SimpleAlert placeholder={"Необходима авторизация"} severity={"warning"} />
 			</Container>
 		);
 	}
+
 	return (
-		<Container sx={{ background: "", height: "100vh" }}>
+		<Container>
 			<SimpleHeader />
-			{auth.isLogin ? (
-				<MovieInfo filmCredits={filmCredits} filmDetails={filmDetails} />
-			) : (
-				<SimpleAlert placeholder={"Необходима авторизация"} severity={"warning"} />
-			)}
+			<Box sx={{ display: "flex", justifyContent: "center" }}>
+				{movieInfo === EMPTY_OBJ ? (
+					<CircularProgress sx={{ mt: "40vh" }} />
+				) : (
+					<MovieInfo movieInfo={movieInfo} />
+				)}
+			</Box>
 		</Container>
 	);
 }
