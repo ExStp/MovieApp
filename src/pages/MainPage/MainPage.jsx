@@ -101,7 +101,6 @@ export function MainPage() {
 					<MovieList
 						totalPages={totalPages}
 						favoriteMovies={favoriteMovies}
-						totalPages={totalPages}
 						setFavoriteMovies={setFavoriteMovies}
 						moviesData={moviesData}
 						currentPage={currentPage}
