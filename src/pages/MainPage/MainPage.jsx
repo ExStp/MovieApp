@@ -15,6 +15,8 @@ import { scrollUp } from "../../utils/func/scrollUp";
 import { useNavbar } from "../../context/NavbarProvider";
 import { getCookieAuth, useAuth } from "../../context/AuthProvider";
 import { getFavoriteMovies } from "../../utils/func/getFavoriteMovies";
+import { EMPTY_ARR, EMPTY_STRING } from "../../utils/constants/CONST";
+import { SimpleAlert } from "../../components/Alerts/SimpleAlert";
 
 export function MainPage() {
 	const isSmallScreen = useSmallerBreakpoint("sm");
@@ -27,7 +29,6 @@ export function MainPage() {
 	const [auth, authDispatch] = useAuth();
 	const [favoriteMovies, setFavoriteMovies] = useState(null);
 	const [isFirstEffectComplete, setIsFirstEffectComplete] = useState(false);
-	const [totalPages, setTotalPages] = useState(null);
 	const sortRating = filters.sortRating;
 	const searchQuery = filters.searchQuery;
 	//TODO: передалать totalPages - вынести в контекст
@@ -35,7 +36,7 @@ export function MainPage() {
 	useEffect(() => {
 		getFavoriteMovies().then((moviesData) => {
 			setFavoriteMovies(moviesData);
-			setIsFirstEffectComplete(true);
+			setIsFavoritesLoaded(true);
 		});
 	}, []);
 
@@ -44,10 +45,9 @@ export function MainPage() {
 	}, [searchQuery]);
 
 	useEffect(() => {
-		if (searchQuery.trim() === "") return;
-		if (!isFirstEffectComplete || !favoriteMovies) return;
+		if (searchQuery.trim() === EMPTY_STRING) return;
+		if (!isFavoritesLoaded || !favoriteMovies) return;
 		API.fetchGetSearchMovie(searchQuery, currentPage).then((movies) => {
-			setTotalPages(movies.total_pages);
 			const mappedMovies = movies.results.map((movie) => {
 				const isFavorite = favoriteMovies.includes(movie.id);
 				return { ...movie, isFavorite };
@@ -55,13 +55,12 @@ export function MainPage() {
 			setMoviesData(mappedMovies);
 			scrollUp(containerRef);
 		});
-	}, [currentPage, favoriteMovies, searchQuery, isFirstEffectComplete]);
+	}, [currentPage, favoriteMovies, searchQuery, isFavoritesLoaded, sortRating]);
 
 	useEffect(() => {
-		if (searchQuery.trim() !== "") return;
-		if (!isFirstEffectComplete || !favoriteMovies) return;
+		if (searchQuery.trim() !== EMPTY_STRING) return;
+		if (!isFavoritesLoaded || !favoriteMovies) return;
 		API.fetchGetMovies(sortRating, currentPage).then((movies) => {
-			setTotalPages(50);
 			const mappedMovies = movies.results.map((movie) => {
 				const isFavorite = favoriteMovies.includes(movie.id);
 				return { ...movie, isFavorite };
@@ -69,7 +68,7 @@ export function MainPage() {
 			setMoviesData(mappedMovies);
 			scrollUp(containerRef);
 		});
-	}, [currentPage, searchQuery, sortRating, favoriteMovies, isFirstEffectComplete]);
+	}, [currentPage, favoriteMovies, searchQuery, isFavoritesLoaded, sortRating]);
 
 	function handleNavbarOpen() {
 		if (!auth.isLogin) return;
@@ -99,6 +98,7 @@ export function MainPage() {
 			>
 				{auth.isLogin ? (
 					<MovieList
+						totalPages={totalPages}
 						favoriteMovies={favoriteMovies}
 						totalPages={totalPages}
 						setFavoriteMovies={setFavoriteMovies}
@@ -107,20 +107,16 @@ export function MainPage() {
 						setCurrentPage={setCurrentPage}
 					/>
 				) : (
-					<Box
-						sx={{
-							position: "fixed",
-							top: "50%",
-							left: "50%",
-							transform: "translate(-50%, -50%)",
-						}}
-					>
-						<Alert severity="warning">Необходима авторизация</Alert>
-					</Box>
+					<SimpleAlert placeholder={"Необходима авторизация"} severity={"warning"} />
 				)}
 			</Main>
 		</Box>
 	);
 }
 
-const initInputValue = "";
+function getMappedFavoriteMovies(movies, favoriteMovies) {
+	return movies.map((movie) => ({
+		...movie,
+		isFavorite: favoriteMovies.includes(movie.id),
+	}));
+}

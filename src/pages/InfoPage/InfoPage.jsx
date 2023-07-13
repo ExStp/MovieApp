@@ -1,52 +1,47 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { Box, CircularProgress, Container } from "@mui/material";
 import { SimpleHeader } from "./../../components/SimpleHeader/SimpleHeader";
 import API from "../../services/TMDB/API";
-import { Alert, Box, CircularProgress, Container, Typography } from "@mui/material";
 import { MovieInfo } from "../../layout/MovieInfo";
 import { useAuth } from "../../context/AuthProvider";
+import { SimpleAlert } from "../../components/Alerts/SimpleAlert";
+import { EMPTY_OBJ } from "../../utils/constants/CONST";
 
 export function InfoPage() {
 	const { film_id } = useParams();
-	const [filmDetails, setFilmDetails] = useState(null);
-	const [filmCredits, setFilmCredits] = useState(null);
+
+	const [movieInfo, setMovieInfo] = useState(EMPTY_OBJ);
 	const [auth, authDispatch] = useAuth();
 
 	useEffect(() => {
-		API.fetchGetDetails(film_id).then((data) => {
-			setFilmDetails(data);
-		});
-		API.fetchGetCredits(film_id).then((data) => setFilmCredits(data));
-	}, []);
+		if (!auth.isLogin) return;
+		const infoRequest = [API.fetchGetDetails(film_id), API.fetchGetCredits(film_id)];
 
-	if (!filmDetails || !filmCredits) {
+		Promise.all(infoRequest).then(([details, credits]) => {
+			setMovieInfo({ details, credits });
+		});
+	}, [auth]);
+
+	if (!auth.isLogin) {
 		return (
 			<Container>
 				<SimpleHeader />
-				<Box sx={{ display: "flex", justifyContent: "center" }}>
-					<CircularProgress sx={{ mt: "40vh" }} />
-				</Box>
+				<SimpleAlert placeholder={"Необходима авторизация"} severity={"warning"} />
 			</Container>
 		);
 	}
+
 	return (
-		<Container sx={{ background: "", height: "100vh" }}>
+		<Container>
 			<SimpleHeader />
-			{auth.isLogin ? (
-				<MovieInfo filmCredits={filmCredits} filmDetails={filmDetails} />
-			) : (
-				<Box
-					sx={{
-						position: "fixed",
-						top: "50%",
-						left: "50%",
-						transform: "translate(-50%, -50%)",
-					}}
-				>
-					<Alert severity="warning">Необходима авторизация</Alert>
-				</Box>
-			)}
+			<Box sx={{ display: "flex", justifyContent: "center" }}>
+				{movieInfo === EMPTY_OBJ ? (
+					<CircularProgress sx={{ mt: "40vh" }} />
+				) : (
+					<MovieInfo movieInfo={movieInfo} />
+				)}
+			</Box>
 		</Container>
 	);
 }

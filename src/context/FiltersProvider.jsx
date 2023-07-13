@@ -1,4 +1,5 @@
 import { createContext, useContext, useReducer } from "react";
+import { EMPTY_ARR, EMPTY_STRING } from "../utils/constants/CONST";
 
 const FiltersContext = createContext(null);
 
@@ -46,8 +47,8 @@ function filterReducer(filters, action) {
 }
 
 export const initFilters = {
-	searchQuery: "",
+	searchQuery: EMPTY_STRING,
 	sortRating: "popular_list",
-	sortGenres: [],
+	sortGenres: EMPTY_ARR,
 	sortYear: [10, 90],
 };

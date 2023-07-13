@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TextField, IconButton, InputAdornment } from "@mui/material";
-import { Search } from "@mui/icons-material";
+import { Search, Clear } from "@mui/icons-material";
 import API from "../../services/TMDB/API";
 
 export function SearchQuery({ searchValue, filtersDispatch }) {
@@ -10,32 +10,39 @@ export function SearchQuery({ searchValue, filtersDispatch }) {
 		setValue(event.target.value);
 	}
 
-	function handleSubmitSearch() {
+	function handleSubmitSearch(event) {
+		event.preventDefault();
 		filtersDispatch({ type: "searchQuery_changed", newValue: value });
 		API.fetchGetSearchMovie(value, 1);
 	}
 
-	function handleKeyPress(event) {
-		if (event.key !== "Enter") return;
-		handleSubmitSearch();
+	function handleClearSearch() {
+		setValue("");
+		filtersDispatch({ type: "searchQuery_changed", newValue: "" });
 	}
 
 	return (
-		<TextField
-			fullWidth
-			value={value}
-			onChange={handleSearchChange}
-			onKeyPress={handleKeyPress}
-			placeholder="Поиск фильма"
-			InputProps={{
-				endAdornment: (
-					<InputAdornment position="end">
-						<IconButton onClick={handleSubmitSearch}>
-							<Search />
-						</IconButton>
-					</InputAdornment>
-				),
-			}}
-		/>
+		<form onSubmit={handleSubmitSearch}>
+			<TextField
+				fullWidth
+				value={value}
+				onChange={handleSearchChange}
+				placeholder="Поиск фильма"
+				InputProps={{
+					endAdornment: (
+						<InputAdornment position="end">
+							{value && (
+								<IconButton onClick={handleClearSearch}>
+									<Clear />
+								</IconButton>
+							)}
+							<IconButton type="submit">
+								<Search />
+							</IconButton>
+						</InputAdornment>
+					),
+				}}
+			/>
+		</form>
 	);
 }
