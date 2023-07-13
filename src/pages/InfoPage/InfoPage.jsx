@@ -16,7 +16,7 @@ export function InfoPage() {
 	useEffect(() => {
 		if (!auth.isLogin) return;
 		const infoRequest = [API.fetchGetDetails(film_id), API.fetchGetCredits(film_id)];
-		
+
 		Promise.all(infoRequest).then(([details, credits]) => {
 			setMovieInfo({ details, credits });
 		});

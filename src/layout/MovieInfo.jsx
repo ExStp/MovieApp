@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { FilmDetailsTable } from "../components/FilmDetailsTable/FilmDetailsTable";
 import API from "../services/TMDB/API";
 import { EMPTY_OBJ } from "../utils/constants/CONST";
+import { ActorsGallery } from "../components/ActorsGallery/ActorsGallery";
 
 export function MovieInfo({ movieInfo }) {
 	if (movieInfo === EMPTY_OBJ) return;
@@ -11,7 +12,7 @@ export function MovieInfo({ movieInfo }) {
 	const { cast, crew } = credits;
 	const imgURL = API.URL.IMG.W400 + poster_path || backdrop_path;
 
-	console.log(credits);
+	console.log(cast);
 
 	return (
 		<Box sx={{ mt: 14 }}>
@@ -49,7 +50,7 @@ export function MovieInfo({ movieInfo }) {
 				>
 					<img
 						src={imgURL}
-						alt="Movie Poster"
+						alt={"poster of " + original_title}
 						style={{
 							width: "auto",
 							height: "auto",
@@ -60,6 +61,7 @@ export function MovieInfo({ movieInfo }) {
 					/>
 				</Box>
 			</Box>
+			<ActorsGallery />
 		</Box>
 	);
 }
