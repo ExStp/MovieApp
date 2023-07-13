@@ -62,7 +62,6 @@ export default class API {
 		try {
 			const response = await axios.get(detailsURL, API.options);
 			if (!response.data) throw Error("Ошибка при получении данных");
-			console.log(response.data);
 			return response.data;
 		} catch (error) {
 			console.log(error.message);

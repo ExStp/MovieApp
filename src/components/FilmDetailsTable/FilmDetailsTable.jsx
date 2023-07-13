@@ -2,7 +2,7 @@ import React from "react";
 import { Table, TableBody, TableCell, TableContainer, TableRow, Box } from "@mui/material";
 import { EMPTY_ARR } from "../../utils/constants/CONST";
 
-export function FilmDetailsTable({ details }) {
+export function FilmDetailsTable({ styles, details }) {
 	if (details === EMPTY_ARR) return;
 
 	const {
@@ -18,16 +18,10 @@ export function FilmDetailsTable({ details }) {
 	} = details;
 
 	return (
-		<Box sx={{ maxWidth: 480, minWidth: 220 }}>
+		<Box sx={styles}>
 			<TableContainer sx={{ backgroundColor: "transparent" }}>
 				<Table>
 					<TableBody>
-						<TableRow>
-							<TableCell component="th" scope="row">
-								Для взрослых
-							</TableCell>
-							<TableCell>{adult ? "Yes" : "No"}</TableCell>
-						</TableRow>
 						<TableRow>
 							<TableCell component="th" scope="row">
 								Дата релиза
