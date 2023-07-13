@@ -13,11 +13,7 @@ export function Filters({ filters, filtersDispatch }) {
 		API.fetchGetGenres().then((genres) => setGenreOptions(genres));
 	}, []);
 
-	function handleSubmitSearchQuery(event) {
-		filtersDispatch({ type: "searchQuey_changed", newValue: event.target.value });
-	}
-
-	return (
+	return (	
 		<Container>
 			<SearchQuery searchValue={filters.searchQuery} filtersDispatch={filtersDispatch} />
 			<SortRating selectValue={filters.sortRating} filtersDispatch={filtersDispatch} />

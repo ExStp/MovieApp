@@ -3,17 +3,15 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
+import API from "../../services/TMDB/API";
+import { Link } from "react-router-dom";
+import { MovieFavoriteBtn } from "../MovieFavoriteBtn/MovieFavoriteBtn";
 import {
 	Box,
 	Button,
 	CardActionArea,
-	CardActions,
-	Checkbox,
 	FormControlLabel,
 } from "@mui/material";
-import API from "../../services/TMDB/API";
-import { Link } from "react-router-dom";
-import { MovieFavoriteBtn } from "../MovieFavoriteBtn/MovieFavoriteBtn";
 
 export function MovieCard({ movieInfo, isFavorite, favoriteMovies, setFavoriteMovies }) {
 	const { poster_path, backdrop_path, title, vote_average, id } = movieInfo;
@@ -81,7 +79,6 @@ export function MovieCard({ movieInfo, isFavorite, favoriteMovies, setFavoriteMo
 					</Link>
 				</Box>
 			</CardContent>
-			{/* <CardActions></CardActions> */}
 		</Card>
 	);
 }

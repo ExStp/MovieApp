@@ -10,14 +10,13 @@ import { EMPTY_OBJ } from "../../utils/constants/CONST";
 
 export function InfoPage() {
 	const { film_id } = useParams();
-
 	const [movieInfo, setMovieInfo] = useState(EMPTY_OBJ);
 	const [auth, authDispatch] = useAuth();
 
 	useEffect(() => {
 		if (!auth.isLogin) return;
 		const infoRequest = [API.fetchGetDetails(film_id), API.fetchGetCredits(film_id)];
-
+		
 		Promise.all(infoRequest).then(([details, credits]) => {
 			setMovieInfo({ details, credits });
 		});

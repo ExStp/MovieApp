@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Alert, Typography, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { MovieList } from "../../components/MovieList/MovieList";
@@ -13,7 +13,7 @@ import { usePaginator } from "../../context/PaginatorProvider";
 import API from "../../services/TMDB/API";
 import { scrollUp } from "../../utils/func/scrollUp";
 import { useNavbar } from "../../context/NavbarProvider";
-import { getCookieAuth, useAuth } from "../../context/AuthProvider";
+import { useAuth } from "../../context/AuthProvider";
 import { getFavoriteMovies } from "../../utils/func/getFavoriteMovies";
 import { EMPTY_ARR, EMPTY_STRING } from "../../utils/constants/CONST";
 import { SimpleAlert } from "../../components/Alerts/SimpleAlert";
