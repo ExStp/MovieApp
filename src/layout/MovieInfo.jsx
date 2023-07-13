@@ -25,43 +25,48 @@ export function MovieInfo({ movieInfo }) {
 			<Typography variant="body1" sx={{ mb: 4 }}>
 				{overview}
 			</Typography>
+			<MovieTable details={details} imgURL={imgURL} />
+		</Box>
+	);
+}
+
+function MovieTable({ details, imgURL }) {
+	return (
+		<Box
+			sx={{
+				mb: 5,
+				display: "flex",
+				justifyContent: "space-between",
+				columnGap: "10px",
+				rowGap: "30px",
+				"@media (max-width: 600px)": {
+					flexDirection: "column-reverse",
+					alignItems: "center",
+				},
+			}}
+		>
+			<FilmDetailsTable
+				details={details}
+				styles={{ flexBasis: "60%", maxWidth: 680, minWidth: 220 }}
+			/>
 			<Box
 				sx={{
-					mb: 5,
-					display: "flex",
-					justifyContent: "space-between",
-					columnGap: "10px",
-					rowGap: "30px",
-					"@media (max-width: 600px)": {
-						flexDirection: "column-reverse",
-						alignItems: "center",
-					},
+					flexBasis: "40%",
+					maxWidth: "400px",
 				}}
 			>
-				<FilmDetailsTable
-					details={details}
-					styles={{ flexBasis: "60%", maxWidth: 680, minWidth: 220 }}
-				/>
-				<Box
-					sx={{
-						flexBasis: "40%",
-						maxWidth: "400px",
+				<img
+					src={imgURL}
+					alt="poster"
+					style={{
+						width: "auto",
+						height: "auto",
+						maxHeight: "100%",
+						maxWidth: "100%",
+						borderRadius: "6px",
 					}}
-				>
-					<img
-						src={imgURL}
-						alt={"poster of " + original_title}
-						style={{
-							width: "auto",
-							height: "auto",
-							maxHeight: "100%",
-							maxWidth: "100%",
-							borderRadius: "6px",
-						}}
-					/>
-				</Box>
+				/>
 			</Box>
-			<ActorsGallery />
 		</Box>
 	);
 }
