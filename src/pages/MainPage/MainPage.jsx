@@ -27,8 +27,9 @@ export function MainPage() {
 	const [open, setOpen] = useNavbar();
 	const [filters, filtersDispatch] = useFilters();
 	const [auth, authDispatch] = useAuth();
-	const [favoriteMovies, setFavoriteMovies] = useState(null);
-	const [isFirstEffectComplete, setIsFirstEffectComplete] = useState(false);
+	const [favoriteMovies, setFavoriteMovies] = useState(EMPTY_ARR);
+	const [isFavoritesLoaded, setIsFavoritesLoaded] = useState(false);
+	const [totalPages, setTotalPages] = useState(null);
 	const sortRating = filters.sortRating;
 	const searchQuery = filters.searchQuery;
 	//TODO: передалать totalPages - вынести в контекст
