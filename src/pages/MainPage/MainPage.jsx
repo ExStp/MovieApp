@@ -15,6 +15,8 @@ import { scrollUp } from "../../utils/func/scrollUp";
 import { useNavbar } from "../../context/NavbarProvider";
 import { getCookieAuth, useAuth } from "../../context/AuthProvider";
 import { getFavoriteMovies } from "../../utils/func/getFavoriteMovies";
+import { EMPTY_STRING } from "../../utils/constants/CONST";
+import { SimpleAlert } from "../../components/Alerts/SimpleAlert";
 
 export function MainPage() {
 	const isSmallScreen = useSmallerBreakpoint("sm");
@@ -42,7 +44,7 @@ export function MainPage() {
 	}, [searchQuery]);
 
 	useEffect(() => {
-		if (searchQuery.trim() === "") return;
+		if (searchQuery.trim() === EMPTY_STRING) return;
 		if (!isFirstEffectComplete || !favoriteMovies) return;
 		API.fetchGetSearchMovie(searchQuery, currentPage).then((movies) => {
 			const mappedMovies = movies.results.map((movie) => {
@@ -55,7 +57,7 @@ export function MainPage() {
 	}, [currentPage, favoriteMovies, searchQuery, isFirstEffectComplete]);
 
 	useEffect(() => {
-		if (searchQuery.trim() !== "") return;
+		if (searchQuery.trim() !== EMPTY_STRING) return;
 		if (!isFirstEffectComplete || !favoriteMovies) return;
 		API.fetchGetMovies(sortRating, currentPage).then((movies) => {
 			const mappedMovies = movies.results.map((movie) => {
@@ -102,20 +104,9 @@ export function MainPage() {
 						setCurrentPage={setCurrentPage}
 					/>
 				) : (
-					<Box
-						sx={{
-							position: "fixed",
-							top: "50%",
-							left: "50%",
-							transform: "translate(-50%, -50%)",
-						}}
-					>
-						<Alert severity="warning">Необходима авторизация</Alert>
-					</Box>
+					<SimpleAlert placeholder={"Необходима авторизация"} severity={"warning"} />
 				)}
 			</Main>
 		</Box>
 	);
 }
-
-const initInputValue = "";

@@ -6,19 +6,24 @@ import API from "../../services/TMDB/API";
 import { Alert, Box, CircularProgress, Container, Typography } from "@mui/material";
 import { MovieInfo } from "../../layout/MovieInfo";
 import { useAuth } from "../../context/AuthProvider";
+import { SimpleAlert } from "../../components/Alerts/SimpleAlert";
+import { EMPTY_ARR } from "../../utils/constants/CONST";
 
 export function InfoPage() {
 	const { film_id } = useParams();
-	const [filmDetails, setFilmDetails] = useState(null);
-	const [filmCredits, setFilmCredits] = useState(null);
+	const [filmDetails, setFilmDetails] = useState(EMPTY_ARR);
+	const [filmCredits, setFilmCredits] = useState(EMPTY_ARR);
 	const [auth, authDispatch] = useAuth();
 
 	useEffect(() => {
-		API.fetchGetDetails(film_id).then((data) => {
-			setFilmDetails(data);
+		if (!auth.isLogin) return;
+		const infoRequest = [API.fetchGetDetails(film_id), API.fetchGetCredits(film_id)];
+		
+		Promise.all(infoRequest).then(([details, credits]) => {
+			setFilmDetails(details);
+			setFilmCredits(credits);
 		});
-		API.fetchGetCredits(film_id).then((data) => setFilmCredits(data));
-	}, []);
+	}, [auth]);
 
 	if (!filmDetails || !filmCredits) {
 		return (
@@ -36,16 +41,7 @@ export function InfoPage() {
 			{auth.isLogin ? (
 				<MovieInfo filmCredits={filmCredits} filmDetails={filmDetails} />
 			) : (
-				<Box
-					sx={{
-						position: "fixed",
-						top: "50%",
-						left: "50%",
-						transform: "translate(-50%, -50%)",
-					}}
-				>
-					<Alert severity="warning">Необходима авторизация</Alert>
-				</Box>
+				<SimpleAlert placeholder={"Необходима авторизация"} severity={"warning"} />
 			)}
 		</Container>
 	);

@@ -10,8 +10,12 @@ import {
 	Typography,
 	Box,
 } from "@mui/material";
+import { EMPTY_ARR } from "../../utils/constants/CONST";
 
 export function FilmDetailsTable({ filmData }) {
+	
+	if (filmData === EMPTY_ARR) return;
+	
 	return (
 		<Box sx={{ maxWidth: 480, minWidth: 220 }}>
 			<TableContainer sx={{ backgroundColor: "transparent" }}>
