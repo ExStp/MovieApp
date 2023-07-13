@@ -53,6 +53,7 @@ export function MainPage() {
 				const isFavorite = favoriteMovies.includes(movie.id);
 				return { ...movie, isFavorite };
 			});
+			setTotalPages(movies.total_pages);
 			setMoviesData(mappedMovies);
 			scrollUp(containerRef);
 		});
@@ -66,6 +67,7 @@ export function MainPage() {
 				const isFavorite = favoriteMovies.includes(movie.id);
 				return { ...movie, isFavorite };
 			});
+			setTotalPages(50);
 			setMoviesData(mappedMovies);
 			scrollUp(containerRef);
 		});

@@ -6,7 +6,14 @@ import { useSmallerBreakpoint } from "../../utils/func/useSmallerBreakpoint";
 import { ModeNight } from "@mui/icons-material";
 
 export const MovieList = forwardRef((props, ref) => {
-	const { moviesData, currentPage, setCurrentPage, favoriteMovies, setFavoriteMovies } = props;
+	const {
+		moviesData,
+		currentPage,
+		setCurrentPage,
+		favoriteMovies,
+		setFavoriteMovies,
+		totalPages,
+	} = props;
 	const paginatorSize = useSmallerBreakpoint("sm") ? "medium" : "large";
 
 	return (
