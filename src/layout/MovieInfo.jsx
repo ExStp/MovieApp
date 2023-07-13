@@ -5,16 +5,12 @@ import API from "../services/TMDB/API";
 import { EMPTY_ARR, EMPTY_OBJ } from "../utils/constants/CONST";
 
 export function MovieInfo({ movieInfo }) {
-
 	if (movieInfo === EMPTY_OBJ) return;
 
 	const { details, credits } = movieInfo;
-
 	const { backdrop_path, poster_path, title, original_title, overview } = details;
 	const { cast, crew } = credits;
-
 	const imgURL = API.URL.IMG.W400 + poster_path || backdrop_path;
-
 
 	return (
 		<Box sx={{ mt: 14 }}>
