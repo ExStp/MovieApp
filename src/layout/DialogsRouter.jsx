@@ -1,4 +1,3 @@
-import { useState } from "react";
 import RegistrationDialog from "../components/Modal/RegistrationDialog";
 import LoginDialog from "../components/Modal/LoginDialog";
 import { DIALOG_WINDOWS, useDialogs } from "../context/DialogsProvider";

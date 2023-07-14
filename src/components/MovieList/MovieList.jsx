@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Container, Pagination, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Pagination } from "@mui/material";
 import { forwardRef } from "react";
 import { useSmallerBreakpoint } from "../../utils/func/useSmallerBreakpoint";
 import { MovieCards } from "./MovieCards";
@@ -7,9 +7,9 @@ export const MovieList = forwardRef((props, ref) => {
 	const { paginator, setPaginator, moviesData, favoriteMovies, setFavoriteMovies } = props;
 	const paginatorSize = useSmallerBreakpoint("sm") ? "medium" : "large";
 
-	function handlePaginatonChange(event, page) {
+	const handlePaginationChange = (event, page) => {
 		setPaginator({ ...paginator, currentPage: page });
-	}
+	};
 
 	return (
 		<Container ref={ref}>
@@ -37,7 +37,7 @@ export const MovieList = forwardRef((props, ref) => {
 					<Pagination
 						count={paginator.totalPages}
 						page={paginator.currentPage}
-						onChange={handlePaginatonChange}
+						onChange={handlePaginationChange}
 						size={paginatorSize}
 					/>
 				</Box>

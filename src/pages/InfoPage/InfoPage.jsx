@@ -15,12 +15,17 @@ export function InfoPage() {
 
 	useEffect(() => {
 		if (!auth.isLogin) return;
-		const infoRequest = [API.fetchGetDetails(film_id), API.fetchGetCredits(film_id)];
 
-		Promise.all(infoRequest).then(([details, credits]) => {
+		const fetchMovieInfo = async () => {
+			const [details, credits] = await Promise.all([
+				API.fetchGetDetails(film_id),
+				API.fetchGetCredits(film_id),
+			]);
 			setMovieInfo({ details, credits });
-		});
-	}, [auth]);
+		};
+
+		fetchMovieInfo();
+	}, [auth, film_id]);
 
 	if (!auth.isLogin) {
 		return (

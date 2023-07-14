@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,7 +7,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Box } from "@mui/material";
 import { AuthAvatarButton } from "../components/AuthAvatarButton/AuthAvatarButton";
 
-export function Header({ handleDrawerOpen, open, drawerWidth }) {
+export function Header(props) {
+	const { handleDrawerOpen, open, drawerWidth } = props;
 
 	const AppBar = styled(MuiAppBar, {
 		shouldForwardProp: (prop) => prop !== "open",

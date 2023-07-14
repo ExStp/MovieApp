@@ -9,9 +9,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { AUTH_ACTIONS, useAuth } from "../../context/AuthProvider";
 import API from "../../services/TMDB/API";
 import { Backdrop, CircularProgress } from "@mui/material";
+import { DIALOG_WINDOWS } from "../../context/DialogsProvider";
 
 export default function LoginDialog({ isOpen, setIsOpen }) {
-	const [open, setOpen] = useState(false);
+	const [isBackdropOpen, setSsBackdropOpen] = useState(false);
 	const [auth, authDispatch] = useAuth();
 
 	function handleClose() {
@@ -19,15 +20,15 @@ export default function LoginDialog({ isOpen, setIsOpen }) {
 	}
 
 	async function handleLoginAuth() {
-		setOpen(true);
+		setSsBackdropOpen(true);
 		const accountDetails = await API.fetchGetAccountDetails();
 		authDispatch({ type: AUTH_ACTIONS.user_login, accountId: accountDetails.id });
 		setIsOpen(null);
-		setOpen(false);
+		setSsBackdropOpen(false);
 	}
 
 	function openRegistrationDialog() {
-		setIsOpen("RegistrationDialog");
+		setIsOpen(DIALOG_WINDOWS.registration_dialog);
 	}
 
 	return (
@@ -57,7 +58,7 @@ export default function LoginDialog({ isOpen, setIsOpen }) {
 				<Button onClick={handleLoginAuth}>Отправить</Button>
 			</DialogActions>
 
-			<Backdrop sx={{ color: "#fff", zIndex: 9999 }} open={open}>
+			<Backdrop sx={{ color: "#fff", zIndex: 9999 }} open={isBackdropOpen}>
 				<CircularProgress color="inherit" />
 			</Backdrop>
 		</Dialog>

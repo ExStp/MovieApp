@@ -1,11 +1,12 @@
-import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { Typography } from "@mui/material";
 
-export function Navbar({ open, handleDrawerClose, drawerWidth, children }) {
+export function Navbar(props) {
+	const { open, handleDrawerClose, drawerWidth, children } = props;
+
 	const DrawerHeader = styled("div")(({ theme }) => ({
 		display: "flex",
 		alignItems: "center",

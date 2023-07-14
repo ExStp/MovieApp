@@ -4,7 +4,8 @@ import StarRateIcon from "@mui/icons-material/StarRate";
 import { useState } from "react";
 import API from "../../services/TMDB/API";
 
-export function MovieFavoriteBtn({ movieId, isChecked, favoriteMovies, setFavoriteMovies }) {
+export function MovieFavoriteBtn(props) {
+	const { movieId, isChecked, favoriteMovies, setFavoriteMovies } = props
 	const [checked, setChecked] = useState(isChecked);
 
 	const handleChange = (event) => {

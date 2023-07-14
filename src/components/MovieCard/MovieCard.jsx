@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -13,7 +12,8 @@ import {
 	FormControlLabel,
 } from "@mui/material";
 
-export function MovieCard({ movieInfo, isFavorite, favoriteMovies, setFavoriteMovies }) {
+export function MovieCard(props) {
+	const { movieInfo, isFavorite, favoriteMovies, setFavoriteMovies } = props
 	const { poster_path, backdrop_path, title, vote_average, id } = movieInfo;
 
 	const imgURL = API.URL.IMG.W400 + poster_path || backdrop_path;

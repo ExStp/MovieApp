@@ -25,7 +25,6 @@ export function MainPage() {
 	const [moviesData, setMoviesData] = useState(null);
 	const containerRef = useRef(null);
 
-	// const [currentPage, setCurrentPage] = usePaginator();
 	const [paginator, setPaginator] = usePaginator();
 	const [filters, filtersDispatch] = useFilters();
 	const [auth, authDispatch] = useAuth();
@@ -36,12 +35,11 @@ export function MainPage() {
 	const currentPage = paginator.currentPage;
 	const isSmallScreen = useSmallerBreakpoint("sm");
 	const drawerWidth = isSmallScreen ? "100vw" : "360px";
-	//TODO: передалать totalPages - вынести в контекст
 
 	useEffect(() => {
 		getFavoriteMovies().then((moviesData) => {
-			setFavoriteMovies(() => moviesData);
-			setIsFavoritesLoaded(() => true);
+			setFavoriteMovies(moviesData);
+			setIsFavoritesLoaded(true);
 		});
 	}, []);
 
@@ -52,29 +50,27 @@ export function MainPage() {
 	useEffect(() => {
 		if (!isFavoritesLoaded || !favoriteMovies) return;
 
-		const setSearchedMovies = async () => {
-			API.fetchGetSearchMovie(searchQuery, currentPage).then((movies) => {
-				const mappedMovies = mapMoviesData(movies, favoriteMovies);
-				setPaginator({ ...paginator, totalPages: movies.total_pages });
-				setMoviesData(mappedMovies);
-				scrollUp(containerRef);
-			});
+		const fetchData = async () => {
+			let movies;
+			if (searchQuery.trim() === EMPTY_STRING) {
+				movies = await API.fetchGetMovies(sortRating, currentPage);
+			} else {
+				movies = await API.fetchGetSearchMovie(searchQuery, currentPage);
+			}
+
+			const mappedMovies = mapMoviesData(movies, favoriteMovies);
+			setPaginator((prevState) => ({
+				...prevState,
+				totalPages:
+					searchQuery.trim() === EMPTY_STRING
+						? initPaginator.totalPages
+						: movies.total_pages,
+			}));
+			setMoviesData(mappedMovies);
+			scrollUp(containerRef);
 		};
 
-		const setSortedMovies = async () => {
-			API.fetchGetMovies(sortRating, currentPage).then((movies) => {
-				const mappedMovies = mapMoviesData(movies, favoriteMovies);
-				setPaginator({ ...paginator, totalPages: initPaginator.totalPages });
-				setMoviesData(mappedMovies);
-				scrollUp(containerRef);
-			});
-		};
-
-		if (searchQuery.trim() === EMPTY_STRING) {
-			setSortedMovies();
-		} else {
-			setSearchedMovies();
-		}
+		fetchData();
 	}, [currentPage, favoriteMovies, searchQuery, isFavoritesLoaded, sortRating]);
 
 	function handleNavbarOpen() {
@@ -89,11 +85,7 @@ export function MainPage() {
 	return (
 		<Box sx={{ display: "flex" }}>
 			<CssBaseline />
-			<Header
-				handleDrawerOpen={handleNavbarOpen}
-				open={open}
-				drawerWidth={drawerWidth}
-			></Header>
+			<Header handleDrawerOpen={handleNavbarOpen} open={open} drawerWidth={drawerWidth} />
 			<Navbar drawerWidth={drawerWidth} handleDrawerClose={handleNavbarClose} open={open}>
 				<Filters filters={filters} filtersDispatch={filtersDispatch} />
 			</Navbar>
@@ -112,7 +104,7 @@ export function MainPage() {
 						moviesData={moviesData}
 					/>
 				) : (
-					<SimpleAlert placeholder={"Необходима авторизация"} severity={"warning"} />
+					<SimpleAlert placeholder="Необходима авторизация" severity="warning" />
 				)}
 			</Main>
 		</Box>

@@ -2,15 +2,14 @@ import { Box, Typography } from "@mui/material";
 import { FilmDetailsTable } from "../components/FilmDetailsTable/FilmDetailsTable";
 import API from "../services/TMDB/API";
 import { EMPTY_OBJ } from "../utils/constants/CONST";
-import { ActorsGallery } from "../components/ActorsGallery/ActorsGallery";
 
 export function MovieInfo({ movieInfo }) {
-	if (movieInfo === EMPTY_OBJ) return;
+	if (movieInfo === EMPTY_OBJ) return null;
 
 	const { details, credits } = movieInfo;
 	const { backdrop_path, poster_path, title, original_title, overview } = details;
 	const { cast, crew } = credits;
-	const imgURL = API.URL.IMG.W400 + poster_path || backdrop_path;
+	const imgURL = API.URL.IMG.W400 + (poster_path || backdrop_path);
 
 	console.log(cast);
 
@@ -70,5 +69,3 @@ function MovieTable({ details, imgURL }) {
 		</Box>
 	);
 }
-
-//TODO: сделать слайдер из актеров

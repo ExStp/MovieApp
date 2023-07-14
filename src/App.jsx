@@ -1,11 +1,10 @@
-/* eslint-disable react/prop-types */
 import { ThemeProvider } from "@emotion/react";
-import { MainPage } from "./pages/MainPage/MainPage";
-import { defaultTheme } from "./utils/themes/defaultTheme";
-import { AppProvider } from "./context/AppProvider";
-import { InfoPage } from "./pages/InfoPage/InfoPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { AppProvider } from "./context/AppProvider";
 import { DialogsRouter } from "./layout/DialogsRouter";
+import { MainPage } from "./pages/MainPage/MainPage";
+import { InfoPage } from "./pages/InfoPage/InfoPage";
+import { defaultTheme } from "./utils/themes/defaultTheme";
 
 function App() {
 	const router = createBrowserRouter([

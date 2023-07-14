@@ -1,7 +1,9 @@
 import { styled } from "@mui/material/styles";
 import { forwardRef } from "react";
 
-export const Main = forwardRef(({ open, drawerWidth, isSmallScreen, children }, ref) => {
+export const Main = forwardRef((props, ref) => {
+	const { open, drawerWidth, isSmallScreen, children } = props;
+
 	const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 		({ theme, open }) => ({
 			flexGrow: 1,
