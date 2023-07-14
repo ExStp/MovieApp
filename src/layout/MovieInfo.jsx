@@ -11,8 +11,6 @@ export function MovieInfo({ movieInfo }) {
 	const { cast, crew } = credits;
 	const imgURL = API.URL.IMG.W400 + (poster_path || backdrop_path);
 
-	console.log(cast);
-
 	return (
 		<Box sx={{ mt: 14 }}>
 			<Typography variant="h4" sx={{ mb: 4 }}>

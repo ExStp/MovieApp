@@ -32,11 +32,9 @@ function filterReducer(filters, action) {
 			};
 		}
 		case FILTER_ACTIONS.sortGenres_changed: {
-			console.log("sortGenres_changed");
 			return filters;
 		}
 		case FILTER_ACTIONS.sortYear_changed: {
-			console.log("sortYear_changed");
 			return filters;
 		}
 		default: {
