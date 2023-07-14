@@ -19,23 +19,23 @@ export function useFilters() {
 
 function filterReducer(filters, action) {
 	switch (action.type) {
-		case "searchQuery_changed": {
+		case FILTER_ACTIONS.searchQuery_changed: {
 			return {
 				...filters,
 				searchQuery: action.newValue,
 			};
 		}
-		case "sortRating_changed": {
+		case FILTER_ACTIONS.sortRating_changed: {
 			return {
 				...filters,
 				sortRating: action.newValue,
 			};
 		}
-		case "sortGenres_changed": {
+		case FILTER_ACTIONS.sortGenres_changed: {
 			console.log("sortGenres_changed");
 			return filters;
 		}
-		case "sortYear_changed": {
+		case FILTER_ACTIONS.sortYear_changed: {
 			console.log("sortYear_changed");
 			return filters;
 		}
@@ -51,4 +51,11 @@ export const initFilters = {
 	sortRating: "popular_list",
 	sortGenres: EMPTY_ARR,
 	sortYear: [10, 90],
+};
+
+export const FILTER_ACTIONS = {
+	searchQuery_changed: "searchQuery_changed",
+	sortRating_changed: "sortRating_changed",
+	sortGenres_changed: "sortGenres_changed",
+	sortYear_changed: "sortYear_changed,",
 };

@@ -1,9 +1,11 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-export function SortRating({ filtersDispatch, selectValue, ...props }) {
+export function SortRating({ filterController, ...props }) {
+	const { filters, filtersDispatch, FILTER_ACTIONS } = filterController;
+
 	function handleChangeSort(event) {
 		const newValue = event.target.value;
-		filtersDispatch({ type: "sortRating_changed", newValue });
+		filtersDispatch({ type: FILTER_ACTIONS.sortRating_changed, newValue });
 	}
 
 	return (
@@ -13,7 +15,7 @@ export function SortRating({ filtersDispatch, selectValue, ...props }) {
 				{...props}
 				labelId="demo-simple-select-label"
 				id="demo-simple-select"
-				value={selectValue}
+				value={filters.sortRating}
 				label="Сортировать по"
 				onChange={handleChangeSort}
 			>

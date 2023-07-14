@@ -4,8 +4,9 @@ import { Search, Clear } from "@mui/icons-material";
 import API from "../../services/TMDB/API";
 import { EMPTY_STRING } from "../../utils/constants/CONST";
 
-export function SearchQuery({ searchValue, filtersDispatch }) {
-	const [value, setValue] = useState(searchValue);
+export function SearchQuery({ filterController, ...props }) {
+	const { filters, filtersDispatch, FILTER_ACTIONS } = filterController;
+	const [value, setValue] = useState(filters.searchQuery);
 
 	function handleSearchChange(event) {
 		const newValue = event.target.value;
@@ -15,18 +16,19 @@ export function SearchQuery({ searchValue, filtersDispatch }) {
 
 	function handleSubmitSearch(event) {
 		event.preventDefault();
-		filtersDispatch({ type: "searchQuery_changed", newValue: value });
+		filtersDispatch({ type: FILTER_ACTIONS.searchQuery_changed, newValue: value });
 		API.fetchGetSearchMovie(value, 1);
 	}
 
 	function handleClearSearch() {
 		setValue(EMPTY_STRING);
-		filtersDispatch({ type: "searchQuery_changed", newValue: EMPTY_STRING });
+		filtersDispatch({ type: FILTER_ACTIONS.searchQuery_changed, newValue: EMPTY_STRING });
 	}
 
 	return (
 		<form onSubmit={handleSubmitSearch}>
 			<TextField
+				{...props}
 				fullWidth
 				value={value}
 				onChange={handleSearchChange}
