@@ -1,14 +1,15 @@
-import { Box, CircularProgress, Container, Pagination } from "@mui/material";
-import { MovieCard } from "../MovieCard/MovieCard";
+import { Box, CircularProgress, Container, Pagination, Typography } from "@mui/material";
 import { forwardRef } from "react";
-// Удалил useTheme
 import { useSmallerBreakpoint } from "../../utils/func/useSmallerBreakpoint";
-import { ModeNight } from "@mui/icons-material";
-import { usePaginator } from "../../context/PaginatorProvider";
+import { MovieCards } from "./MovieCards";
 
 export const MovieList = forwardRef((props, ref) => {
 	const { paginator, setPaginator, moviesData, favoriteMovies, setFavoriteMovies } = props;
 	const paginatorSize = useSmallerBreakpoint("sm") ? "medium" : "large";
+
+	function handlePaginatonChange(event, page) {
+		setPaginator({ ...paginator, currentPage: page });
+	}
 
 	return (
 		<Container ref={ref}>
@@ -22,27 +23,21 @@ export const MovieList = forwardRef((props, ref) => {
 				}}
 			>
 				{moviesData ? (
-					moviesData.map((movie) => (
-						<MovieCard
-							key={movie.id}
-							movieInfo={movie}
-							isFavorite={movie.isFavorite}
-							favoriteMovies={favoriteMovies}
-							setFavoriteMovies={setFavoriteMovies}
-						/>
-					))
+					<MovieCards
+						moviesData={moviesData}
+						favoriteMovies={favoriteMovies}
+						setFavoriteMovies={setFavoriteMovies}
+					/>
 				) : (
 					<CircularProgress sx={{ mt: "40vh" }} />
 				)}
 			</Box>
-			{moviesData ? (
+			{moviesData?.length ? (
 				<Box sx={{ margin: "74px 0px", display: "flex", justifyContent: "center" }}>
 					<Pagination
 						count={paginator.totalPages}
 						page={paginator.currentPage}
-						onChange={(event, page) =>
-							setPaginator({ ...paginator, currentPage: page })
-						}
+						onChange={handlePaginatonChange}
 						size={paginatorSize}
 					/>
 				</Box>
