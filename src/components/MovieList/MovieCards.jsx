@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import { MovieCard } from "../MovieCard/MovieCard";
 
-export function MovieCards({ moviesData, favoriteMovies, setFavoriteMovies }) {
+export function MovieCards({ moviesData, setFavoriteMovies }) {
 	if (moviesData?.length === 0) {
 		return (
 			<Typography variant="body1" mt={8}>
@@ -14,7 +14,6 @@ export function MovieCards({ moviesData, favoriteMovies, setFavoriteMovies }) {
 			key={movie.id}
 			movieInfo={movie}
 			isFavorite={movie.isFavorite}
-			favoriteMovies={favoriteMovies}
 			setFavoriteMovies={setFavoriteMovies}
 		/>
 	));

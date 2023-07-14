@@ -30,7 +30,7 @@ export function useAuth() {
 function authReducer(auth, action) {
 	switch (action.type) {
 		case AUTH_ACTIONS.user_login: {
-			const nextAuth = { ...auth, accountId: action.accountId, isLogin: true };
+			const nextAuth = { isLogin: true, accountId: action.accountId };
 			saveCookieAuth(nextAuth);
 			return nextAuth;
 		}

@@ -99,7 +99,6 @@ export function MainPage() {
 					<MovieList
 						paginator={paginator}
 						setPaginator={setPaginator}
-						favoriteMovies={favoriteMovies}
 						setFavoriteMovies={setFavoriteMovies}
 						moviesData={moviesData}
 					/>

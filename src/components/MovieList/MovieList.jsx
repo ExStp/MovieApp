@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Container, Pagination } from "@mui/material";
+import { Box, CircularProgress, Container, Pagination, Typography } from "@mui/material";
 import { forwardRef } from "react";
 import { useSmallerBreakpoint } from "../../utils/func/useSmallerBreakpoint";
 import { MovieCards } from "./MovieCards";

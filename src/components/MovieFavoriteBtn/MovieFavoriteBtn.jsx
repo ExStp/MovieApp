@@ -5,15 +5,15 @@ import { useState } from "react";
 import API from "../../services/TMDB/API";
 
 export function MovieFavoriteBtn(props) {
-	const { movieId, isChecked, favoriteMovies, setFavoriteMovies } = props
+	const { movieId, isChecked, setFavoriteMovies } = props;
 	const [checked, setChecked] = useState(isChecked);
 
 	const handleChange = (event) => {
 		const isFavorite = event.target.checked;
 		setChecked(isFavorite);
 		isFavorite
-			? setFavoriteMovies([...favoriteMovies, movieId])
-			: setFavoriteMovies(favoriteMovies.filter((id) => id !== movieId));
+			? setFavoriteMovies((prevState) => [...prevState, movieId])
+			: setFavoriteMovies((prevState) => prevState.filter((id) => id !== movieId));
 		API.fetchPostFavoriteMovie(movieId, isFavorite);
 	};
 
