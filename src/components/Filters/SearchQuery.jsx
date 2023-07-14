@@ -2,12 +2,15 @@ import { useState } from "react";
 import { TextField, IconButton, InputAdornment } from "@mui/material";
 import { Search, Clear } from "@mui/icons-material";
 import API from "../../services/TMDB/API";
+import { EMPTY_STRING } from "../../utils/constants/CONST";
 
 export function SearchQuery({ searchValue, filtersDispatch }) {
 	const [value, setValue] = useState(searchValue);
 
 	function handleSearchChange(event) {
-		setValue(event.target.value);
+		const newValue = event.target.value;
+		setValue(newValue);
+		if (newValue === EMPTY_STRING) handleClearSearch();
 	}
 
 	function handleSubmitSearch(event) {
@@ -17,8 +20,8 @@ export function SearchQuery({ searchValue, filtersDispatch }) {
 	}
 
 	function handleClearSearch() {
-		setValue("");
-		filtersDispatch({ type: "searchQuery_changed", newValue: "" });
+		setValue(EMPTY_STRING);
+		filtersDispatch({ type: "searchQuery_changed", newValue: EMPTY_STRING });
 	}
 
 	return (
