@@ -33,8 +33,8 @@ export function MainPage() {
 	const searchQuery = filters.searchQuery;
 	const sortRating = filters.sortRating;
 
-	const drawerWidth = isSmallScreen ? "100vw" : "360px";
 	const isSmallScreen = useSmallerBreakpoint("sm");
+	const drawerWidth = isSmallScreen ? "100vw" : "360px";
 	//TODO: передалать totalPages - вынести в контекст
 
 	useEffect(() => {
