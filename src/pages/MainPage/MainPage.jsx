@@ -9,7 +9,7 @@ import { Main } from "../../layout/Main";
 import { Filters } from "../../components/Filters/Filters";
 import { useSmallerBreakpoint } from "../../utils/func/useSmallerBreakpoint";
 import { useFilters } from "../../context/FiltersProvider";
-import { usePaginator } from "../../context/PaginatorProvider";
+import { initPaginator, usePaginator } from "../../context/PaginatorProvider";
 import API from "../../services/TMDB/API";
 import { scrollUp } from "../../utils/func/scrollUp";
 import { useNavbar } from "../../context/NavbarProvider";
@@ -22,31 +22,31 @@ import { mapMoviesData } from "../../utils/func/mapMoviesData.js";
 export function MainPage() {
 	const [isFavoritesLoaded, setIsFavoritesLoaded] = useState(false);
 	const [favoriteMovies, setFavoriteMovies] = useState(EMPTY_ARR);
-	const [totalPages, setTotalPages] = useState(null);
 	const [moviesData, setMoviesData] = useState(null);
 	const containerRef = useRef(null);
 
-	const [currentPage, setCurrentPage] = usePaginator();
+	// const [currentPage, setCurrentPage] = usePaginator();
+	const [paginator, setPaginator] = usePaginator();
 	const [filters, filtersDispatch] = useFilters();
 	const [auth, authDispatch] = useAuth();
 	const [open, setOpen] = useNavbar();
 
 	const searchQuery = filters.searchQuery;
 	const sortRating = filters.sortRating;
-
+	const currentPage = paginator.currentPage;
 	const isSmallScreen = useSmallerBreakpoint("sm");
 	const drawerWidth = isSmallScreen ? "100vw" : "360px";
 	//TODO: передалать totalPages - вынести в контекст
 
 	useEffect(() => {
 		getFavoriteMovies().then((moviesData) => {
-			setFavoriteMovies(moviesData);
-			setIsFavoritesLoaded(true);
+			setFavoriteMovies(() => moviesData);
+			setIsFavoritesLoaded(() => true);
 		});
 	}, []);
 
 	useEffect(() => {
-		setCurrentPage(1);
+		setPaginator(initPaginator);
 	}, [searchQuery]);
 
 	useEffect(() => {
@@ -55,7 +55,7 @@ export function MainPage() {
 		const setSearchedMovies = async () => {
 			API.fetchGetSearchMovie(searchQuery, currentPage).then((movies) => {
 				const mappedMovies = mapMoviesData(movies, favoriteMovies);
-				setTotalPages(movies.total_pages);
+				setPaginator({ ...paginator, totalPages: movies.total_pages });
 				setMoviesData(mappedMovies);
 				scrollUp(containerRef);
 			});
@@ -64,7 +64,7 @@ export function MainPage() {
 		const setSortedMovies = async () => {
 			API.fetchGetMovies(sortRating, currentPage).then((movies) => {
 				const mappedMovies = mapMoviesData(movies, favoriteMovies);
-				setTotalPages(50);
+				setPaginator({ ...paginator, totalPages: initPaginator.totalPages });
 				setMoviesData(mappedMovies);
 				scrollUp(containerRef);
 			});
@@ -105,12 +105,11 @@ export function MainPage() {
 			>
 				{auth.isLogin ? (
 					<MovieList
-						totalPages={totalPages}
+						paginator={paginator}
+						setPaginator={setPaginator}
 						favoriteMovies={favoriteMovies}
 						setFavoriteMovies={setFavoriteMovies}
 						moviesData={moviesData}
-						currentPage={currentPage}
-						setCurrentPage={setCurrentPage}
 					/>
 				) : (
 					<SimpleAlert placeholder={"Необходима авторизация"} severity={"warning"} />

@@ -3,11 +3,10 @@ import { createContext, useContext, useState } from "react";
 const PaginatorContext = createContext(null);
 
 export function PaginatorProvider({ children }) {
-	const initPage = 1;
-	const [currentPage, setCurrentPage] = useState(initPage);
+	const [paginator, setPaginator] = useState(initPaginator);
 
 	return (
-		<PaginatorContext.Provider value={[currentPage, setCurrentPage]}>
+		<PaginatorContext.Provider value={[paginator, setPaginator]}>
 			{children}
 		</PaginatorContext.Provider>
 	);
@@ -15,4 +14,9 @@ export function PaginatorProvider({ children }) {
 
 export function usePaginator() {
 	return useContext(PaginatorContext);
+}
+
+export const initPaginator = {
+	currentPage: 1,
+	totalPages: 50,
 }
