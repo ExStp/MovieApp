@@ -17,6 +17,7 @@ import { useAuth } from "../../context/AuthProvider";
 import { getFavoriteMovies } from "../../utils/func/getFavoriteMovies";
 import { EMPTY_ARR, EMPTY_STRING } from "../../utils/constants/CONST";
 import { SimpleAlert } from "../../components/Alerts/SimpleAlert";
+import { mapMoviesData } from "../../utils/func/mapMoviesData.js";
 
 export function MainPage() {
 	const [isFavoritesLoaded, setIsFavoritesLoaded] = useState(false);
@@ -117,11 +118,4 @@ export function MainPage() {
 			</Main>
 		</Box>
 	);
-}
-
-function mapMoviesData(movies, favoriteMovies) {
-	return movies.results.map((movie) => {
-		const isFavorite = favoriteMovies.includes(movie.id);
-		return { ...movie, isFavorite };
-	});
 }
