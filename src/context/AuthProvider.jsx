@@ -29,13 +29,13 @@ export function useAuth() {
 
 function authReducer(auth, action) {
 	switch (action.type) {
-		case "user_login": {
+		case AUTH_ACTIONS.user_login: {
 			const nextAuth = { ...auth, accountId: action.accountId, isLogin: true };
 			saveCookieAuth(nextAuth);
 			return nextAuth;
 		}
 
-		case "user_logout": {
+		case AUTH_ACTIONS.user_logout: {
 			saveCookieAuth(initAuth);
 			return initAuth;
 		}
@@ -47,3 +47,8 @@ function authReducer(auth, action) {
 }
 
 const initAuth = { isLogin: false, accountId: null };
+
+export const AUTH_ACTIONS = {
+	user_login: "user_login",
+	user_logout: "user_logout",
+};

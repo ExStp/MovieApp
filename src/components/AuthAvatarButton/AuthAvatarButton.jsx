@@ -6,12 +6,12 @@ import Paper from "@mui/material/Paper";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import IconButton from "@mui/material/IconButton";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import { useDialogs } from "../../context/DialogsProvider";
-import { useAuth } from "../../context/AuthProvider";
+import { DIALOG_WINDOWS, useDialogs } from "../../context/DialogsProvider";
+import { AUTH_ACTIONS, useAuth } from "../../context/AuthProvider";
 import { useNavbar } from "../../context/NavbarProvider";
 
 export function AuthAvatarButton() {
-	const closedMenuState = false
+	const closedMenuState = false;
 	const [isMenuActive, setIsMenuActive] = useState(closedMenuState);
 	const [isDialogOpen, setIsDialogOpen] = useDialogs();
 	const [isNavbarActive, setIsNavbarActive] = useNavbar();
@@ -30,12 +30,12 @@ export function AuthAvatarButton() {
 	};
 
 	function openRegistrationDialog() {
-		setIsDialogOpen("RegistrationDialog");
+		setIsDialogOpen(DIALOG_WINDOWS.registration_dialog);
 		setIsMenuActive(closedMenuState);
 	}
 
 	function handleLogoutAuth() {
-		authDispatch({ type: "user_logout" });
+		authDispatch({ type: AUTH_ACTIONS.user_logout });
 		setIsNavbarActive(false);
 	}
 

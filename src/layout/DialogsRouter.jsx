@@ -1,16 +1,16 @@
 import { useState } from "react";
 import RegistrationDialog from "../components/Modal/RegistrationDialog";
 import LoginDialog from "../components/Modal/LoginDialog";
-import { useDialogs } from "../context/DialogsProvider";
+import { DIALOG_WINDOWS, useDialogs } from "../context/DialogsProvider";
 
 export function DialogsRouter() {
 	const [isOpen, setIsOpen] = useDialogs();
 
 	switch (isOpen) {
-		case "RegistrationDialog": {
+		case DIALOG_WINDOWS.registration_dialog: {
 			return <RegistrationDialog isOpen={true} setIsOpen={setIsOpen} />;
 		}
-		case "LoginDialog": {
+		case DIALOG_WINDOWS.login_dialog: {
 			return <LoginDialog isOpen={true} setIsOpen={setIsOpen} />;
 		}
 		default: {

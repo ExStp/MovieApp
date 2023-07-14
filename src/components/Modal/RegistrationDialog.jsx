@@ -6,15 +6,15 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { initDialogsState } from "../../context/DialogsProvider";
+import { DIALOG_WINDOWS } from "../../context/DialogsProvider";
 
 export default function RegistrationDialog({ isOpen, setIsOpen }) {
 	function handleClose() {
-		setIsOpen(initDialogsState);
+		setIsOpen(null);
 	}
 
 	function openLoginDialog() {
-		setIsOpen("LoginDialog");
+		setIsOpen(DIALOG_WINDOWS.login_dialog);
 	}
 
 	return (

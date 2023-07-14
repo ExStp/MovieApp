@@ -6,16 +6,9 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Box } from "@mui/material";
-import { AccountCircle } from "@mui/icons-material";
-import { useDialogs } from "../context/DialogsProvider";
 import { AuthAvatarButton } from "../components/AuthAvatarButton/AuthAvatarButton";
 
 export function Header({ handleDrawerOpen, open, drawerWidth }) {
-	const [isOpen, setIsOpen] = useDialogs();
-
-	function openDialog() {
-		setIsOpen("RegistrationDialog");
-	}
 
 	const AppBar = styled(MuiAppBar, {
 		shouldForwardProp: (prop) => prop !== "open",
