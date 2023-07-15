@@ -10,7 +10,9 @@ export function SimpleAlert({ severity, placeholder }) {
 				transform: "translate(-50%, -50%)",
 			}}
 		>
-			<Alert severity={severity}>{placeholder}</Alert>
+			<Alert sx={{ width: "90vw", maxWidth: "400px" }} severity={severity}>
+				{placeholder}
+			</Alert>
 		</Box>
 	);
 }

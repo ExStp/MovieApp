@@ -24,6 +24,11 @@ export default class API {
 		},
 	};
 
+	static ERRORS = {
+		CORS_ERROR: "Недоступен сервис API, перезапустите VPN",
+		AUTH_FALSE: "Необходима авторизация"
+	};
+
 	static accountId = 20036970;
 
 	static async fetchGetGenres(page) {

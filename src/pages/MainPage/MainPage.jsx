@@ -24,6 +24,7 @@ export function MainPage() {
 	const [favoriteMovies, setFavoriteMovies] = useState(EMPTY_ARR);
 	const [moviesData, setMoviesData] = useState(null);
 	const containerRef = useRef(null);
+	const [error, setError] = useState(null);
 
 	const [paginator, setPaginator] = usePaginator();
 	const [filters, filtersDispatch] = useFilters();
@@ -37,10 +38,20 @@ export function MainPage() {
 	const drawerWidth = isSmallScreen ? "100vw" : "360px";
 
 	useEffect(() => {
-		getFavoriteMovies().then((moviesData) => {
-			setFavoriteMovies(moviesData);
-			setIsFavoritesLoaded(true);
-		});
+		const fetchData = async () => {
+			try {
+				const moviesData = await getFavoriteMovies();
+				if (moviesData === EMPTY_ARR) throw Error(API.ERRORS.CORS_ERROR);
+				setFavoriteMovies(moviesData);
+				setIsFavoritesLoaded(true);
+				setError(null);
+			} catch (error) {
+				setError(error);
+				setIsFavoritesLoaded(false);
+			}
+		};
+
+		fetchData();
 	}, []);
 
 	useEffect(() => {
@@ -51,23 +62,29 @@ export function MainPage() {
 		if (!isFavoritesLoaded || !favoriteMovies) return;
 
 		const fetchData = async () => {
-			let movies;
-			if (searchQuery.trim() === EMPTY_STRING) {
-				movies = await API.fetchGetMovies(sortRating, currentPage);
-			} else {
-				movies = await API.fetchGetSearchMovie(searchQuery, currentPage);
-			}
+			try {
+				let movies;
+				if (searchQuery.trim() === EMPTY_STRING) {
+					movies = await API.fetchGetMovies(sortRating, currentPage);
+				} else {
+					movies = await API.fetchGetSearchMovie(searchQuery, currentPage);
+				}
+				if (!movies) throw new Error(API.ERRORS.CORS_ERROR);
 
-			const mappedMovies = mapMoviesData(movies, favoriteMovies);
-			setPaginator((prevState) => ({
-				...prevState,
-				totalPages:
-					searchQuery.trim() === EMPTY_STRING
-						? initPaginator.totalPages
-						: movies.total_pages,
-			}));
-			setMoviesData(mappedMovies);
-			scrollUp(containerRef);
+				const mappedMovies = mapMoviesData(movies, favoriteMovies);
+				setPaginator((prevState) => ({
+					...prevState,
+					totalPages:
+						searchQuery.trim() === EMPTY_STRING
+							? initPaginator.totalPages
+							: movies.total_pages,
+				}));
+				setMoviesData(mappedMovies);
+				setError(null);
+				scrollUp(containerRef);
+			} catch (error) {
+				setError(error);
+			}
 		};
 
 		fetchData();
@@ -96,14 +113,18 @@ export function MainPage() {
 				ref={containerRef}
 			>
 				{auth.isLogin ? (
-					<MovieList
-						paginator={paginator}
-						setPaginator={setPaginator}
-						setFavoriteMovies={setFavoriteMovies}
-						moviesData={moviesData}
-					/>
+					error ? (
+						<SimpleAlert placeholder={API.ERRORS.CORS_ERROR} severity="warning" />
+					) : (
+						<MovieList
+							paginator={paginator}
+							setPaginator={setPaginator}
+							setFavoriteMovies={setFavoriteMovies}
+							moviesData={moviesData}
+						/>
+					)
 				) : (
-					<SimpleAlert placeholder="Необходима авторизация" severity="warning" />
+					<SimpleAlert placeholder={API.ERRORS.AUTH_FALSE} severity="warning" />
 				)}
 			</Main>
 		</Box>
