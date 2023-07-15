@@ -16,7 +16,7 @@ export function SimpleHeader() {
 			}}
 		>
 			<Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-				<Link to={"/"}>
+				<Link to={"/"} sx={{ textDecoration: "none" }}>
 					<Button
 						variant="text"
 						startIcon={<ArrowBackIcon />}

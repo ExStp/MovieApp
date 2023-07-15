@@ -5,15 +5,10 @@ import Typography from "@mui/material/Typography";
 import API from "../../services/TMDB/API";
 import { Link } from "react-router-dom";
 import { MovieFavoriteBtn } from "../MovieFavoriteBtn/MovieFavoriteBtn";
-import {
-	Box,
-	Button,
-	CardActionArea,
-	FormControlLabel,
-} from "@mui/material";
+import { Box, Button, CardActionArea, FormControlLabel } from "@mui/material";
 
 export function MovieCard(props) {
-	const { movieInfo, isFavorite, favoriteMovies, setFavoriteMovies } = props
+	const { movieInfo, isFavorite, favoriteMovies, setFavoriteMovies } = props;
 	const { poster_path, backdrop_path, title, vote_average, id } = movieInfo;
 
 	const imgURL = API.URL.IMG.W400 + poster_path || backdrop_path;
@@ -72,7 +67,10 @@ export function MovieCard(props) {
 							labelPlacement="end"
 						/>
 					</Typography>
-					<Link to={`infoPage/${id}`} style={{ height: "fit-content" }}>
+					<Link
+						to={`infoPage/${id}`}
+						style={{ height: "fit-content", textDecoration: "none" }}
+					>
 						<Button size="small" color="primary" variant="outlined">
 							Подробнее
 						</Button>
