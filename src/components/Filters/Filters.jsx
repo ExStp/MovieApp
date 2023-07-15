@@ -6,9 +6,10 @@ import API from "../../services/TMDB/API";
 import { SortYear } from "./SortYear";
 import { SearchQuery } from "./SearchQuery";
 import { FILTER_ACTIONS } from "../../context/FiltersProvider";
+import { DEFAULT_STATE } from "../../utils/constants/CONST";
 
 export function Filters({ filters, filtersDispatch }) {
-	const [genreOptions, setGenreOptions] = useState(null);
+	const [genreOptions, setGenreOptions] = useState(DEFAULT_STATE);
 	const filterController = { filters, filtersDispatch, FILTER_ACTIONS };
 
 	useEffect(() => {

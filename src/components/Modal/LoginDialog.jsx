@@ -10,20 +10,21 @@ import { AUTH_ACTIONS, useAuth } from "../../context/AuthProvider";
 import API from "../../services/TMDB/API";
 import { Backdrop, CircularProgress } from "@mui/material";
 import { DIALOG_WINDOWS } from "../../context/DialogsProvider";
+import { DEFAULT_STATE } from "../../utils/constants/CONST";
 
 export default function LoginDialog({ isOpen, setIsOpen }) {
 	const [isBackdropOpen, setSsBackdropOpen] = useState(false);
 	const [auth, authDispatch] = useAuth();
 
 	function handleClose() {
-		setIsOpen(null);
+		setIsOpen(DEFAULT_STATE);
 	}
 
 	async function handleLoginAuth() {
 		setSsBackdropOpen(true);
 		const accountDetails = await API.fetchGetAccountDetails();
 		authDispatch({ type: AUTH_ACTIONS.user_login, accountId: accountDetails.id });
-		setIsOpen(null);
+		setIsOpen(DEFAULT_STATE);
 		setSsBackdropOpen(false);
 	}
 

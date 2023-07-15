@@ -16,7 +16,7 @@ export function AuthAvatarButton() {
 	const [isDialogOpen, setIsDialogOpen] = useDialogs();
 	const [isNavbarActive, setIsNavbarActive] = useNavbar();
 	const [auth, authDispatch] = useAuth();
-	const anchorRef = useRef(null);
+	const anchorRef = useRef();
 
 	const handleToggle = () => {
 		setIsMenuActive(!isMenuActive);

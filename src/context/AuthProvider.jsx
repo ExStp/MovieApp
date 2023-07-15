@@ -1,7 +1,8 @@
 import Cookies from "js-cookie";
 import { createContext, useContext, useReducer } from "react";
+import {DEFAULT_STATE} from '../utils/constants/CONST'
 
-const AuthContext = createContext(null);
+const AuthContext = createContext(DEFAULT_STATE);
 
 export function AuthProvider({ children }) {
 	if (!Cookies.get("MoviesAppAuth")) {
@@ -46,7 +47,7 @@ function authReducer(auth, action) {
 	}
 }
 
-const initAuth = { isLogin: false, accountId: null };
+const initAuth = { isLogin: false, accountId: DEFAULT_STATE };
 
 export const AUTH_ACTIONS = {
 	user_login: "user_login",

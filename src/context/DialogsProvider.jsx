@@ -1,9 +1,10 @@
 import { createContext, useState, useContext } from "react";
+import { DEFAULT_STATE } from "../utils/constants/CONST";
 
-const DialogsContext = createContext(null);
+const DialogsContext = createContext(DEFAULT_STATE);
 
 export function DialogsProvider({ children }) {
-	const [isOpen, setIsOpen] = useState(null);
+	const [isOpen, setIsOpen] = useState(DEFAULT_STATE);
 
 	return (
 		<DialogsContext.Provider value={[isOpen, setIsOpen]}>{children}</DialogsContext.Provider>

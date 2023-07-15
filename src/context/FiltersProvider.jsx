@@ -1,7 +1,7 @@
 import { createContext, useContext, useReducer } from "react";
-import { EMPTY_ARR, EMPTY_STRING } from "../utils/constants/CONST";
+import { DEFAULT_STATE, EMPTY_ARR, EMPTY_STRING } from "../utils/constants/CONST";
 
-const FiltersContext = createContext(null);
+const FiltersContext = createContext(DEFAULT_STATE);
 
 export function FiltersProvider({ children }) {
 	const [filters, filtersDispatch] = useReducer(filterReducer, initFilters);

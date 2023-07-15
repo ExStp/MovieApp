@@ -15,16 +15,16 @@ import { scrollUp } from "../../utils/func/scrollUp";
 import { useNavbar } from "../../context/NavbarProvider";
 import { useAuth } from "../../context/AuthProvider";
 import { getFavoriteMovies } from "../../utils/func/getFavoriteMovies";
-import { EMPTY_ARR, EMPTY_STRING } from "../../utils/constants/CONST";
+import { DEFAULT_STATE, EMPTY_ARR, EMPTY_STRING } from "../../utils/constants/CONST";
 import { SimpleAlert } from "../../components/Alerts/SimpleAlert";
 import { mapMoviesData } from "../../utils/func/mapMoviesData.js";
 
 export function MainPage() {
 	const [isFavoritesLoaded, setIsFavoritesLoaded] = useState(false);
 	const [favoriteMovies, setFavoriteMovies] = useState(EMPTY_ARR);
-	const [moviesData, setMoviesData] = useState(null);
-	const containerRef = useRef(null);
-	const [error, setError] = useState(null);
+	const [moviesData, setMoviesData] = useState(DEFAULT_STATE);
+	const containerRef = useRef(DEFAULT_STATE);
+	const [error, setError] = useState(DEFAULT_STATE);
 
 	const [paginator, setPaginator] = usePaginator();
 	const [filters, filtersDispatch] = useFilters();
@@ -44,7 +44,7 @@ export function MainPage() {
 				if (moviesData === EMPTY_ARR) throw Error(API.ERRORS.CORS_ERROR);
 				setFavoriteMovies(moviesData);
 				setIsFavoritesLoaded(true);
-				setError(null);
+				setError(DEFAULT_STATE);
 			} catch (error) {
 				setError(error);
 				setIsFavoritesLoaded(false);
@@ -80,7 +80,7 @@ export function MainPage() {
 							: movies.total_pages,
 				}));
 				setMoviesData(mappedMovies);
-				setError(null);
+				setError(DEFAULT_STATE);
 				scrollUp(containerRef);
 			} catch (error) {
 				setError(error);

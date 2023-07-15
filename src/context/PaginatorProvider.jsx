@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react";
+import { DEFAULT_STATE } from "../utils/constants/CONST";
 
-const PaginatorContext = createContext(null);
+const PaginatorContext = createContext(DEFAULT_STATE);
 
 export function PaginatorProvider({ children }) {
 	const [paginator, setPaginator] = useState(initPaginator);
@@ -19,4 +20,4 @@ export function usePaginator() {
 export const initPaginator = {
 	currentPage: 1,
 	totalPages: 50,
-}
+};
