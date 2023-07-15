@@ -18,12 +18,13 @@ export function SimpleHeader() {
 			<Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
 				<Link to={"/"} sx={{ textDecoration: "none" }}>
 					<Button
+						sx={{ textDecoration: "none" }}
 						variant="text"
 						startIcon={<ArrowBackIcon />}
 						color="light"
 						size="medium"
 					>
-						<Typography component="div" variant="h6">
+						<Typography component="div" variant="h6" sx={{ textDecoration: "none" }}>
 							Фильмы
 						</Typography>
 					</Button>
