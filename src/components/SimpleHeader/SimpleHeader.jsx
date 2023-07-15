@@ -16,17 +16,15 @@ export function SimpleHeader() {
 			}}
 		>
 			<Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-				<Link to={"/"} sx={{ textDecoration: "none" }}>
+				<Link to={"/"} style={{ textDecoration: "none" }}>
 					<Button
-						sx={{ textDecoration: "none" }}
 						variant="text"
 						startIcon={<ArrowBackIcon />}
 						color="light"
 						size="medium"
+						sx={{ fontSize: "1.2rem", textDecoration: "none" }}
 					>
-						<Typography component="div" variant="h6" sx={{ textDecoration: "none" }}>
-							Фильмы
-						</Typography>
+						Фильмы
 					</Button>
 				</Link>
 				<AuthAvatarButton />
