@@ -13,7 +13,7 @@ import { DIALOG_WINDOWS } from "../../context/DialogsProvider";
 import { DEFAULT_STATE } from "../../utils/constants/CONST";
 
 export default function LoginDialog({ isOpen, setIsOpen }) {
-	const [isBackdropOpen, setSsBackdropOpen] = useState(false);
+	const [isBackdropOpen, setIsBackdropOpen] = useState(false);
 	const [auth, authDispatch] = useAuth();
 
 	function handleClose() {
@@ -21,11 +21,18 @@ export default function LoginDialog({ isOpen, setIsOpen }) {
 	}
 
 	async function handleLoginAuth() {
-		setSsBackdropOpen(true);
-		const accountDetails = await API.fetchGetAccountDetails();
-		authDispatch({ type: AUTH_ACTIONS.user_login, accountId: accountDetails.id });
-		setIsOpen(DEFAULT_STATE);
-		setSsBackdropOpen(false);
+		setIsBackdropOpen(true);
+
+		try {
+			const accountDetails = await API.fetchGetAccountDetails();
+			if (!accountDetails) throw Error(API.ERRORS.CORS_ERROR);
+			authDispatch({ type: AUTH_ACTIONS.user_login, accountId: accountDetails.id });
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setIsOpen(DEFAULT_STATE);
+			setIsBackdropOpen(false);
+		}
 	}
 
 	function openRegistrationDialog() {

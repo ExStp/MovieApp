@@ -6,32 +6,47 @@ import API from "../../services/TMDB/API";
 import { MovieInfo } from "../../layout/MovieInfo";
 import { useAuth } from "../../context/AuthProvider";
 import { SimpleAlert } from "../../components/Alerts/SimpleAlert";
-import { EMPTY_OBJ } from "../../utils/constants/CONST";
+import { DEFAULT_STATE } from "../../utils/constants/CONST";
 
 export function InfoPage() {
 	const { film_id } = useParams();
-	const [movieInfo, setMovieInfo] = useState(EMPTY_OBJ);
+	const [movieInfo, setMovieInfo] = useState(DEFAULT_STATE);
 	const [auth, authDispatch] = useAuth();
+	const [error, setError] = useState(DEFAULT_STATE);
 
 	useEffect(() => {
-		if (!auth.isLogin) return;
-
 		const fetchMovieInfo = async () => {
-			const [details, credits] = await Promise.all([
-				API.fetchGetDetails(film_id),
-				API.fetchGetCredits(film_id),
-			]);
-			setMovieInfo({ details, credits });
+			try {
+				const [details, credits] = await Promise.all([
+					API.fetchGetDetails(film_id),
+					API.fetchGetCredits(film_id),
+				]);
+				if (!details || !credits) throw Error(API.ERRORS.CORS_ERROR);
+				setMovieInfo({ details, credits });
+				setError(DEFAULT_STATE);
+			} catch (error) {
+				setError(error);
+				setMovieInfo(DEFAULT_STATE);
+			}
 		};
 
 		fetchMovieInfo();
 	}, [auth, film_id]);
 
+	if (error) {
+		return (
+			<Container>
+				<SimpleHeader />
+				<SimpleAlert placeholder={API.ERRORS.CORS_ERROR} severity="warning" />
+			</Container>
+		);
+	}
+
 	if (!auth.isLogin) {
 		return (
 			<Container>
 				<SimpleHeader />
-				<SimpleAlert placeholder={"Необходима авторизация"} severity={"warning"} />
+				<SimpleAlert placeholder={API.ERRORS.AUTH_FALSE} severity={"warning"} />
 			</Container>
 		);
 	}
@@ -40,10 +55,10 @@ export function InfoPage() {
 		<Container>
 			<SimpleHeader />
 			<Box sx={{ display: "flex", justifyContent: "center" }}>
-				{movieInfo === EMPTY_OBJ ? (
-					<CircularProgress sx={{ mt: "40vh" }} />
-				) : (
+				{movieInfo ? (
 					<MovieInfo movieInfo={movieInfo} />
+				) : (
+					<CircularProgress sx={{ mt: "40vh" }} />
 				)}
 			</Box>
 		</Container>

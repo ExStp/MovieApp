@@ -112,17 +112,15 @@ export function MainPage() {
 				isSmallScreen={isSmallScreen}
 				ref={containerRef}
 			>
-				{auth.isLogin ? (
-					error ? (
-						<SimpleAlert placeholder={API.ERRORS.CORS_ERROR} severity="warning" />
-					) : (
-						<MovieList
-							paginator={paginator}
-							setPaginator={setPaginator}
-							setFavoriteMovies={setFavoriteMovies}
-							moviesData={moviesData}
-						/>
-					)
+				{error ? (
+					<SimpleAlert placeholder={API.ERRORS.CORS_ERROR} severity="warning" />
+				) : auth.isLogin ? (
+					<MovieList
+						paginator={paginator}
+						setPaginator={setPaginator}
+						setFavoriteMovies={setFavoriteMovies}
+						moviesData={moviesData}
+					/>
 				) : (
 					<SimpleAlert placeholder={API.ERRORS.AUTH_FALSE} severity="warning" />
 				)}
