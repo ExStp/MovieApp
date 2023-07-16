@@ -16,7 +16,6 @@ export function SortGenres({ genreOptions, filterController, ...props }) {
 		<Autocomplete
 			{...props}
 			sx={{ width: "100%", paddingTop: "32px" }}
-			onChange={handleOptionChange}
 			multiple
 			limitTags={4}
 			id="multiple-limit-tags"
