@@ -35,7 +35,7 @@ export const Main = forwardRef((props, ref) => {
 	if (open && isSmallScreen) return null;
 
 	return (
-		<Main open={open} sx={{ padding: "20px 0px" }} ref={ref}>
+		<Main open={open} sx={{ padding: "20px 0px", minHeight: "100vh" }} ref={ref}>
 			<DrawerHeader />
 			{children}
 		</Main>

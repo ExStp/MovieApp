@@ -48,7 +48,7 @@ export const initFilters = {
 	searchQuery: EMPTY_STRING,
 	sortRating: "popular_list",
 	sortGenres: EMPTY_ARR,
-	sortYear: [10, 90],
+	sortYear: [1950, 2023],
 };
 
 export const FILTER_ACTIONS = {

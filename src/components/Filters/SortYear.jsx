@@ -1,27 +1,24 @@
 import { Box, Slider } from "@mui/material";
 import { useState } from "react";
+import { initFilters } from "../../context/FiltersProvider";
 
-export function SortYear({...props}) {
-	const [value, setValue] = useState([10, 90]);
+export function SortYear({ ...props }) {
+	const [value, setValue] = useState(initFilters.sortYear);
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
 
-    function valuetext(value) {
-        return `${value} год`
-    }
-
 	return (
-		<Box sx={{ width: '100%', pt: '32px' }}>
+		<Box sx={{ width: "100%", pt: "32px" }}>
 			<Slider
 				{...props}
-				color='dark'
+				color="dark"
 				getAriaLabel={() => "Год фильма"}
 				value={value}
 				onChange={handleChange}
 				valueLabelDisplay="auto"
-				getAriaValueText={valuetext}
+				getAriaValueText={() => `${value} год`}
 			/>
 		</Box>
 	);

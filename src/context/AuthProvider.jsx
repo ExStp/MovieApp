@@ -1,11 +1,11 @@
 import Cookies from "js-cookie";
 import { createContext, useContext, useReducer } from "react";
-import {DEFAULT_STATE} from '../utils/constants/CONST'
+import { APP_COOKIE_NAME, DEFAULT_STATE } from "../utils/constants/CONST";
 
 const AuthContext = createContext(DEFAULT_STATE);
 
 export function AuthProvider({ children }) {
-	if (!Cookies.get("MoviesAppAuth")) {
+	if (!Cookies.get(APP_COOKIE_NAME)) {
 		saveCookieAuth(initAuth);
 	}
 	const user = getCookieAuth();
@@ -16,12 +16,23 @@ export function AuthProvider({ children }) {
 }
 
 export function saveCookieAuth(data) {
-	const user = JSON.stringify(data);
-	Cookies.set("MoviesAppAuth", user, { expires: 7, sameSite: "None", secure: true });
+	try {
+		const user = JSON.stringify(data);
+		Cookies.set(APP_COOKIE_NAME, user, { expires: 7, sameSite: "None", secure: true });
+	} catch (error) {
+		console.error("Ошибка сохранения данных аутентификации:", error);
+	}
 }
 
 export function getCookieAuth() {
-	return JSON.parse(Cookies.get("MoviesAppAuth"));
+	try {
+		const user = Cookies.get(APP_COOKIE_NAME);
+		if (user) {
+			return JSON.parse(user);
+		}
+	} catch (error) {
+		console.error("Ошибка получения данных аутентификации:", error);
+	}
 }
 
 export function useAuth() {

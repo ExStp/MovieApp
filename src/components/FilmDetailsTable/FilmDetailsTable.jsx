@@ -1,12 +1,10 @@
 import React from "react";
 import { Table, TableBody, TableCell, TableContainer, TableRow, Box } from "@mui/material";
-import { EMPTY_ARR } from "../../utils/constants/CONST";
 
 export function FilmDetailsTable({ styles, details }) {
-	if (details === EMPTY_ARR) return;
+	if (!details) return null
 
 	const {
-		adult,
 		release_date,
 		runtime,
 		genres,
@@ -17,64 +15,34 @@ export function FilmDetailsTable({ styles, details }) {
 		vote_count,
 	} = details;
 
+	const rows = [
+		{ label: "Дата релиза", value: release_date },
+		{ label: "Длительность", value: `${runtime} минут` },
+		{ label: "Жанры", value: genres.map((genre) => genre.name).join(", ") },
+		{
+			label: "Производство компаний",
+			value: production_companies.map((company) => company.name).join(", "),
+		},
+		{ label: "Страны", value: production_countries.map((country) => country.name).join(", ") },
+		{ label: "Популярность", value: popularity },
+		{ label: "Результат голосований", value: vote_average },
+		{ label: "Количество голосов", value: vote_count },
+	];
+
+	const tableRows = rows.map((row) => (
+		<TableRow key={row.label}>
+			<TableCell component="th" scope="row">
+				{row.label}
+			</TableCell>
+			{row.value && <TableCell>{row.value}</TableCell>}
+		</TableRow>
+	));
+
 	return (
 		<Box sx={styles}>
 			<TableContainer sx={{ backgroundColor: "transparent" }}>
 				<Table>
-					<TableBody>
-						<TableRow>
-							<TableCell component="th" scope="row">
-								Дата релиза
-							</TableCell>
-							<TableCell>{release_date}</TableCell>
-						</TableRow>
-						<TableRow>
-							<TableCell component="th" scope="row">
-								Длительность
-							</TableCell>
-							<TableCell>{runtime} минут</TableCell>
-						</TableRow>
-						<TableRow>
-							<TableCell component="th" scope="row">
-								Жанры
-							</TableCell>
-							<TableCell>{genres.map((genre) => genre.name).join(", ")}</TableCell>
-						</TableRow>
-						<TableRow>
-							<TableCell component="th" scope="row">
-								Производство компаний
-							</TableCell>
-							<TableCell>
-								{production_companies.map((company) => company.name).join(", ")}
-							</TableCell>
-						</TableRow>
-						<TableRow>
-							<TableCell component="th" scope="row">
-								Страны
-							</TableCell>
-							<TableCell>
-								{production_countries.map((country) => country.name).join(", ")}
-							</TableCell>
-						</TableRow>
-						<TableRow>
-							<TableCell component="th" scope="row">
-								Популярность
-							</TableCell>
-							<TableCell>{popularity}</TableCell>
-						</TableRow>
-						<TableRow>
-							<TableCell component="th" scope="row">
-								Результат голосований
-							</TableCell>
-							<TableCell>{vote_average}</TableCell>
-						</TableRow>
-						<TableRow>
-							<TableCell component="th" scope="row">
-								Количество голосов
-							</TableCell>
-							<TableCell>{vote_count}</TableCell>
-						</TableRow>
-					</TableBody>
+					<TableBody>{tableRows}</TableBody>
 				</Table>
 			</TableContainer>
 		</Box>

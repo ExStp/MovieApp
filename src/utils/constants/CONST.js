@@ -1,6 +1,19 @@
+const APP_COOKIE_NAME = "MoviesAppAuth";
 const EMPTY_STRING = "";
 const EMPTY_ARR = [];
 const EMPTY_OBJ = {};
 const DEFAULT_STATE = null;
+const DEFAULT_AUTH_MENU = false;
+const DEFAULT_BACKDROP = false;
+const DEFAULT_NAVBAR = false;
 
-export { EMPTY_STRING, EMPTY_ARR, EMPTY_OBJ, DEFAULT_STATE };
+export {
+	APP_COOKIE_NAME,
+	EMPTY_STRING,
+	EMPTY_ARR,
+	EMPTY_OBJ,
+	DEFAULT_STATE,
+	DEFAULT_AUTH_MENU,
+	DEFAULT_BACKDROP,
+    DEFAULT_NAVBAR,
+};

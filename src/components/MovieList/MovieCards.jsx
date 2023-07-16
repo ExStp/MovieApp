@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import { MovieCard } from "../MovieCard/MovieCard";
 
 export function MovieCards({ moviesData, setFavoriteMovies }) {
-	if (moviesData?.length === 0) {
+	if (!moviesData?.length) {
 		return (
 			<Typography variant="body1" mt={8}>
 				Ничего не найдено

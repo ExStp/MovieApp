@@ -33,7 +33,7 @@ export function MovieCard(props) {
 					sx={{ width: "100%", height: "auto" }}
 					component="img"
 					src={imgURL}
-					alt="Карточка фильма"
+					alt={title}
 				/>
 			</CardActionArea>
 

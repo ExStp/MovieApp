@@ -90,20 +90,16 @@ export function MainPage() {
 		fetchData();
 	}, [currentPage, favoriteMovies, searchQuery, isFavoritesLoaded, sortRating]);
 
-	function handleNavbarOpen() {
+	function handleNavbar() {
 		if (!auth.isLogin) return;
-		setOpen(true);
-	}
-
-	function handleNavbarClose() {
-		setOpen(false);
+		setOpen(!open);
 	}
 
 	return (
 		<Box sx={{ display: "flex" }}>
 			<CssBaseline />
-			<Header handleDrawerOpen={handleNavbarOpen} open={open} drawerWidth={drawerWidth} />
-			<Navbar drawerWidth={drawerWidth} handleDrawerClose={handleNavbarClose} open={open}>
+			<Header handleDrawerOpen={handleNavbar} open={open} drawerWidth={drawerWidth} />
+			<Navbar drawerWidth={drawerWidth} handleDrawerClose={handleNavbar} open={open}>
 				<Filters filters={filters} filtersDispatch={filtersDispatch} />
 			</Navbar>
 			<Main

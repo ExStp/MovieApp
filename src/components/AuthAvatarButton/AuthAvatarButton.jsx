@@ -9,10 +9,10 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import { DIALOG_WINDOWS, useDialogs } from "../../context/DialogsProvider";
 import { AUTH_ACTIONS, useAuth } from "../../context/AuthProvider";
 import { useNavbar } from "../../context/NavbarProvider";
+import { DEFAULT_AUTH_MENU } from "../../utils/constants/CONST";
 
 export function AuthAvatarButton() {
-	const closedMenuState = false;
-	const [isMenuActive, setIsMenuActive] = useState(closedMenuState);
+	const [isMenuActive, setIsMenuActive] = useState(DEFAULT_AUTH_MENU);
 	const [isDialogOpen, setIsDialogOpen] = useDialogs();
 	const [isNavbarActive, setIsNavbarActive] = useNavbar();
 	const [auth, authDispatch] = useAuth();
@@ -26,17 +26,17 @@ export function AuthAvatarButton() {
 		if (anchorRef.current && anchorRef.current.contains(event.target)) {
 			return;
 		}
-		setIsMenuActive(closedMenuState);
+		setIsMenuActive(DEFAULT_AUTH_MENU);
 	};
 
 	function openRegistrationDialog() {
 		setIsDialogOpen(DIALOG_WINDOWS.registration_dialog);
-		setIsMenuActive(closedMenuState);
+		setIsMenuActive(DEFAULT_AUTH_MENU);
 	}
 
 	function handleLogoutAuth() {
 		authDispatch({ type: AUTH_ACTIONS.user_logout });
-		setIsNavbarActive(false);
+		setIsNavbarActive(DEFAULT_AUTH_MENU);
 	}
 
 	return (

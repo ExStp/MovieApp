@@ -10,10 +10,10 @@ import { AUTH_ACTIONS, useAuth } from "../../context/AuthProvider";
 import API from "../../services/TMDB/API";
 import { Backdrop, CircularProgress } from "@mui/material";
 import { DIALOG_WINDOWS } from "../../context/DialogsProvider";
-import { DEFAULT_STATE } from "../../utils/constants/CONST";
+import { DEFAULT_BACKDROP, DEFAULT_STATE } from "../../utils/constants/CONST";
 
 export default function LoginDialog({ isOpen, setIsOpen }) {
-	const [isBackdropOpen, setIsBackdropOpen] = useState(false);
+	const [isBackdropOpen, setIsBackdropOpen] = useState(DEFAULT_BACKDROP);
 	const [auth, authDispatch] = useAuth();
 
 	function handleClose() {
@@ -21,7 +21,7 @@ export default function LoginDialog({ isOpen, setIsOpen }) {
 	}
 
 	async function handleLoginAuth() {
-		setIsBackdropOpen(true);
+		setIsBackdropOpen(!DEFAULT_BACKDROP);
 
 		try {
 			const accountDetails = await API.fetchGetAccountDetails();
@@ -31,7 +31,7 @@ export default function LoginDialog({ isOpen, setIsOpen }) {
 			console.log(error);
 		} finally {
 			setIsOpen(DEFAULT_STATE);
-			setIsBackdropOpen(false);
+			setIsBackdropOpen(DEFAULT_BACKDROP);
 		}
 	}
 

@@ -3,9 +3,6 @@ import { Autocomplete, Box, CircularProgress, TextField } from "@mui/material";
 export function SortGenres({ genreOptions, filterController, ...props }) {
 
 	const { filters, filtersDispatch, FILTER_ACTIONS } = filterController
-	
-	const handleOptionChange = (event, newValue) => {
-	};
 
 	if (!genreOptions?.length) {
 		return (
