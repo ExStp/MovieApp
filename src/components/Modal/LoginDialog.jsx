@@ -6,16 +6,16 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { AUTH_ACTIONS, useAuth } from "../../context/AuthProvider";
 import API from "../../services/TMDB/API";
 import { Backdrop, CircularProgress } from "@mui/material";
-import { DEFAULT_BACKDROP } from "../../utils/constants/CONST";
 import { DIALOG_WINDOWS, setActiveDialog } from "../../features/dialogsSlice";
 import { useDispatch } from "react-redux";
+import { userLogin } from "../../features/authSlice";
+
+const DEFAULT_BACKDROP = false;
 
 export default function LoginDialog({ isOpen = true }) {
 	const [isBackdropOpen, setIsBackdropOpen] = useState(DEFAULT_BACKDROP);
-	const [auth, authDispatch] = useAuth();
 	const dispatch = useDispatch();
 
 	function handleClose() {
@@ -28,7 +28,8 @@ export default function LoginDialog({ isOpen = true }) {
 		try {
 			const accountDetails = await API.fetchGetAccountDetails();
 			if (!accountDetails) throw Error(API.ERRORS.CORS_ERROR);
-			authDispatch({ type: AUTH_ACTIONS.user_login, accountId: accountDetails.id });
+			dispatch(userLogin(accountDetails.id));
+			// authDispatch({ type: AUTH_ACTIONS.user_login, accountId: accountDetails.id });
 		} catch (error) {
 			console.log(error);
 		} finally {

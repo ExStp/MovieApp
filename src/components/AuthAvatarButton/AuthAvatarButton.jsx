@@ -6,16 +6,17 @@ import Paper from "@mui/material/Paper";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import IconButton from "@mui/material/IconButton";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import { AUTH_ACTIONS, useAuth } from "../../context/AuthProvider";
-import { DEFAULT_AUTH_MENU } from "../../utils/constants/CONST";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleNavbar } from "../../features/navbarSlice";
 import { DIALOG_WINDOWS, setActiveDialog } from "../../features/dialogsSlice";
+import { userLogout } from "../../features/authSlice";
+
+const DEFAULT_AUTH_MENU = false;
 
 export function AuthAvatarButton() {
 	const [isMenuActive, setIsMenuActive] = useState(DEFAULT_AUTH_MENU);
 	const dispatch = useDispatch();
-	const [auth, authDispatch] = useAuth();
+	const auth = useSelector((state) => state.auth);
 	const anchorRef = useRef();
 
 	const handleToggle = () => {
@@ -35,7 +36,7 @@ export function AuthAvatarButton() {
 	}
 
 	function handleLogoutAuth() {
-		authDispatch({ type: AUTH_ACTIONS.user_logout });
+		dispatch(userLogout());
 		dispatch(toggleNavbar(false));
 	}
 

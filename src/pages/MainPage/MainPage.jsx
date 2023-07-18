@@ -15,7 +15,6 @@ import {
 } from "../../features/paginatorSlice";
 import API from "../../services/TMDB/API";
 import { scrollUp } from "../../utils/func/scrollUp";
-import { useAuth } from "../../context/AuthProvider";
 import { getFavoriteMovies } from "../../utils/func/getFavoriteMovies";
 import { EMPTY_ARR } from "../../utils/constants/CONST";
 import { SimpleAlert } from "../../components/Alerts/SimpleAlert";
@@ -34,8 +33,7 @@ export function MainPage() {
 	const containerRef = useRef(DEFAULT_STATE);
 	const [error, setError] = useState(DEFAULT_STATE);
 
-	const [auth, authDispatch] = useAuth();
-
+	const auth = useSelector(state => state.auth)
 	const isNavbarOpen = useSelector((state) => state.navbar.isOpen);
 	const { currentPage, totalPages } = useSelector((state) => state.paginator);
 	const filters = useSelector((state) => state.filters);

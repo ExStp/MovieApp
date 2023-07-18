@@ -4,14 +4,14 @@ import { Box, CircularProgress, Container } from "@mui/material";
 import { SimpleHeader } from "./../../components/SimpleHeader/SimpleHeader";
 import API from "../../services/TMDB/API";
 import { MovieInfo } from "../../layout/MovieInfo";
-import { useAuth } from "../../context/AuthProvider";
 import { SimpleAlert } from "../../components/Alerts/SimpleAlert";
 import { DEFAULT_STATE } from "../../utils/constants/CONST";
+import { useSelector } from "react-redux";
 
 export function InfoPage() {
 	const { film_id } = useParams();
 	const [movieInfo, setMovieInfo] = useState(DEFAULT_STATE);
-	const [auth, authDispatch] = useAuth();
+	const auth = useSelector((state) => state.auth);
 	const [error, setError] = useState(DEFAULT_STATE);
 
 	useEffect(() => {

@@ -1,6 +1,5 @@
 import { ThemeProvider } from "@emotion/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { AppProvider } from "./context/AppProvider";
 import { DialogsRouter } from "./layout/DialogsRouter";
 import { MainPage } from "./pages/MainPage/MainPage";
 import { InfoPage } from "./pages/InfoPage/InfoPage";
@@ -23,10 +22,8 @@ function App() {
 	return (
 		<Provider store={store}>
 			<ThemeProvider theme={defaultTheme}>
-				<AppProvider>
-					<RouterProvider router={router} />
-					<DialogsRouter />
-				</AppProvider>
+				<RouterProvider router={router} />
+				<DialogsRouter />
 			</ThemeProvider>
 		</Provider>
 	);
