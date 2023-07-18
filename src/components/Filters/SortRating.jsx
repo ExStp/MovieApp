@@ -1,11 +1,13 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { setSortRating } from "../../features/filtersSlice";
 
-export function SortRating({ filterController, ...props }) {
-	const { filters, filtersDispatch, FILTER_ACTIONS } = filterController;
+export function SortRating({ sortRating, ...props }) {
+	const dispatch = useDispatch();
 
 	function handleChangeSort(event) {
 		const newValue = event.target.value;
-		filtersDispatch({ type: FILTER_ACTIONS.sortRating_changed, newValue });
+		dispatch(setSortRating(newValue));
 	}
 
 	return (
@@ -15,7 +17,7 @@ export function SortRating({ filterController, ...props }) {
 				{...props}
 				labelId="demo-simple-select-label"
 				id="demo-simple-select"
-				value={filters.sortRating}
+				value={sortRating}
 				label="Сортировать по"
 				onChange={handleChangeSort}
 			>

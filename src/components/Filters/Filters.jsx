@@ -5,12 +5,10 @@ import { SortGenres } from "./SortGenres";
 import API from "../../services/TMDB/API";
 import { SortYear } from "./SortYear";
 import { SearchQuery } from "./SearchQuery";
-import { FILTER_ACTIONS } from "../../context/FiltersProvider";
-import { DEFAULT_STATE } from "../../utils/constants/CONST";
 
-export function Filters({ filters, filtersDispatch }) {
-	const [genreOptions, setGenreOptions] = useState(DEFAULT_STATE);
-	const filterController = { filters, filtersDispatch, FILTER_ACTIONS };
+export function Filters({ filters }) {
+	const [genreOptions, setGenreOptions] = useState(null);
+	const { searchQuery, sortRating, sortGenres, sortYear } = filters;
 
 	useEffect(() => {
 		API.fetchGetGenres().then((genres) => setGenreOptions(genres));
@@ -18,10 +16,10 @@ export function Filters({ filters, filtersDispatch }) {
 
 	return (
 		<Container>
-			<SearchQuery filterController={filterController} />
-			<SortRating filterController={filterController} />
-			<SortGenres disabled={true} filterController={filterController} genreOptions={genreOptions} />
-			<SortYear disabled={true} />
+			<SearchQuery searchQuery={searchQuery} />
+			<SortRating sortRating={sortRating} />
+			<SortGenres disabled={true} genreOptions={genreOptions} sortGenres={sortGenres} />
+			<SortYear disabled={true} sortYear={sortYear} />
 		</Container>
 	);
 }

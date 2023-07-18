@@ -8,7 +8,6 @@ import { Header } from "../../layout/Header";
 import { Main } from "../../layout/Main";
 import { Filters } from "../../components/Filters/Filters";
 import { useSmallerBreakpoint } from "../../utils/func/useSmallerBreakpoint";
-import { useFilters } from "../../context/FiltersProvider";
 import {
 	initPaginator,
 	setPaginatorCurrentPage,
@@ -18,28 +17,30 @@ import API from "../../services/TMDB/API";
 import { scrollUp } from "../../utils/func/scrollUp";
 import { useAuth } from "../../context/AuthProvider";
 import { getFavoriteMovies } from "../../utils/func/getFavoriteMovies";
-import { DEFAULT_STATE, EMPTY_ARR, EMPTY_STRING } from "../../utils/constants/CONST";
+import { EMPTY_ARR } from "../../utils/constants/CONST";
 import { SimpleAlert } from "../../components/Alerts/SimpleAlert";
 import { mapMoviesData } from "../../utils/func/mapMoviesData.js";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleNavbar } from "../../features/navbarSlice";
 
+const DEFAULT_STATE = null;
+const EMPTY_STRING = "";
+
 export function MainPage() {
 	const dispatch = useDispatch();
 	const [isFavoritesLoaded, setIsFavoritesLoaded] = useState(false);
-	const [favoriteMovies, setFavoriteMovies] = useState(EMPTY_ARR);
+	const [favoriteMovies, setFavoriteMovies] = useState(DEFAULT_STATE);
 	const [moviesData, setMoviesData] = useState(DEFAULT_STATE);
 	const containerRef = useRef(DEFAULT_STATE);
 	const [error, setError] = useState(DEFAULT_STATE);
 
-	const [filters, filtersDispatch] = useFilters();
 	const [auth, authDispatch] = useAuth();
 
 	const isNavbarOpen = useSelector((state) => state.navbar.isOpen);
 	const { currentPage, totalPages } = useSelector((state) => state.paginator);
+	const filters = useSelector((state) => state.filters);
+	const { searchQuery, sortRating } = filters;
 
-	const searchQuery = filters.searchQuery;
-	const sortRating = filters.sortRating;
 	const isSmallScreen = useSmallerBreakpoint("sm");
 	const drawerWidth = isSmallScreen ? "100vw" : "360px";
 
@@ -106,7 +107,7 @@ export function MainPage() {
 			<CssBaseline />
 			<Header handleDrawerOpen={handleNavbar} open={isNavbarOpen} drawerWidth={drawerWidth} />
 			<Navbar drawerWidth={drawerWidth} handleDrawerClose={handleNavbar} open={isNavbarOpen}>
-				<Filters filters={filters} filtersDispatch={filtersDispatch} />
+				<Filters filters={filters} />
 			</Navbar>
 			<Main
 				open={isNavbarOpen}

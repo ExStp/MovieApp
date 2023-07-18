@@ -1,16 +1,12 @@
 import { Autocomplete, Box, CircularProgress, TextField } from "@mui/material";
 
-export function SortGenres({ genreOptions, filterController, ...props }) {
-
-	const { filters, filtersDispatch, FILTER_ACTIONS } = filterController
-
+export function SortGenres({ genreOptions, sortGenres, ...props }) {
 	if (!genreOptions?.length) {
 		return (
 			<Box sx={{ display: "flex", justifyContent: "center", paddingTop: "32px" }}>
 				<CircularProgress />
 			</Box>
 		);
-
 	}
 	return (
 		<Autocomplete

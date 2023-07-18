@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { TextField, IconButton, InputAdornment } from "@mui/material";
 import { Search, Clear } from "@mui/icons-material";
-import API from "../../services/TMDB/API";
-import { EMPTY_STRING } from "../../utils/constants/CONST";
+import { useDispatch } from "react-redux";
+import { setSearchQuery } from "../../features/filtersSlice";
 
-export function SearchQuery({ filterController, ...props }) {
-	const { filters, filtersDispatch, FILTER_ACTIONS } = filterController;
-	const [value, setValue] = useState(filters.searchQuery);
+const EMPTY_STRING = "";
+
+export function SearchQuery({ searchQuery, ...props }) {
+	const [value, setValue] = useState(searchQuery);
+	const dispatch = useDispatch();
 
 	function handleSearchChange(event) {
 		const newValue = event.target.value;
@@ -16,13 +18,12 @@ export function SearchQuery({ filterController, ...props }) {
 
 	function handleSubmitSearch(event) {
 		event.preventDefault();
-		filtersDispatch({ type: FILTER_ACTIONS.searchQuery_changed, newValue: value });
-		API.fetchGetSearchMovie(value, 1);
+		dispatch(setSearchQuery(value));
 	}
 
 	function handleClearSearch() {
 		setValue(EMPTY_STRING);
-		filtersDispatch({ type: FILTER_ACTIONS.searchQuery_changed, newValue: EMPTY_STRING });
+		dispatch(setSearchQuery(EMPTY_STRING));
 	}
 
 	return (

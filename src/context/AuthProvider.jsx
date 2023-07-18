@@ -15,6 +15,11 @@ export function AuthProvider({ children }) {
 	return <AuthContext.Provider value={[auth, authDispatch]}>{children}</AuthContext.Provider>;
 }
 
+
+
+
+
+
 export function saveCookieAuth(data) {
 	try {
 		const user = JSON.stringify(data);

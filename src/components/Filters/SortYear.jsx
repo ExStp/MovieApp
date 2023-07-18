@@ -1,9 +1,8 @@
 import { Box, Slider } from "@mui/material";
 import { useState } from "react";
-import { initFilters } from "../../context/FiltersProvider";
 
-export function SortYear({ ...props }) {
-	const [value, setValue] = useState(initFilters.sortYear);
+export function SortYear({ sortYear, ...props }) {
+	const [value, setValue] = useState(sortYear);
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
