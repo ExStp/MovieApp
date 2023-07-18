@@ -1,16 +1,17 @@
 import RegistrationDialog from "../components/Modal/RegistrationDialog";
 import LoginDialog from "../components/Modal/LoginDialog";
-import { DIALOG_WINDOWS, useDialogs } from "../context/DialogsProvider";
+import { DIALOG_WINDOWS } from "../features/dialogsSlice";
+import { useSelector } from "react-redux";
 
 export function DialogsRouter() {
-	const [isOpen, setIsOpen] = useDialogs();
+	const activeDialog = useSelector((state) => state.dialog.activeDialog);
 
-	switch (isOpen) {
+	switch (activeDialog) {
 		case DIALOG_WINDOWS.registration_dialog: {
-			return <RegistrationDialog isOpen={true} setIsOpen={setIsOpen} />;
+			return <RegistrationDialog />;
 		}
 		case DIALOG_WINDOWS.login_dialog: {
-			return <LoginDialog isOpen={true} setIsOpen={setIsOpen} />;
+			return <LoginDialog />;
 		}
 		default: {
 			return null;

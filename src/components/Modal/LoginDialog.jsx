@@ -9,15 +9,17 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { AUTH_ACTIONS, useAuth } from "../../context/AuthProvider";
 import API from "../../services/TMDB/API";
 import { Backdrop, CircularProgress } from "@mui/material";
-import { DIALOG_WINDOWS } from "../../context/DialogsProvider";
-import { DEFAULT_BACKDROP, DEFAULT_STATE } from "../../utils/constants/CONST";
+import { DEFAULT_BACKDROP } from "../../utils/constants/CONST";
+import { DIALOG_WINDOWS, setActiveDialog } from "../../features/dialogsSlice";
+import { useDispatch } from "react-redux";
 
-export default function LoginDialog({ isOpen, setIsOpen }) {
+export default function LoginDialog({ isOpen = true }) {
 	const [isBackdropOpen, setIsBackdropOpen] = useState(DEFAULT_BACKDROP);
 	const [auth, authDispatch] = useAuth();
+	const dispatch = useDispatch();
 
 	function handleClose() {
-		setIsOpen(DEFAULT_STATE);
+		dispatch(setActiveDialog(null));
 	}
 
 	async function handleLoginAuth() {
@@ -30,13 +32,13 @@ export default function LoginDialog({ isOpen, setIsOpen }) {
 		} catch (error) {
 			console.log(error);
 		} finally {
-			setIsOpen(DEFAULT_STATE);
+			dispatch(setActiveDialog(null));
 			setIsBackdropOpen(DEFAULT_BACKDROP);
 		}
 	}
 
 	function openRegistrationDialog() {
-		setIsOpen(DIALOG_WINDOWS.registration_dialog);
+		dispatch(setActiveDialog(DIALOG_WINDOWS.registration_dialog));
 	}
 
 	return (

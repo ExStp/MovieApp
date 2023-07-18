@@ -6,16 +6,15 @@ import Paper from "@mui/material/Paper";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import IconButton from "@mui/material/IconButton";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import { DIALOG_WINDOWS, useDialogs } from "../../context/DialogsProvider";
 import { AUTH_ACTIONS, useAuth } from "../../context/AuthProvider";
 import { DEFAULT_AUTH_MENU } from "../../utils/constants/CONST";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toggleNavbar } from "../../features/navbarSlice";
+import { DIALOG_WINDOWS, setActiveDialog } from "../../features/dialogsSlice";
 
 export function AuthAvatarButton() {
 	const [isMenuActive, setIsMenuActive] = useState(DEFAULT_AUTH_MENU);
-	const [isDialogOpen, setIsDialogOpen] = useDialogs();
-	const dispatch = useDispatch()
+	const dispatch = useDispatch();
 	const [auth, authDispatch] = useAuth();
 	const anchorRef = useRef();
 
@@ -31,13 +30,13 @@ export function AuthAvatarButton() {
 	};
 
 	function openRegistrationDialog() {
-		setIsDialogOpen(DIALOG_WINDOWS.registration_dialog);
+		dispatch(setActiveDialog(DIALOG_WINDOWS.registration_dialog));
 		setIsMenuActive(DEFAULT_AUTH_MENU);
 	}
 
 	function handleLogoutAuth() {
 		authDispatch({ type: AUTH_ACTIONS.user_logout });
-		dispatch(toggleNavbar(false))
+		dispatch(toggleNavbar(false));
 	}
 
 	return (

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -6,16 +5,18 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { DIALOG_WINDOWS } from "../../context/DialogsProvider";
-import { DEFAULT_STATE } from "../../utils/constants/CONST";
+import { DIALOG_WINDOWS, setActiveDialog } from "../../features/dialogsSlice";
+import { useDispatch } from "react-redux";
 
-export default function RegistrationDialog({ isOpen, setIsOpen }) {
+export default function RegistrationDialog({ isOpen = true}) {
+	const dispatch = useDispatch();
+
 	function handleClose() {
-		setIsOpen(DEFAULT_STATE);
+		dispatch(setActiveDialog(null));
 	}
 
 	function openLoginDialog() {
-		setIsOpen(DIALOG_WINDOWS.login_dialog);
+		dispatch(setActiveDialog(DIALOG_WINDOWS.login_dialog));
 	}
 
 	return (
