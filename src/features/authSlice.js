@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
-import { APP_COOKIE_NAME } from "../utils/constants/CONST";
 
 const initAuth = { isLogin: false, accountId: null };
+const APP_COOKIE_NAME = "MoviesAppAuth";
 
 export function saveCookieAuth(data) {
 	try {

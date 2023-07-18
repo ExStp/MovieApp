@@ -5,8 +5,9 @@ import { SimpleHeader } from "./../../components/SimpleHeader/SimpleHeader";
 import API from "../../services/TMDB/API";
 import { MovieInfo } from "../../layout/MovieInfo";
 import { SimpleAlert } from "../../components/Alerts/SimpleAlert";
-import { DEFAULT_STATE } from "../../utils/constants/CONST";
 import { useSelector } from "react-redux";
+
+const DEFAULT_STATE = null;
 
 export function InfoPage() {
 	const { film_id } = useParams();

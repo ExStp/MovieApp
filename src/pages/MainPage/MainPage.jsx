@@ -16,7 +16,6 @@ import {
 import API from "../../services/TMDB/API";
 import { scrollUp } from "../../utils/func/scrollUp";
 import { getFavoriteMovies } from "../../utils/func/getFavoriteMovies";
-import { EMPTY_ARR } from "../../utils/constants/CONST";
 import { SimpleAlert } from "../../components/Alerts/SimpleAlert";
 import { mapMoviesData } from "../../utils/func/mapMoviesData.js";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +23,7 @@ import { toggleNavbar } from "../../features/navbarSlice";
 
 const DEFAULT_STATE = null;
 const EMPTY_STRING = "";
+const EMPTY_ARR = [];
 
 export function MainPage() {
 	const dispatch = useDispatch();
@@ -33,7 +33,7 @@ export function MainPage() {
 	const containerRef = useRef(DEFAULT_STATE);
 	const [error, setError] = useState(DEFAULT_STATE);
 
-	const auth = useSelector(state => state.auth)
+	const auth = useSelector((state) => state.auth);
 	const isNavbarOpen = useSelector((state) => state.navbar.isOpen);
 	const { currentPage, totalPages } = useSelector((state) => state.paginator);
 	const filters = useSelector((state) => state.filters);
@@ -69,11 +69,10 @@ export function MainPage() {
 		const fetchData = async () => {
 			try {
 				let movies;
-				if (searchQuery.trim() === EMPTY_STRING) {
-					movies = await API.fetchGetMovies(sortRating, currentPage);
-				} else {
-					movies = await API.fetchGetSearchMovie(searchQuery, currentPage);
-				}
+				searchQuery.trim() === EMPTY_STRING
+					? (movies = await API.fetchGetMovies(sortRating, currentPage))
+					: (movies = await API.fetchGetSearchMovie(searchQuery, currentPage));
+
 				if (!movies) throw new Error(API.ERRORS.CORS_ERROR);
 
 				const mappedMovies = mapMoviesData(movies, favoriteMovies);

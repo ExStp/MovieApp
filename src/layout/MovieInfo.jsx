@@ -1,7 +1,8 @@
 import { Box, Typography } from "@mui/material";
 import { FilmDetailsTable } from "../components/FilmDetailsTable/FilmDetailsTable";
 import API from "../services/TMDB/API";
-import { EMPTY_OBJ } from "../utils/constants/CONST";
+
+const EMPTY_OBJ = {}
 
 export function MovieInfo({ movieInfo }) {
 	if (movieInfo === EMPTY_OBJ) return null;
