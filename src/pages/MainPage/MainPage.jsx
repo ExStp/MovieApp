@@ -12,14 +12,16 @@ import { useFilters } from "../../context/FiltersProvider";
 import { initPaginator, usePaginator } from "../../context/PaginatorProvider";
 import API from "../../services/TMDB/API";
 import { scrollUp } from "../../utils/func/scrollUp";
-import { useNavbar } from "../../context/NavbarProvider";
 import { useAuth } from "../../context/AuthProvider";
 import { getFavoriteMovies } from "../../utils/func/getFavoriteMovies";
 import { DEFAULT_STATE, EMPTY_ARR, EMPTY_STRING } from "../../utils/constants/CONST";
 import { SimpleAlert } from "../../components/Alerts/SimpleAlert";
 import { mapMoviesData } from "../../utils/func/mapMoviesData.js";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleNavbar } from "../../features/navbarSlice";
 
 export function MainPage() {
+	const dispatch = useDispatch();
 	const [isFavoritesLoaded, setIsFavoritesLoaded] = useState(false);
 	const [favoriteMovies, setFavoriteMovies] = useState(EMPTY_ARR);
 	const [moviesData, setMoviesData] = useState(DEFAULT_STATE);
@@ -29,7 +31,7 @@ export function MainPage() {
 	const [paginator, setPaginator] = usePaginator();
 	const [filters, filtersDispatch] = useFilters();
 	const [auth, authDispatch] = useAuth();
-	const [open, setOpen] = useNavbar();
+	const isNavbarOpen = useSelector((state) => state.navbar.isOpen);
 
 	const searchQuery = filters.searchQuery;
 	const sortRating = filters.sortRating;
@@ -92,18 +94,18 @@ export function MainPage() {
 
 	function handleNavbar() {
 		if (!auth.isLogin) return;
-		setOpen(!open);
+		dispatch(toggleNavbar(!isNavbarOpen));
 	}
 
 	return (
 		<Box sx={{ display: "flex" }}>
 			<CssBaseline />
-			<Header handleDrawerOpen={handleNavbar} open={open} drawerWidth={drawerWidth} />
-			<Navbar drawerWidth={drawerWidth} handleDrawerClose={handleNavbar} open={open}>
+			<Header handleDrawerOpen={handleNavbar} open={isNavbarOpen} drawerWidth={drawerWidth} />
+			<Navbar drawerWidth={drawerWidth} handleDrawerClose={handleNavbar} open={isNavbarOpen}>
 				<Filters filters={filters} filtersDispatch={filtersDispatch} />
 			</Navbar>
 			<Main
-				open={open}
+				open={isNavbarOpen}
 				drawerWidth={drawerWidth}
 				isSmallScreen={isSmallScreen}
 				ref={containerRef}

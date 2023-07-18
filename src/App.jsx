@@ -5,6 +5,8 @@ import { DialogsRouter } from "./layout/DialogsRouter";
 import { MainPage } from "./pages/MainPage/MainPage";
 import { InfoPage } from "./pages/InfoPage/InfoPage";
 import { defaultTheme } from "./utils/themes/defaultTheme";
+import { Provider } from "react-redux";
+import { store } from "./app/store";
 
 function App() {
 	const router = createBrowserRouter([
@@ -19,12 +21,14 @@ function App() {
 	]);
 
 	return (
-		<ThemeProvider theme={defaultTheme}>
-			<AppProvider>
-				<RouterProvider router={router} />
-				<DialogsRouter />
-			</AppProvider>
-		</ThemeProvider>
+		<Provider store={store}>
+			<ThemeProvider theme={defaultTheme}>
+				<AppProvider>
+					<RouterProvider router={router} />
+					<DialogsRouter />
+				</AppProvider>
+			</ThemeProvider>
+		</Provider>
 	);
 }
 
