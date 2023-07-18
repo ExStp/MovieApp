@@ -9,7 +9,11 @@ import { Main } from "../../layout/Main";
 import { Filters } from "../../components/Filters/Filters";
 import { useSmallerBreakpoint } from "../../utils/func/useSmallerBreakpoint";
 import { useFilters } from "../../context/FiltersProvider";
-import { initPaginator, usePaginator } from "../../context/PaginatorProvider";
+import {
+	initPaginator,
+	setPaginatorCurrentPage,
+	setPaginatorTotalPages,
+} from "../../features/paginatorSlice";
 import API from "../../services/TMDB/API";
 import { scrollUp } from "../../utils/func/scrollUp";
 import { useAuth } from "../../context/AuthProvider";
@@ -28,14 +32,14 @@ export function MainPage() {
 	const containerRef = useRef(DEFAULT_STATE);
 	const [error, setError] = useState(DEFAULT_STATE);
 
-	const [paginator, setPaginator] = usePaginator();
 	const [filters, filtersDispatch] = useFilters();
 	const [auth, authDispatch] = useAuth();
+
 	const isNavbarOpen = useSelector((state) => state.navbar.isOpen);
+	const { currentPage, totalPages } = useSelector((state) => state.paginator);
 
 	const searchQuery = filters.searchQuery;
 	const sortRating = filters.sortRating;
-	const currentPage = paginator.currentPage;
 	const isSmallScreen = useSmallerBreakpoint("sm");
 	const drawerWidth = isSmallScreen ? "100vw" : "360px";
 
@@ -57,7 +61,7 @@ export function MainPage() {
 	}, []);
 
 	useEffect(() => {
-		setPaginator(initPaginator);
+		dispatch(setPaginatorCurrentPage(initPaginator.currentPage));
 	}, [searchQuery]);
 
 	useEffect(() => {
@@ -74,13 +78,13 @@ export function MainPage() {
 				if (!movies) throw new Error(API.ERRORS.CORS_ERROR);
 
 				const mappedMovies = mapMoviesData(movies, favoriteMovies);
-				setPaginator((prevState) => ({
-					...prevState,
-					totalPages:
+				dispatch(
+					setPaginatorTotalPages(
 						searchQuery.trim() === EMPTY_STRING
 							? initPaginator.totalPages
-							: movies.total_pages,
-				}));
+							: movies.total_pages
+					)
+				);
 				setMoviesData(mappedMovies);
 				setError(DEFAULT_STATE);
 				scrollUp(containerRef);
@@ -114,8 +118,8 @@ export function MainPage() {
 					<SimpleAlert placeholder={API.ERRORS.CORS_ERROR} severity="warning" />
 				) : auth.isLogin ? (
 					<MovieList
-						paginator={paginator}
-						setPaginator={setPaginator}
+						currentPage={currentPage}
+						totalPages={totalPages}
 						setFavoriteMovies={setFavoriteMovies}
 						moviesData={moviesData}
 					/>

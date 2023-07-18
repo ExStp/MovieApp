@@ -2,13 +2,16 @@ import { Box, CircularProgress, Container, Pagination, Typography } from "@mui/m
 import { forwardRef } from "react";
 import { useSmallerBreakpoint } from "../../utils/func/useSmallerBreakpoint";
 import { MovieCards } from "./MovieCards";
+import { useDispatch } from "react-redux";
+import { setPaginatorCurrentPage } from "../../features/paginatorSlice";
 
 export const MovieList = forwardRef((props, ref) => {
-	const { paginator, setPaginator, moviesData, favoriteMovies, setFavoriteMovies } = props;
+	const { currentPage, totalPages, moviesData, favoriteMovies, setFavoriteMovies } = props;
 	const paginatorSize = useSmallerBreakpoint("sm") ? "medium" : "large";
+	const dispatch = useDispatch();
 
-	const handlePaginationChange = (event, page) => {
-		setPaginator({ ...paginator, currentPage: page });
+	const handlePaginationChange = (_, page) => {
+		dispatch(setPaginatorCurrentPage(page));
 	};
 
 	return (
@@ -35,8 +38,8 @@ export const MovieList = forwardRef((props, ref) => {
 			{moviesData?.length ? (
 				<Box sx={{ margin: "74px 0px", display: "flex", justifyContent: "center" }}>
 					<Pagination
-						count={paginator.totalPages}
-						page={paginator.currentPage}
+						count={totalPages}
+						page={currentPage}
 						onChange={handlePaginationChange}
 						size={paginatorSize}
 					/>
