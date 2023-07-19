@@ -13,11 +13,15 @@ export const tmdbAPI = createApi({
 	}),
 	endpoints: (build) => ({
 		fetchGetGenres: build.query({
-			query: () => ({
-				url: "genre/movie/list?language=ru",
-			}),
+			query: () => "genre/movie/list?language=ru",
+		}),
+		fetchGetDetails: build.query({
+			query: (film_id) => `movie/${film_id}?language=ru`,
+		}),
+		fetchGetCredits: build.query({
+			query: (film_id) => `movie/${film_id}/credits?language=ru`,
 		}),
 	}),
 });
 
-export const { useFetchGetGenresQuery } = tmdbAPI;
+export const { useFetchGetGenresQuery, useFetchGetDetailsQuery, useFetchGetCreditsQuery } = tmdbAPI;

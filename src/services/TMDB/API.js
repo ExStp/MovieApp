@@ -31,42 +31,10 @@ export default class API {
 
 	static accountId = 20036970;
 
-	// static async fetchGetGenres() {
-	// 	try {
-	// 		const response = await axios.get(`${API.URL.genres}`, apiConfig);
-	// 		if (!response.data) throw Error("Ошибка при получении данных");
-	// 		return response.data.genres;
-	// 	} catch (error) {
-	// 		console.log(error.message);
-	// 	}
-	// }
-
 	static async fetchGetMovies(type, page) {
 		const moviesUrl = type === "popular_list" ? API.URL.popularList : API.URL.topRatedList;
 		try {
 			const response = await axios.get(moviesUrl + String(page), apiConfig);
-			if (!response.data) throw Error("Ошибка при получении данных");
-			return response.data;
-		} catch (error) {
-			console.log(error.message);
-		}
-	}
-
-	static async fetchGetDetails(film_id) {
-		const detailsURL = `${API.URL.movie}${film_id}?language=ru`;
-		try {
-			const response = await axios.get(detailsURL, apiConfig);
-			if (!response.data) throw Error("Ошибка при получении данных");
-			return response.data;
-		} catch (error) {
-			console.log(error.message);
-		}
-	}
-
-	static async fetchGetCredits(film_id) {
-		const detailsURL = `${API.URL.movie}${film_id}/credits?language=ru`;
-		try {
-			const response = await axios.get(detailsURL, apiConfig);
 			if (!response.data) throw Error("Ошибка при получении данных");
 			return response.data;
 		} catch (error) {

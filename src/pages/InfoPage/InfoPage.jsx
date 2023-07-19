@@ -1,44 +1,36 @@
-import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Box, CircularProgress, Container } from "@mui/material";
-import { SimpleHeader } from "./../../components/SimpleHeader/SimpleHeader";
-import API from "../../services/TMDB/API";
+import { SimpleHeader } from "../../components/SimpleHeader/SimpleHeader";
 import { MovieInfo } from "../../layout/MovieInfo";
 import { SimpleAlert } from "../../components/Alerts/SimpleAlert";
 import { useSelector } from "react-redux";
+import { useFetchGetCreditsQuery, useFetchGetDetailsQuery } from "../../services/TMDB/tmdbService";
+import { useEffect, useState } from "react";
+import API from "../../services/TMDB/API";
 
 const DEFAULT_STATE = null;
 
 export function InfoPage() {
 	const { film_id } = useParams();
-	const [movieInfo, setMovieInfo] = useState(DEFAULT_STATE);
-	const auth = useSelector((state) => state.auth);
 	const [error, setError] = useState(DEFAULT_STATE);
+	const auth = useSelector((state) => state.auth);
+
+	const { data: details, isError: detailsError } = useFetchGetDetailsQuery(film_id);
+	const { data: credits, isError: creditsError } = useFetchGetCreditsQuery(film_id);
 
 	useEffect(() => {
-		const fetchMovieInfo = async () => {
-			try {
-				const [details, credits] = await Promise.all([
-					API.fetchGetDetails(film_id),
-					API.fetchGetCredits(film_id),
-				]);
-				if (!details || !credits) throw Error(API.ERRORS.CORS_ERROR);
-				setMovieInfo({ details, credits });
-				setError(DEFAULT_STATE);
-			} catch (error) {
-				setError(error);
-				setMovieInfo(DEFAULT_STATE);
-			}
-		};
-
-		fetchMovieInfo();
-	}, [auth, film_id]);
+		if (detailsError || creditsError) {
+			setError(API.ERRORS.CORS_ERROR);
+		} else {
+			setError(DEFAULT_STATE);
+		}
+	}, [detailsError, creditsError]);
 
 	if (error) {
 		return (
 			<Container>
 				<SimpleHeader />
-				<SimpleAlert placeholder={API.ERRORS.CORS_ERROR} severity="warning" />
+				<SimpleAlert placeholder={error} severity="warning" />
 			</Container>
 		);
 	}
@@ -47,7 +39,7 @@ export function InfoPage() {
 		return (
 			<Container>
 				<SimpleHeader />
-				<SimpleAlert placeholder={API.ERRORS.AUTH_FALSE} severity={"warning"} />
+				<SimpleAlert placeholder={API.ERRORS.AUTH_FALSE} severity="warning" />
 			</Container>
 		);
 	}
@@ -56,8 +48,8 @@ export function InfoPage() {
 		<Container>
 			<SimpleHeader />
 			<Box sx={{ display: "flex", justifyContent: "center" }}>
-				{movieInfo ? (
-					<MovieInfo movieInfo={movieInfo} />
+				{details && credits ? (
+					<MovieInfo movieInfo={{ details, credits }} />
 				) : (
 					<CircularProgress sx={{ mt: "40vh" }} />
 				)}
