@@ -15,7 +15,7 @@ export function InfoPage() {
 	const [error, setError] = useState(DEFAULT_STATE);
 	const auth = useSelector((state) => state.auth);
 
-	const { data: details, isError: detailsError } = useFetchGetDetailsQuery(film_id);
+	const { data: details, isError: detailsError,  } = useFetchGetDetailsQuery(film_id);
 	const { data: credits, isError: creditsError } = useFetchGetCreditsQuery(film_id);
 
 	useEffect(() => {

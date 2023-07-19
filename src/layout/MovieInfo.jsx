@@ -6,8 +6,8 @@ const EMPTY_OBJ = {}
 
 export function MovieInfo({ movieInfo }) {
 	if (movieInfo === EMPTY_OBJ) return null;
-
 	const { details, credits } = movieInfo;
+
 	const { backdrop_path, poster_path, title, original_title, overview } = details;
 	const { cast, crew } = credits;
 	const imgURL = API.URL.IMG.W400 + (poster_path || backdrop_path);

@@ -11,12 +11,14 @@ import { Backdrop, CircularProgress } from "@mui/material";
 import { DIALOG_WINDOWS, setActiveDialog } from "../../features/dialogsSlice";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../../features/authSlice";
+import { useFetchGetAccountDetailsQuery } from "../../services/TMDB/tmdbService";
 
 const DEFAULT_BACKDROP = false;
 
 export default function LoginDialog({ isOpen = true }) {
 	const [isBackdropOpen, setIsBackdropOpen] = useState(DEFAULT_BACKDROP);
 	const dispatch = useDispatch();
+	const { data, isError } = useFetchGetAccountDetailsQuery();
 
 	function handleClose() {
 		dispatch(setActiveDialog(null));
@@ -26,12 +28,10 @@ export default function LoginDialog({ isOpen = true }) {
 		setIsBackdropOpen(!DEFAULT_BACKDROP);
 
 		try {
-			const accountDetails = await API.fetchGetAccountDetails();
-			if (!accountDetails) throw Error(API.ERRORS.CORS_ERROR);
-			dispatch(userLogin(accountDetails.id));
-			// authDispatch({ type: AUTH_ACTIONS.user_login, accountId: accountDetails.id });
+			if (!data || isError) throw Error(API.ERRORS.CORS_ERROR);
+			dispatch(userLogin(data.id));
 		} catch (error) {
-			console.log(error);
+			alert(error.message);
 		} finally {
 			dispatch(setActiveDialog(null));
 			setIsBackdropOpen(DEFAULT_BACKDROP);

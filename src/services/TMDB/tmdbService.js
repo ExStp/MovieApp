@@ -5,6 +5,8 @@ const apiToken =
 
 const baseUrl = "https://api.themoviedb.org/3/";
 
+const accountId = 20036970;
+
 export const tmdbAPI = createApi({
 	reducerPath: "tmdbAPI",
 	baseQuery: fetchBaseQuery({
@@ -21,7 +23,15 @@ export const tmdbAPI = createApi({
 		fetchGetCredits: build.query({
 			query: (film_id) => `movie/${film_id}/credits?language=ru`,
 		}),
+		fetchGetAccountDetails: build.query({
+			query: () => `/account/${accountId}`,
+		}),
 	}),
 });
 
-export const { useFetchGetGenresQuery, useFetchGetDetailsQuery, useFetchGetCreditsQuery } = tmdbAPI;
+export const {
+	useFetchGetGenresQuery,
+	useFetchGetDetailsQuery,
+	useFetchGetCreditsQuery,
+	useFetchGetAccountDetailsQuery,
+} = tmdbAPI;
