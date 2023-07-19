@@ -1,10 +1,21 @@
 import { Autocomplete, Box, CircularProgress, TextField } from "@mui/material";
+import { useFetchGetGenresQuery } from "../../services/TMDB/tmdbService";
 
-export function SortGenres({ genreOptions, sortGenres, ...props }) {
-	if (!genreOptions?.length) {
+export function SortGenres({ sortGenres, ...props }) {
+	const { data, isError, isLoading } = useFetchGetGenresQuery();
+	const genreOptions = data?.genres;
+
+	if (isLoading) {
 		return (
 			<Box sx={{ display: "flex", justifyContent: "center", paddingTop: "32px" }}>
 				<CircularProgress />
+			</Box>
+		);
+	}
+	if (isError) {
+		return (
+			<Box sx={{ display: "flex", justifyContent: "center", paddingTop: "32px" }}>
+				<h3>Не удалось загрузить</h3>
 			</Box>
 		);
 	}

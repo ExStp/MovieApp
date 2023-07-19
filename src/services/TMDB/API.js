@@ -31,15 +31,15 @@ export default class API {
 
 	static accountId = 20036970;
 
-	static async fetchGetGenres(page) {
-		try {
-			const response = await axios.get(`${API.URL.genres}${page}`, apiConfig);
-			if (!response.data) throw Error("Ошибка при получении данных");
-			return response.data.genres;
-		} catch (error) {
-			console.log(error.message);
-		}
-	}
+	// static async fetchGetGenres() {
+	// 	try {
+	// 		const response = await axios.get(`${API.URL.genres}`, apiConfig);
+	// 		if (!response.data) throw Error("Ошибка при получении данных");
+	// 		return response.data.genres;
+	// 	} catch (error) {
+	// 		console.log(error.message);
+	// 	}
+	// }
 
 	static async fetchGetMovies(type, page) {
 		const moviesUrl = type === "popular_list" ? API.URL.popularList : API.URL.topRatedList;
@@ -87,6 +87,8 @@ export default class API {
 
 	static async fetchGetFavoriteMovies(page) {
 		const favoriteMoviesUrl = `${API.URL.account}${API.accountId}/favorite/movies?language=en-US&page=${page}&sort_by=created_at.asc`;
+
+
 		try {
 			const response = await axios.get(favoriteMoviesUrl, apiConfig);
 			if (!response.data) throw Error("Ошибка при получении данных");

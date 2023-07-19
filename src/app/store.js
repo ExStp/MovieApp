@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { tmdbAPI } from "../services/TMDB/tmdbService";
 
 import navbarReducer from "../features/navbarSlice";
 import paginatorReducer from "../features/paginatorSlice";
@@ -12,6 +13,8 @@ export const store = configureStore({
 		paginator: paginatorReducer,
 		dialog: dialogsReducer,
 		filters: filtersReducer,
-		auth: authReducer
+		auth: authReducer,
+		[tmdbAPI.reducerPath]: tmdbAPI.reducer,
 	},
+	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(tmdbAPI.middleware),
 });
