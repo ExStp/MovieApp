@@ -20,7 +20,7 @@ import { SimpleAlert } from "../../components/Alerts/SimpleAlert";
 import { mapMoviesData } from "../../utils/func/mapMoviesData.js";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleNavbar } from "../../features/navbarSlice";
-import { setFavoriteFilmsId } from "../../features/filmsSlice";
+import { setFavoriteFilmsId, setFilmsData } from "../../features/filmsSlice";
 
 const DEFAULT_STATE = null;
 const EMPTY_STRING = "";
@@ -33,12 +33,11 @@ export function MainPage() {
 	const containerRef = useRef(DEFAULT_STATE);
 	const [error, setError] = useState(DEFAULT_STATE);
 
-	const favoriteMoviesId = useSelector((state) => state.films.favoriteFilmsId);
+	const { favoriteFilmsId, filmsData } = useSelector((state) => state.films);
 	const auth = useSelector((state) => state.auth);
 	const isNavbarOpen = useSelector((state) => state.navbar.isOpen);
 	const { currentPage, totalPages } = useSelector((state) => state.paginator);
-	const filters = useSelector((state) => state.filters);
-	const { searchQuery, sortRating } = filters;
+	const { searchQuery, sortRating } = useSelector((state) => state.filters);
 
 	const isSmallScreen = useSmallerBreakpoint("sm");
 	const drawerWidth = isSmallScreen ? "100vw" : "360px";
@@ -46,9 +45,9 @@ export function MainPage() {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const favoriteMoviesId = await getFavoriteMovies();
-				if (favoriteMoviesId === EMPTY_ARR) throw Error(API.ERRORS.CORS_ERROR);
-				dispatch(setFavoriteFilmsId(favoriteMoviesId));
+				const favoriteFilmsId = await getFavoriteMovies();
+				if (favoriteFilmsId === EMPTY_ARR) throw Error(API.ERRORS.CORS_ERROR);
+				dispatch(setFavoriteFilmsId(favoriteFilmsId));
 				setIsFavoritesLoaded(true);
 				setError(DEFAULT_STATE);
 			} catch (error) {
@@ -59,13 +58,13 @@ export function MainPage() {
 
 		fetchData();
 	}, []);
-	
+
 	useEffect(() => {
 		dispatch(setPaginatorCurrentPage(initPaginator.currentPage));
 	}, [searchQuery]);
 
 	useEffect(() => {
-		if (!isFavoritesLoaded || !favoriteMoviesId) return;
+		if (!isFavoritesLoaded || !favoriteFilmsId) return;
 
 		const fetchData = async () => {
 			try {
@@ -76,7 +75,7 @@ export function MainPage() {
 
 				if (!movies) throw new Error(API.ERRORS.CORS_ERROR);
 
-				const mappedMovies = mapMoviesData(movies, favoriteMoviesId);
+				const mappedMovies = mapMoviesData(movies, favoriteFilmsId);
 				dispatch(
 					setPaginatorTotalPages(
 						searchQuery.trim() === EMPTY_STRING
@@ -84,7 +83,7 @@ export function MainPage() {
 							: movies.total_pages
 					)
 				);
-				setMoviesData(mappedMovies);
+				dispatch(setFilmsData(mappedMovies));
 				setError(DEFAULT_STATE);
 				scrollUp(containerRef);
 			} catch (error) {
@@ -93,7 +92,7 @@ export function MainPage() {
 		};
 
 		fetchData();
-	}, [currentPage, favoriteMoviesId, searchQuery, isFavoritesLoaded, sortRating]);
+	}, [currentPage, favoriteFilmsId, searchQuery, isFavoritesLoaded, sortRating]);
 
 	function handleNavbar() {
 		if (!auth.isLogin) return;
@@ -105,7 +104,7 @@ export function MainPage() {
 			<CssBaseline />
 			<Header handleDrawerOpen={handleNavbar} open={isNavbarOpen} drawerWidth={drawerWidth} />
 			<Navbar drawerWidth={drawerWidth} handleDrawerClose={handleNavbar} open={isNavbarOpen}>
-				<Filters filters={filters} />
+				<Filters filters={{ searchQuery, sortRating }} />
 			</Navbar>
 			<Main
 				open={isNavbarOpen}
@@ -119,7 +118,7 @@ export function MainPage() {
 					<MovieList
 						currentPage={currentPage}
 						totalPages={totalPages}
-						moviesData={moviesData}
+						moviesData={filmsData}
 					/>
 				) : (
 					<SimpleAlert placeholder={API.ERRORS.AUTH_FALSE} severity="warning" />
