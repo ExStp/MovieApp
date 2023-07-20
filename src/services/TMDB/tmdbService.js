@@ -37,6 +37,7 @@ export const tmdbAPI = createApi({
 	endpoints: (build) => ({
 		fetchGetGenres: build.query({
 			query: () => "genre/movie/list?language=ru",
+			keepUnusedDataFor: 9000,
 		}),
 		fetchGetDetails: build.query({
 			query: (film_id) => `movie/${film_id}?language=ru`,
@@ -47,8 +48,12 @@ export const tmdbAPI = createApi({
 			keepUnusedDataFor: 300,
 		}),
 		fetchGetAccountDetails: build.query({
-			query: () => `/account/${API.config.accountId}`,
+			query: () => `account/${API.config.accountId}`,
 		}),
+		// fetchGetFavoriteMovies: build.query({
+		// 	query: (page) => `account/${API.config.accountId}/favorite/movies?language=en-US&page=${page}&sort_by=created_at.asc`
+		// })
+		
 	}),
 });
 
@@ -57,4 +62,5 @@ export const {
 	useFetchGetDetailsQuery,
 	useFetchGetCreditsQuery,
 	useFetchGetAccountDetailsQuery,
+	useFetchGetFavoriteMoviesQuery
 } = tmdbAPI;

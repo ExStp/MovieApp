@@ -1,16 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const initFilmsData = {
-	favoriteMovies: [],
+	favoriteFilmsId: null,
+	filmsData: null,
 };
 
 const filmsSlice = createSlice({
 	name: "films",
 	initialState: initFilmsData,
 	reducers: {
-		setFavoriteFilms(state, action) {},
+		setFavoriteFilmsId(state, action) {
+			state.favoriteFilmsId = action.payload;
+		},
+		setFilmsData(state, action) {
+			state.filmsData = action.payload;
+		},
 	},
 });
 
-export const { setFavoriteFilms } = filmsSlice.actions;
+export const { setFavoriteFilmsId, setFilmsData } = filmsSlice.actions;
 export default filmsSlice.reducer;

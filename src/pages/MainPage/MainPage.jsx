@@ -20,6 +20,7 @@ import { SimpleAlert } from "../../components/Alerts/SimpleAlert";
 import { mapMoviesData } from "../../utils/func/mapMoviesData.js";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleNavbar } from "../../features/navbarSlice";
+import { setFavoriteFilmsId } from "../../features/filmsSlice";
 
 const DEFAULT_STATE = null;
 const EMPTY_STRING = "";
@@ -28,11 +29,11 @@ const EMPTY_ARR = [];
 export function MainPage() {
 	const dispatch = useDispatch();
 	const [isFavoritesLoaded, setIsFavoritesLoaded] = useState(false);
-	const [favoriteMovies, setFavoriteMovies] = useState(DEFAULT_STATE);
 	const [moviesData, setMoviesData] = useState(DEFAULT_STATE);
 	const containerRef = useRef(DEFAULT_STATE);
 	const [error, setError] = useState(DEFAULT_STATE);
 
+	const favoriteMoviesId = useSelector((state) => state.films.favoriteFilmsId);
 	const auth = useSelector((state) => state.auth);
 	const isNavbarOpen = useSelector((state) => state.navbar.isOpen);
 	const { currentPage, totalPages } = useSelector((state) => state.paginator);
@@ -45,9 +46,9 @@ export function MainPage() {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const moviesData = await getFavoriteMovies();
-				if (moviesData === EMPTY_ARR) throw Error(API.ERRORS.CORS_ERROR);
-				setFavoriteMovies(moviesData);
+				const favoriteMoviesId = await getFavoriteMovies();
+				if (favoriteMoviesId === EMPTY_ARR) throw Error(API.ERRORS.CORS_ERROR);
+				dispatch(setFavoriteFilmsId(favoriteMoviesId));
 				setIsFavoritesLoaded(true);
 				setError(DEFAULT_STATE);
 			} catch (error) {
@@ -58,13 +59,13 @@ export function MainPage() {
 
 		fetchData();
 	}, []);
-
+	
 	useEffect(() => {
 		dispatch(setPaginatorCurrentPage(initPaginator.currentPage));
 	}, [searchQuery]);
 
 	useEffect(() => {
-		if (!isFavoritesLoaded || !favoriteMovies) return;
+		if (!isFavoritesLoaded || !favoriteMoviesId) return;
 
 		const fetchData = async () => {
 			try {
@@ -75,7 +76,7 @@ export function MainPage() {
 
 				if (!movies) throw new Error(API.ERRORS.CORS_ERROR);
 
-				const mappedMovies = mapMoviesData(movies, favoriteMovies);
+				const mappedMovies = mapMoviesData(movies, favoriteMoviesId);
 				dispatch(
 					setPaginatorTotalPages(
 						searchQuery.trim() === EMPTY_STRING
@@ -92,7 +93,7 @@ export function MainPage() {
 		};
 
 		fetchData();
-	}, [currentPage, favoriteMovies, searchQuery, isFavoritesLoaded, sortRating]);
+	}, [currentPage, favoriteMoviesId, searchQuery, isFavoritesLoaded, sortRating]);
 
 	function handleNavbar() {
 		if (!auth.isLogin) return;
@@ -118,7 +119,6 @@ export function MainPage() {
 					<MovieList
 						currentPage={currentPage}
 						totalPages={totalPages}
-						setFavoriteMovies={setFavoriteMovies}
 						moviesData={moviesData}
 					/>
 				) : (

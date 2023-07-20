@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { setPaginatorCurrentPage } from "../../features/paginatorSlice";
 
 export const MovieList = forwardRef((props, ref) => {
-	const { currentPage, totalPages, moviesData, setFavoriteMovies } = props;
+	const { currentPage, totalPages, moviesData } = props;
 	const paginatorSize = useSmallerBreakpoint("sm") ? "medium" : "large";
 	const dispatch = useDispatch();
 
@@ -28,7 +28,6 @@ export const MovieList = forwardRef((props, ref) => {
 				{moviesData ? (
 					<MovieCards
 						moviesData={moviesData}
-						setFavoriteMovies={setFavoriteMovies}
 					/>
 				) : (
 					<CircularProgress sx={{ mt: "40vh" }} />

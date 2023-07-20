@@ -3,17 +3,20 @@ import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import { useState } from "react";
 import API from "../../services/TMDB/API";
+import { useDispatch } from "react-redux";
+import { setFavoriteFilmsId } from "../../features/filmsSlice";
 
 export function MovieFavoriteBtn(props) {
-	const { movieId, isChecked, setFavoriteMovies } = props;
+	const { movieId, isChecked, favoriteMoviesId } = props;
 	const [checked, setChecked] = useState(isChecked);
+	const dispatch = useDispatch();
 
 	const handleChange = (event) => {
 		const isFavorite = event.target.checked;
 		setChecked(isFavorite);
 		isFavorite
-			? setFavoriteMovies((prevState) => [...prevState, movieId])
-			: setFavoriteMovies((prevState) => prevState.filter((id) => id !== movieId));
+			? dispatch(setFavoriteFilmsId([...favoriteMoviesId, movieId]))
+			: dispatch(setFavoriteFilmsId(favoriteMoviesId.filter((id) => id !== movieId)));
 		API.fetchPostFavoriteMovie(movieId, isFavorite);
 	};
 

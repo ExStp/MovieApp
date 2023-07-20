@@ -42,17 +42,6 @@ export default class API {
 		}
 	}
 
-	static async fetchGetAccountDetails() {
-		const accountDetailsUrl = `${API.URL.account}${API.accountId}`;
-		try {
-			const response = await axios.get(accountDetailsUrl, apiConfig);
-			if (!response.data) throw Error("Ошибка при получении данных");
-			return response.data;
-		} catch (error) {
-			console.log(error.message);
-		}
-	}
-
 	static async fetchGetFavoriteMovies(page) {
 		const favoriteMoviesUrl = `${API.URL.account}${API.accountId}/favorite/movies?language=en-US&page=${page}&sort_by=created_at.asc`;
 

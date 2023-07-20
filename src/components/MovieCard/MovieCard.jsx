@@ -8,7 +8,7 @@ import { MovieFavoriteBtn } from "../MovieFavoriteBtn/MovieFavoriteBtn";
 import { Box, Button, CardActionArea, FormControlLabel } from "@mui/material";
 
 export function MovieCard(props) {
-	const { movieInfo, isFavorite, favoriteMovies, setFavoriteMovies } = props;
+	const { movieInfo, isFavorite, favoriteMoviesId } = props;
 	const { poster_path, backdrop_path, title, vote_average, id } = movieInfo;
 
 	const imgURL = API.URL.IMG.W400 + poster_path || backdrop_path;
@@ -59,8 +59,7 @@ export function MovieCard(props) {
 									key={id}
 									movieId={id}
 									isChecked={isFavorite}
-									favoriteMovies={favoriteMovies}
-									setFavoriteMovies={setFavoriteMovies}
+									favoriteMoviesId={favoriteMoviesId}
 								/>
 							}
 							label={vote_average}
