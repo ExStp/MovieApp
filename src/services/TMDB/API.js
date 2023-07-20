@@ -26,15 +26,14 @@ export default class API {
 
 	static ERRORS = {
 		CORS_ERROR: "Недоступен сервис API, перезапустите VPN",
-		AUTH_FALSE: "Необходима авторизация"
+		AUTH_FALSE: "Необходима авторизация",
 	};
 
 	static accountId = 20036970;
 
 	static async fetchGetMovies(type, page) {
-		const moviesUrl = type === "popular_list" ? API.URL.popularList : API.URL.topRatedList;
 		try {
-			const response = await axios.get(moviesUrl + String(page), apiConfig);
+			const response = await axios.get(`/movie/${type}?language=ru&page=${page}`, apiConfig);
 			if (!response.data) throw Error("Ошибка при получении данных");
 			return response.data;
 		} catch (error) {
@@ -44,7 +43,6 @@ export default class API {
 
 	static async fetchGetFavoriteMovies(page) {
 		const favoriteMoviesUrl = `${API.URL.account}${API.accountId}/favorite/movies?language=en-US&page=${page}&sort_by=created_at.asc`;
-
 
 		try {
 			const response = await axios.get(favoriteMoviesUrl, apiConfig);
