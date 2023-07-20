@@ -53,22 +53,6 @@ export default class API {
 		}
 	}
 
-	static async fetchPostFavoriteMovie(movieId, isFavorite) {
-		const URL = `${API.URL.account}${API.accountId}/favorite`;
-		const body = {
-			media_type: "movie",
-			media_id: movieId,
-			favorite: isFavorite,
-		};
-		try {
-			const response = await axios.post(URL, body, apiConfig);
-			if (!response.data) throw Error("Ошибка при получении данных");
-			return response.data;
-		} catch (error) {
-			console.log(error.message);
-		}
-	}
-
 	static async fetchGetSearchMovie(query, page) {
 		const encodedQuery = encodeURI(query);
 		const URL = `${apiConfig.baseURL}/search/movie?query=${encodedQuery}&include_adult=false&language=ru&page=${page}`;

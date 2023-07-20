@@ -50,10 +50,13 @@ export const tmdbAPI = createApi({
 		fetchGetAccountDetails: build.query({
 			query: () => `account/${API.config.accountId}`,
 		}),
-		// fetchGetFavoriteMovies: build.query({
-		// 	query: (page) => `account/${API.config.accountId}/favorite/movies?language=en-US&page=${page}&sort_by=created_at.asc`
-		// })
-		
+		fetchPostFavoriteMovie: build.mutation({
+			query: (body) => ({
+				url: `account/${API.config.accountId}/favorite`,
+				method: "POST",
+				body,
+			}),
+		}),
 	}),
 });
 
@@ -62,5 +65,6 @@ export const {
 	useFetchGetDetailsQuery,
 	useFetchGetCreditsQuery,
 	useFetchGetAccountDetailsQuery,
-	useFetchGetFavoriteMoviesQuery
+	useFetchGetFavoriteMoviesQuery,
+	useFetchPostFavoriteMovieMutation,
 } = tmdbAPI;
