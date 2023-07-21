@@ -11,7 +11,7 @@ export function SortRating({ sortRating, ...props }) {
 	}
 
 	return (
-		<FormControl fullWidth sx={{ mt: "32px" }}>
+		<FormControl fullWidth>
 			<InputLabel id="demo-simple-select-label">Сортировать по</InputLabel>
 			<Select
 				{...props}

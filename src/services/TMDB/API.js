@@ -38,14 +38,10 @@ export default class API {
 			"primary_release_date.gte": "",
 			"primary_release_date.lte": "",
 			sort_by,
-			with_genres: "",
+			with_genres,
 		}).toString();
-
 		try {
-			const URL = `/discover/movie?${params}`;
-			console.log(URL);
-			const response = await axios.get(URL, apiConfig);
-			console.log(response);
+			const response = await axios.get(`/discover/movie?${params}`, apiConfig);
 			if (!response.data) throw Error("Ошибка при получении данных");
 			return response.data;
 		} catch (error) {

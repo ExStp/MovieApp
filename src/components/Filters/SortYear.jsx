@@ -9,16 +9,14 @@ export function SortYear({ sortYear, ...props }) {
 	};
 
 	return (
-		<Box sx={{ width: "100%", pt: "32px" }}>
-			<Slider
-				{...props}
-				color="dark"
-				getAriaLabel={() => "Год фильма"}
-				value={value}
-				onChange={handleChange}
-				valueLabelDisplay="auto"
-				getAriaValueText={() => `${value} год`}
-			/>
-		</Box>
+		<Slider
+			{...props}
+			color="dark"
+			getAriaLabel={() => "Год фильма"}
+			value={value}
+			onChange={handleChange}
+			valueLabelDisplay="auto"
+			getAriaValueText={() => `${value} год`}
+		/>
 	);
 }

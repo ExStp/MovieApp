@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container } from "@mui/material";
+import { Stack } from "@mui/material";
 import { SortRating } from "./SortRating";
 import { SortGenres } from "./SortGenres";
 import { SortYear } from "./SortYear";
@@ -7,13 +7,14 @@ import { SearchQuery } from "./SearchQuery";
 
 export function Filters({ filters }) {
 	const { searchQuery, sortRating, sortGenres, sortYear } = filters;
+	const isSearchActive = searchQuery !== "";
 
 	return (
-		<Container>
+		<Stack spacing={4} sx={{ padding: "0 16px" }}>
 			<SearchQuery searchQuery={searchQuery} />
-			<SortRating sortRating={sortRating} />
-			<SortGenres sortGenres={sortGenres} />
-			<SortYear disabled={true} sortYear={sortYear} />
-		</Container>
+			<SortRating disabled={isSearchActive} sortRating={sortRating} />
+			<SortGenres disabled={isSearchActive} sortGenres={sortGenres} />
+			<SortYear disabled={isSearchActive} sortYear={sortYear} />
+		</Stack>
 	);
 }

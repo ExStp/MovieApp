@@ -37,7 +37,6 @@ export function MainPage() {
 	const isNavbarOpen = useSelector((state) => state.navbar.isOpen);
 	const { currentPage, totalPages } = useSelector((state) => state.paginator);
 	const { searchQuery, sortRating, sortGenres } = useSelector((state) => state.filters);
-	console.log('sortGenres = ' + sortGenres);
 
 	const isSmallScreen = useSmallerBreakpoint("sm");
 	const drawerWidth = isSmallScreen ? "100vw" : "360px";
@@ -72,6 +71,7 @@ export function MainPage() {
 				const sortingArgs = {
 					page: currentPage,
 					sort_by: sortRating,
+					with_genres: sortGenres.map((i) => i.id).join(","),
 				};
 				searchQuery.trim() === EMPTY_STRING
 					? (movies = await API.fetchGetSortedMovies(sortingArgs))
@@ -80,13 +80,9 @@ export function MainPage() {
 				if (!movies) throw new Error(API.ERRORS.CORS_ERROR);
 
 				const mappedMovies = mapMoviesData(movies, favoriteFilmsId);
-				dispatch(
-					setPaginatorTotalPages(
-						searchQuery.trim() === EMPTY_STRING
-							? initPaginator.totalPages
-							: movies.total_pages
-					)
-				);
+				const totalPages = movies.total_pages > 50 ? 50 : movies.total_pages;
+				
+				dispatch(setPaginatorTotalPages(totalPages));
 				dispatch(setFilmsData(mappedMovies));
 				setError(DEFAULT_STATE);
 				scrollUp(containerRef);
@@ -96,7 +92,7 @@ export function MainPage() {
 		};
 
 		fetchData();
-	}, [currentPage, favoriteFilmsId, searchQuery, isFavoritesLoaded, sortRating]);
+	}, [currentPage, favoriteFilmsId, searchQuery, isFavoritesLoaded, sortRating, sortGenres]);
 
 	function handleNavbar() {
 		if (!auth.isLogin) return;
@@ -108,7 +104,7 @@ export function MainPage() {
 			<CssBaseline />
 			<Header handleDrawerOpen={handleNavbar} open={isNavbarOpen} drawerWidth={drawerWidth} />
 			<Navbar drawerWidth={drawerWidth} handleDrawerClose={handleNavbar} open={isNavbarOpen}>
-				<Filters filters={{ searchQuery, sortRating }} />
+				<Filters filters={{ searchQuery, sortRating, sortGenres }} />
 			</Navbar>
 			<Main
 				open={isNavbarOpen}

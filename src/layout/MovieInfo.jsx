@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { FilmDetailsTable } from "../components/FilmDetailsTable/FilmDetailsTable";
 import API from "../services/TMDB/API";
 
-const EMPTY_OBJ = {}
+const EMPTY_OBJ = {};
 
 export function MovieInfo({ movieInfo }) {
 	if (movieInfo === EMPTY_OBJ) return null;
@@ -10,7 +10,9 @@ export function MovieInfo({ movieInfo }) {
 
 	const { backdrop_path, poster_path, title, original_title, overview } = details;
 	const { cast, crew } = credits;
-	const imgURL = API.URL.IMG.W400 + (poster_path || backdrop_path);
+
+	const imgURL = poster_path ? API.URL.IMG.W400 + poster_path : null;
+	const noImgURL = `https://imgholder.ru/400x600/fff/bdbdbd&text=${title}&font=kelson&fz=32`;
 
 	return (
 		<Box sx={{ mt: 14 }}>
@@ -23,12 +25,12 @@ export function MovieInfo({ movieInfo }) {
 			<Typography variant="body1" sx={{ mb: 4 }}>
 				{overview}
 			</Typography>
-			<MovieTable details={details} imgURL={imgURL} />
+			<MovieTable details={details} imgURL={imgURL} noImgURL={noImgURL} />
 		</Box>
 	);
 }
 
-function MovieTable({ details, imgURL }) {
+function MovieTable({ details, imgURL, noImgURL }) {
 	return (
 		<Box
 			sx={{
@@ -54,7 +56,7 @@ function MovieTable({ details, imgURL }) {
 				}}
 			>
 				<img
-					src={imgURL}
+					src={imgURL ?? noImgURL}
 					alt="poster"
 					style={{
 						width: "auto",

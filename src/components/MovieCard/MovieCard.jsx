@@ -11,7 +11,8 @@ export function MovieCard(props) {
 	const { movieInfo, isFavorite, favoriteMoviesId } = props;
 	const { poster_path, backdrop_path, title, vote_average, id } = movieInfo;
 
-	const imgURL = API.URL.IMG.W400 + poster_path || backdrop_path;
+	const imgURL = poster_path ? API.URL.IMG.W400 + poster_path : null;
+	const noImgURL = `https://imgholder.ru/400x600/fff/bdbdbd&text=${title}&font=kelson&fz=32`;
 
 	return (
 		<Card
@@ -32,7 +33,7 @@ export function MovieCard(props) {
 				<CardMedia
 					sx={{ width: "100%", height: "auto" }}
 					component="img"
-					src={imgURL}
+					src={imgURL ?? noImgURL}
 					alt={title}
 				/>
 			</CardActionArea>
