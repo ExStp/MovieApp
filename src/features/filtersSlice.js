@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const initFilters = {
 	searchQuery: "",
-	sortRating: "popular",
-	sortGenres: [],
+	sortRating: "popularity.desc",
+	sortGenres: "",
 	sortYear: [1950, 2023],
 };
 

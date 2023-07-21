@@ -21,8 +21,9 @@ export function SortRating({ sortRating, ...props }) {
 				label="Сортировать по"
 				onChange={handleChangeSort}
 			>
-				<MenuItem value={"popular"}>Популярности</MenuItem>
-				<MenuItem value={"top_rated"}>Рейтингу</MenuItem>
+				<MenuItem value={"popularity.desc"}>Популярность</MenuItem>
+				<MenuItem value={"vote_count.desc"}>Количество оценок</MenuItem>
+				<MenuItem value={"revenue.desc"}>Прибыльность</MenuItem>
 			</Select>
 		</FormControl>
 	);

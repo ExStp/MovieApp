@@ -19,6 +19,7 @@ export function MovieFavoriteBtn(props) {
 		isFavorite
 			? dispatch(setFavoriteFilmsId([...favoriteMoviesId, movieId]))
 			: dispatch(setFavoriteFilmsId(favoriteMoviesId.filter((id) => id !== movieId)));
+			
 		postFavoriteMovie({ media_type: "movie", media_id: movieId, favorite: isFavorite });
 		if (isError) setChecked(!isFavorite);
 	};

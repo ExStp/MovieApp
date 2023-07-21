@@ -12,7 +12,7 @@ export function Filters({ filters }) {
 		<Container>
 			<SearchQuery searchQuery={searchQuery} />
 			<SortRating sortRating={sortRating} />
-			<SortGenres disabled={true} sortGenres={sortGenres} />
+			<SortGenres sortGenres={sortGenres} />
 			<SortYear disabled={true} sortYear={sortYear} />
 		</Container>
 	);

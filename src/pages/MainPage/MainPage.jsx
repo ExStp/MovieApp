@@ -29,7 +29,6 @@ const EMPTY_ARR = [];
 export function MainPage() {
 	const dispatch = useDispatch();
 	const [isFavoritesLoaded, setIsFavoritesLoaded] = useState(false);
-	const [moviesData, setMoviesData] = useState(DEFAULT_STATE);
 	const containerRef = useRef(DEFAULT_STATE);
 	const [error, setError] = useState(DEFAULT_STATE);
 
@@ -37,7 +36,8 @@ export function MainPage() {
 	const auth = useSelector((state) => state.auth);
 	const isNavbarOpen = useSelector((state) => state.navbar.isOpen);
 	const { currentPage, totalPages } = useSelector((state) => state.paginator);
-	const { searchQuery, sortRating } = useSelector((state) => state.filters);
+	const { searchQuery, sortRating, sortGenres } = useSelector((state) => state.filters);
+	console.log('sortGenres = ' + sortGenres);
 
 	const isSmallScreen = useSmallerBreakpoint("sm");
 	const drawerWidth = isSmallScreen ? "100vw" : "360px";
@@ -69,8 +69,12 @@ export function MainPage() {
 		const fetchData = async () => {
 			try {
 				let movies;
+				const sortingArgs = {
+					page: currentPage,
+					sort_by: sortRating,
+				};
 				searchQuery.trim() === EMPTY_STRING
-					? (movies = await API.fetchGetMovies(sortRating, currentPage))
+					? (movies = await API.fetchGetSortedMovies(sortingArgs))
 					: (movies = await API.fetchGetSearchMovie(searchQuery, currentPage));
 
 				if (!movies) throw new Error(API.ERRORS.CORS_ERROR);

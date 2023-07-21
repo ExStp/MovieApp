@@ -31,6 +31,28 @@ export default class API {
 
 	static accountId = 20036970;
 
+	static async fetchGetSortedMovies({ page, sort_by, with_genres, year_dte, year_lte }) {
+		const params = new URLSearchParams({
+			language: "ru",
+			page,
+			"primary_release_date.gte": "",
+			"primary_release_date.lte": "",
+			sort_by,
+			with_genres: "",
+		}).toString();
+
+		try {
+			const URL = `/discover/movie?${params}`;
+			console.log(URL);
+			const response = await axios.get(URL, apiConfig);
+			console.log(response);
+			if (!response.data) throw Error("Ошибка при получении данных");
+			return response.data;
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
 	static async fetchGetMovies(type, page) {
 		try {
 			const response = await axios.get(`/movie/${type}?language=ru&page=${page}`, apiConfig);

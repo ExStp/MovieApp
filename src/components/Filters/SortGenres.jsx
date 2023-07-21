@@ -21,11 +21,10 @@ export function SortGenres({ sortGenres, ...props }) {
 	}
 	return (
 		<Autocomplete
-			{...props}
-			sx={{ width: "100%", paddingTop: "32px" }}
 			multiple
 			limitTags={4}
 			id="multiple-limit-tags"
+			defaultChecked={[]}
 			options={genreOptions}
 			getOptionLabel={(option) => option.name}
 			renderInput={(params) => (
