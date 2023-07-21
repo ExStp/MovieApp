@@ -36,7 +36,7 @@ export function MainPage() {
 	const auth = useSelector((state) => state.auth);
 	const isNavbarOpen = useSelector((state) => state.navbar.isOpen);
 	const { currentPage, totalPages } = useSelector((state) => state.paginator);
-	const { searchQuery, sortRating, sortGenres } = useSelector((state) => state.filters);
+	const { searchQuery, sortRating, sortGenres, sortYear } = useSelector((state) => state.filters);
 
 	const isSmallScreen = useSmallerBreakpoint("sm");
 	const drawerWidth = isSmallScreen ? "100vw" : "360px";
@@ -81,7 +81,7 @@ export function MainPage() {
 
 				const mappedMovies = mapMoviesData(movies, favoriteFilmsId);
 				const totalPages = movies.total_pages > 50 ? 50 : movies.total_pages;
-				
+
 				dispatch(setPaginatorTotalPages(totalPages));
 				dispatch(setFilmsData(mappedMovies));
 				setError(DEFAULT_STATE);
@@ -104,7 +104,7 @@ export function MainPage() {
 			<CssBaseline />
 			<Header handleDrawerOpen={handleNavbar} open={isNavbarOpen} drawerWidth={drawerWidth} />
 			<Navbar drawerWidth={drawerWidth} handleDrawerClose={handleNavbar} open={isNavbarOpen}>
-				<Filters filters={{ searchQuery, sortRating, sortGenres }} />
+				<Filters filters={{ searchQuery, sortRating, sortGenres, sortYear }} />
 			</Navbar>
 			<Main
 				open={isNavbarOpen}

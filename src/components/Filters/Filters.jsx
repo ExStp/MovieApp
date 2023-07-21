@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Stack } from "@mui/material";
 import { SortRating } from "./SortRating";
 import { SortGenres } from "./SortGenres";
@@ -10,7 +9,7 @@ export function Filters({ filters }) {
 	const isSearchActive = searchQuery !== "";
 
 	return (
-		<Stack spacing={4} sx={{ padding: "0 16px" }}>
+		<Stack spacing={4} sx={{ padding: "0 16px", overflow: "hidden" }}>
 			<SearchQuery searchQuery={searchQuery} />
 			<SortRating disabled={isSearchActive} sortRating={sortRating} />
 			<SortGenres disabled={isSearchActive} sortGenres={sortGenres} />

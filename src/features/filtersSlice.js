@@ -4,7 +4,7 @@ export const initFilters = {
 	searchQuery: "",
 	sortRating: "popularity.desc",
 	sortGenres: [],
-	sortYear: [1950, 2023],
+	sortYear: [1980, 2023],
 };
 
 const filtersSlice = createSlice({
@@ -19,9 +19,12 @@ const filtersSlice = createSlice({
 		},
 		setSortGenres(state, action) {
 			state.sortGenres = action.payload;
-		}
+		},
+		setSortYear(state, action) {
+			state.sortYear = action.payload;
+		},
 	},
 });
 
-export const { setSearchQuery, setSortRating, setSortGenres } = filtersSlice.actions;
+export const { setSearchQuery, setSortRating, setSortGenres, setSortYear } = filtersSlice.actions;
 export default filtersSlice.reducer;
