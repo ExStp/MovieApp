@@ -28,7 +28,7 @@ export default function LoginDialog({ isOpen = true }) {
 		setIsBackdropOpen(!DEFAULT_BACKDROP);
 
 		try {
-			if (!data || isError) throw Error(API.ERRORS.CORS_ERROR);
+			if (isError) throw Error(API.ERRORS.CORS_ERROR);
 			dispatch(userLogin(data.id));
 		} catch (error) {
 			alert(error.message);

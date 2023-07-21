@@ -31,12 +31,12 @@ export default class API {
 
 	static accountId = 20036970;
 
-	static async fetchGetSortedMovies({ page, sort_by, with_genres, year_dte, year_lte }) {
+	static async fetchGetSortedMovies({ page, sort_by, with_genres, year_gte, year_lte }) {
 		const params = new URLSearchParams({
 			language: "ru",
 			page,
-			"primary_release_date.gte": "",
-			"primary_release_date.lte": "",
+			"primary_release_date.gte": `${year_gte}-01-01`,
+			"primary_release_date.lte": `${year_lte}-01-01`,
 			sort_by,
 			with_genres,
 		}).toString();
@@ -45,7 +45,7 @@ export default class API {
 			if (!response.data) throw Error("Ошибка при получении данных");
 			return response.data;
 		} catch (error) {
-			console.log(error);
+			console.log(error.message);
 		}
 	}
 

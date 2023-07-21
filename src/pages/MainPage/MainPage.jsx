@@ -60,7 +60,7 @@ export function MainPage() {
 
 	useEffect(() => {
 		dispatch(setPaginatorCurrentPage(initPaginator.currentPage));
-	}, [searchQuery]);
+	}, [searchQuery, sortGenres, sortYear]);
 
 	useEffect(() => {
 		if (!isFavoritesLoaded || !favoriteFilmsId) return;
@@ -72,6 +72,8 @@ export function MainPage() {
 					page: currentPage,
 					sort_by: sortRating,
 					with_genres: sortGenres.map((i) => i.id).join(","),
+					year_gte: sortYear[0],
+					year_lte: sortYear[1],
 				};
 				searchQuery.trim() === EMPTY_STRING
 					? (movies = await API.fetchGetSortedMovies(sortingArgs))
@@ -92,7 +94,15 @@ export function MainPage() {
 		};
 
 		fetchData();
-	}, [currentPage, favoriteFilmsId, searchQuery, isFavoritesLoaded, sortRating, sortGenres]);
+	}, [
+		currentPage,
+		favoriteFilmsId,
+		searchQuery,
+		isFavoritesLoaded,
+		sortRating,
+		sortGenres,
+		sortYear,
+	]);
 
 	function handleNavbar() {
 		if (!auth.isLogin) return;

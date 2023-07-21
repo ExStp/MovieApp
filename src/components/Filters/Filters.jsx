@@ -9,7 +9,7 @@ export function Filters({ filters }) {
 	const isSearchActive = searchQuery !== "";
 
 	return (
-		<Stack spacing={4} sx={{ padding: "0 16px", overflow: "hidden" }}>
+		<Stack spacing={4} sx={{ padding: "0 16px", overflow: "hidden"}}>
 			<SearchQuery searchQuery={searchQuery} />
 			<SortRating disabled={isSearchActive} sortRating={sortRating} />
 			<SortGenres disabled={isSearchActive} sortGenres={sortGenres} />
