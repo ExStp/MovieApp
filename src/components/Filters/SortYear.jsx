@@ -1,7 +1,8 @@
-import { Slider, Button } from "@mui/material";
-import { useState } from "react";
+import { Slider } from "@mui/material";
+import { useState, useCallback, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { setSortYear } from "../../features/filtersSlice";
+import { debounce } from "lodash";
 
 const sortYearArrange = [1950, 2023];
 const minYear = sortYearArrange[0];
@@ -9,49 +10,63 @@ const maxYear = sortYearArrange[1];
 const minDistance = 10;
 
 export function SortYear({ sortYear, ...props }) {
-	const [value, setValue] = useState(sortYear);
+	const [localValue, setLocalValue] = useState(sortYear);
 	const dispatch = useDispatch();
 
-	const handleChange = (_, newValue, activeThumb) => {
-		if (!Array.isArray(newValue)) {
-			return;
-		}
+	const debouncedDispatch = useRef(
+		debounce((value) => {
+			dispatch(setSortYear(value));
+		}, 200)
+	).current;
 
-		if (newValue[1] - newValue[0] < minDistance) {
-			if (activeThumb === 0) {
-				const newRightValue = Math.max(newValue[0] + minDistance, newValue[1]);
-				setValue([Math.max(newValue[0], minYear), Math.min(newRightValue, maxYear)]);
-			} else {
-				const newLeftValue = Math.min(newValue[1] - minDistance, newValue[0]);
-				setValue([Math.max(newLeftValue, minYear), Math.min(newValue[1], maxYear)]);
+	const handleChange = useCallback(
+		(_, newValue, activeThumb) => {
+			if (!Array.isArray(newValue)) {
+				return;
 			}
-		} else {
-			setValue([Math.max(newValue[0], minYear), Math.min(newValue[1], maxYear)]);
-		}
-	};
+
+			if (newValue[1] - newValue[0] < minDistance) {
+				if (activeThumb === 0) {
+					const newRightValue = Math.max(newValue[0] + minDistance, newValue[1]);
+					setLocalValue([
+						Math.max(newValue[0], minYear),
+						Math.min(newRightValue, maxYear),
+					]);
+				} else {
+					const newLeftValue = Math.min(newValue[1] - minDistance, newValue[0]);
+					setLocalValue([
+						Math.max(newLeftValue, minYear),
+						Math.min(newValue[1], maxYear),
+					]);
+				}
+			} else {
+				setLocalValue([Math.max(newValue[0], minYear), Math.min(newValue[1], maxYear)]);
+			}
+
+			debouncedDispatch(localValue);
+		},
+		[debouncedDispatch, localValue]
+	);
 
 	return (
 		<>
 			<Slider
 				sx={{
-					color: "dark.main", // Change the color here to the desired color
+					color: "dark.main",
 					"& .MuiSlider-thumb": {
-						backgroundColor: "dark.main", // Change the color of the thumb
+						backgroundColor: "dark.main",
 					},
 				}}
 				{...props}
 				getAriaLabel={() => "Minimum distance shift"}
-				value={value}
+				value={localValue}
 				onChange={handleChange}
 				valueLabelDisplay="auto"
-				getAriaValueText={() => `${value} год`}
+				getAriaValueText={() => `${localValue} год`}
 				disableSwap
 				min={minYear}
 				max={maxYear}
 			/>
-			<Button onClick={() => dispatch(setSortYear(value))} variant="outlined" color="primary">
-				Применить
-			</Button>
 		</>
 	);
 }
