@@ -18,17 +18,27 @@ export function FilmDetailsTable({ styles, details }) {
 	const rows = [
 		{ label: "Дата релиза", value: release_date },
 		{ label: "Длительность", value: `${runtime} минут` },
-		{ label: "Жанры", value: genres.map((genre) => genre.name).join(", ") },
+		{
+			label: "Жанры",
+			value: genres.length ? genres.map((genre) => genre.name).join(", ") : "нет данных",
+		},
 		{
 			label: "Производство компаний",
-			value: production_companies.map((company) => company.name).join(", "),
+			value: production_companies.length
+				? production_companies.map((company) => company.name).join(", ")
+				: "нет данных",
 		},
-		{ label: "Страны", value: production_countries.map((country) => country.name).join(", ") },
+		{
+			label: "Страны",
+			value: production_countries.length
+				? production_countries.map((country) => country.name).join(", ")
+				: "нет данных",
+		},
 		{ label: "Популярность", value: popularity },
 		{ label: "Результат голосований", value: vote_average !== 0 ? vote_average : "нет данных" },
 		{ label: "Количество голосов", value: vote_count !== 0 ? vote_count : "нет данных" },
 	];
-	
+
 	const tableRows = rows.map((row) => (
 		<TableRow key={row.label}>
 			<TableCell component="th" scope="row">

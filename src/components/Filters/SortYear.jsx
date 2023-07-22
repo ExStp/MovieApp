@@ -4,12 +4,10 @@ import { useDispatch } from "react-redux";
 import { setSortYear } from "../../features/filtersSlice";
 import { debounce } from "lodash";
 
-const sortYearArrange = [1950, 2023];
-const minYear = sortYearArrange[0];
-const maxYear = sortYearArrange[1];
-const minDistance = 10;
-
-export function SortYear({ sortYear, ...props }) {
+export function SortYear({ sortYear, sortYearArrange, ...props }) {
+	const minYear = sortYearArrange[0];
+	const maxYear = sortYearArrange[1];
+	const minDistance = 10;
 	const [localValue, setLocalValue] = useState(sortYear);
 	const dispatch = useDispatch();
 
@@ -20,7 +18,7 @@ export function SortYear({ sortYear, ...props }) {
 	const debouncedDispatch = useRef(
 		debounce((value) => {
 			dispatch(setSortYear(value));
-		}, 200)
+		}, 400)
 	).current;
 
 	const handleChange = useCallback(
