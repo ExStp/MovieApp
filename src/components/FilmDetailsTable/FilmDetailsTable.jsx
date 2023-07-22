@@ -14,26 +14,13 @@ export function FilmDetailsTable({ styles, details }) {
 		vote_average,
 		vote_count,
 	} = details;
-
+	
 	const rows = [
 		{ label: "Дата релиза", value: release_date },
 		{ label: "Длительность", value: `${runtime} минут` },
-		{
-			label: "Жанры",
-			value: genres.length ? genres.map((genre) => genre.name).join(", ") : "нет данных",
-		},
-		{
-			label: "Производство компаний",
-			value: production_companies.length
-				? production_companies.map((company) => company.name).join(", ")
-				: "нет данных",
-		},
-		{
-			label: "Страны",
-			value: production_countries.length
-				? production_countries.map((country) => country.name).join(", ")
-				: "нет данных",
-		},
+		{ label: "Жанры", value: getMappedArr(genres) },
+		{ label: "Производство компаний", value: getMappedArr(production_companies) },
+		{ label: "Страны", value: getMappedArr(production_countries) },
 		{ label: "Популярность", value: popularity },
 		{ label: "Результат голосований", value: vote_average !== 0 ? vote_average : "нет данных" },
 		{ label: "Количество голосов", value: vote_count !== 0 ? vote_count : "нет данных" },
@@ -58,3 +45,6 @@ export function FilmDetailsTable({ styles, details }) {
 		</Box>
 	);
 }
+
+const getMappedArr = (arr) => (arr.length ? arr.map((i) => i.name).join(", ") : "нет данных");
+
