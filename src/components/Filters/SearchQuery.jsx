@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TextField, IconButton, InputAdornment } from "@mui/material";
 import { Search, Clear } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
@@ -9,6 +9,10 @@ const EMPTY_STRING = "";
 export function SearchQuery({ searchQuery, ...props }) {
 	const [value, setValue] = useState(searchQuery);
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		setValue(searchQuery);
+	}, [searchQuery]);
 
 	function handleSearchChange(event) {
 		const newValue = event.target.value;

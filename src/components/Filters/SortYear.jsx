@@ -1,5 +1,5 @@
 import { Slider } from "@mui/material";
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setSortYear } from "../../features/filtersSlice";
 import { debounce } from "lodash";
@@ -12,6 +12,10 @@ const minDistance = 10;
 export function SortYear({ sortYear, ...props }) {
 	const [localValue, setLocalValue] = useState(sortYear);
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		setLocalValue(sortYear);
+	}, [sortYear]);
 
 	const debouncedDispatch = useRef(
 		debounce((value) => {

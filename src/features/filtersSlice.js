@@ -23,8 +23,15 @@ const filtersSlice = createSlice({
 		setSortYear(state, action) {
 			state.sortYear = action.payload;
 		},
+		setDefaultFilters(state, action) {
+			state.searchQuery = initFilters.searchQuery;
+			state.sortRating = initFilters.sortRating;
+			state.sortGenres = initFilters.sortGenres;
+			state.sortYear = initFilters.sortYear;
+		},
 	},
 });
 
-export const { setSearchQuery, setSortRating, setSortGenres, setSortYear } = filtersSlice.actions;
+export const { setSearchQuery, setSortRating, setSortGenres, setSortYear, setDefaultFilters } =
+	filtersSlice.actions;
 export default filtersSlice.reducer;

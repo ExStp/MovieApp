@@ -30,12 +30,17 @@ export function MovieCard(props) {
 			}}
 		>
 			<CardActionArea sx={{ overflow: "hidden" }}>
-				<CardMedia
-					sx={{ width: "100%", height: "auto" }}
-					component="img"
-					src={imgURL ?? noImgURL}
-					alt={title}
-				/>
+				<Link
+					to={`infoPage/${id}`}
+					style={{ height: "fit-content", textDecoration: "none" }}
+				>
+					<CardMedia
+						sx={{ width: "100%", height: "auto" }}
+						component="img"
+						src={imgURL ?? noImgURL}
+						alt={title}
+					/>
+				</Link>
 			</CardActionArea>
 
 			<CardContent>

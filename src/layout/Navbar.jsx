@@ -37,7 +37,6 @@ export function Navbar(props) {
 		>
 			<DrawerHeader
 				sx={{
-					mb: "32px",
 					justifyContent: "space-between",
 					background: "rgba(0, 0, 0, 0.85)",
 					backdropFilter: "blur(12px)",
