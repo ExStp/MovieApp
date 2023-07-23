@@ -42,10 +42,10 @@ export default class API {
 		}).toString();
 		try {
 			const response = await axios.get(`/discover/movie?${params}`, apiConfig);
-			if (!response.data) throw Error("Ошибка при получении данных");
+			if (!response.data) throw Error("Ошибка: fetchGetSortedMovies");
 			return response.data;
 		} catch (error) {
-			console.log(error.message);
+			console.error(error.message);
 		}
 	}
 
@@ -54,10 +54,10 @@ export default class API {
 
 		try {
 			const response = await axios.get(favoriteMoviesUrl, apiConfig);
-			if (!response.data) throw Error("Ошибка при получении данных");
+			if (!response.data) throw Error("Ошибка: fetchGetFavoriteMovies");
 			return response.data;
 		} catch (error) {
-			console.log(error.message);
+			console.error(error.message);
 		}
 	}
 
@@ -66,10 +66,10 @@ export default class API {
 		const URL = `${apiConfig.baseURL}/search/movie?query=${encodedQuery}&include_adult=false&language=ru&page=${page}`;
 		try {
 			const response = await axios.get(URL, apiConfig);
-			if (!response.data) throw Error("Ошибка при получении данных");
+			if (!response.data) throw Error("Ошибка: fetchGetSearchMovie");
 			return response.data;
 		} catch (error) {
-			console.log(error.message);
+			console.error(error.message);
 		}
 	}
 }
