@@ -29,12 +29,8 @@ const filtersSlice = createSlice({
 			state.sortYear = action.payload;
 			state.isDefault = false;
 		},
-		setDefaultFilters(state, action) {
-			state.searchQuery = initFilters.searchQuery;
-			state.sortRating = initFilters.sortRating;
-			state.sortGenres = initFilters.sortGenres;
-			state.sortYear = initFilters.sortYear;
-			state.isDefault = true;
+		setDefaultFilters() {
+			return initFilters;
 		},
 	},
 });
