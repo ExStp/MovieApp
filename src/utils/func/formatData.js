@@ -10,15 +10,15 @@ const getFormattedTime = (minutes) => {
 };
 
 const getFormattedBudget = (budget) => {
-	if (budget === 0) return null;
-	
-	returnbudget?.toLocaleString("en-US", {
+	if (!budget) return null;
+
+	return budget?.toLocaleString("en-US", {
 		style: "currency",
 		currency: "USD",
 		maximumFractionDigits: 0,
 	});
 };
 
-const getMappedArr = (arr) => (arr.length ? arr.map((i) => i.name).join(", ") : null);
+const getMappedArr = (arr) => (arr?.length ? arr.map((i) => i.name).join(", ") : null);
 
 export { getFormattedTime, getFormattedBudget, getMappedArr };
