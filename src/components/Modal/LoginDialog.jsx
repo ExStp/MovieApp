@@ -29,7 +29,9 @@ export default function LoginDialog({ isOpen = true }) {
 
 		try {
 			if (isError) throw Error(API.ERRORS.CORS_ERROR);
-			dispatch(userLogin(data.id));
+			if (data?.id) {
+				dispatch(userLogin(data.id));
+			}
 		} catch (error) {
 			alert(error.message);
 		} finally {

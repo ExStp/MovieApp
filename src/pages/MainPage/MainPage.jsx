@@ -124,14 +124,12 @@ export function MainPage() {
 			>
 				{error ? (
 					<SimpleAlert placeholder={API.ERRORS.CORS_ERROR} severity="warning" />
-				) : auth.isLogin ? (
+				) : (
 					<MovieList
 						currentPage={currentPage}
 						totalPages={totalPages}
 						moviesData={filmsData}
 					/>
-				) : (
-					<SimpleAlert placeholder={API.ERRORS.AUTH_FALSE} severity="warning" />
 				)}
 			</Main>
 		</Box>
